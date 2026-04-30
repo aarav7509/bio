@@ -1,105 +1,55 @@
 // Add interactivity if needed—for example, smooth scrolling, or blog loading in future
 console.log("Portfolio loaded successfully.");
 
+const SKILLS = [
+  { name: "SQL",                pct: 92, cat: "lang" },
+  { name: "Python",             pct: 78, cat: "lang" },
+  { name: "DAX",                pct: 88, cat: "lang" },
+  { name: "M Query",            pct: 82, cat: "lang" },
+  { name: "Power BI",           pct: 90, cat: "viz"  },
+  { name: "Excel / Power Query",pct: 93, cat: "viz"  },
+  { name: "Chart.js",           pct: 65, cat: "viz"  },
+  { name: "Microsoft Fabric",   pct: 85, cat: "platform" },
+  { name: "SharePoint",         pct: 80, cat: "platform" },
+  { name: "SAP Ariba",          pct: 72, cat: "platform" },
+  { name: "Azure",              pct: 68, cat: "platform" },
+  { name: "Data Modelling",     pct: 88, cat: "method" },
+  { name: "ETL Pipelines",      pct: 84, cat: "method" },
+  { name: "Statistical Analysis",pct: 76, cat: "method" },
+  { name: "Process Automation", pct: 82, cat: "method" },
+];
 
-document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('skillsChart').getContext('2d');
-    
-    // Skill categories and levels
-    const categories = {
-        database: {
-            label: 'Databases',
-            labels: ['Relational','NoSQL', 'Object Oriented', 'Cloud based'],
-            data: [90, 85, 75, 80],
-            color: '#a0603a' // Matches --primary
-        },
-        programming: {
-            label: 'Programming Languages',
-            labels: ['Python', 'R', 'HTML/CSS'],
-            data: [85, 70, 90],
-            color: '#e6b89c' // Matches --accent
-        },
-        visualisation: {
-            label: 'Visualisation Tools',
-            labels: ['Power BI', 'Tableau', 'Weka', 'Looker'],
-            data: [95, 85, 80, 95],
-            color: '#7a8c45' 
-        },
-        nonTechnical: {
-            label: 'Machine Learning Algorithms',
-            labels: ['Linear Regression', 'SVM', 'Naive-Bayes'],
-            data: [90, 85, 95],
-            color: '#8d99ae'
-        }
-    };
+function renderSkills(cat) {
+  const list = document.getElementById("skillList");
+  const filtered = cat === "all" ? SKILLS : SKILLS.filter(s => s.cat === cat);
 
-    // Prepare grouped data
-    const allLabels = [...categories.database.labels, ...categories.programming.labels, ...categories.visualisation.labels, ...categories.nonTechnical.labels];
-    
-    const datasets = Object.keys(categories).map(key => {
-        const cat = categories[key];
-        // Create an array the length of all labels, filled with null except where the label matches
-        const pointData = allLabels.map(label => {
-            const index = cat.labels.indexOf(label);
-            return index !== -1 ? cat.data[index] : null;
-        });
 
-        return {
-            label: cat.label,
-            data: pointData,
-            backgroundColor: cat.color + 'BB', // Transparency
-            borderColor: cat.color,
-            borderWidth: 1,
-            borderRadius: 6,
-            barPercentage: 0.8,
-            categoryPercentage: 1.0
-        };
+  list.innerHTML = filtered.map((s, i) => `
+    <div class="skill-row" style="transition-delay:${i * 0.04}s">
+      <span class="skill-name">${s.name}</span>
+      <div class="skill-track"><div class="skill-fill" data-pct="${s.pct}"></div></div>
+      <span class="skill-pct">${s.pct}%</span>
+    </div>
+  `).join("");
+
+  requestAnimationFrame(() => {
+    list.querySelectorAll(".skill-row").forEach(r => r.classList.add("visible"));
+    list.querySelectorAll(".skill-fill").forEach(f => {
+      f.style.width = f.dataset.pct + "%";
     });
+  });
+}
 
-    const style = getComputedStyle(document.body);
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: allLabels,
-            datasets: datasets
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        color: style.getPropertyValue('--text').trim(),
-                        font: { family: 'inherit', size: 12 }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => ` Proficiency: ${context.parsed.x}%`
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    max: 100,
-                    grid: { display: false },
-                    ticks: { color: style.getPropertyValue('--text-muted').trim() }
-                },
-                y: {
-                    stacked: true,
-                    grid: { color: style.getPropertyValue('--border').trim() },
-                    ticks: { 
-                        color: style.getPropertyValue('--text').trim(),
-                        font: { weight: '500' }
-                    }
-                }
-            }
-        }
-    });
+document.querySelectorAll(".skill-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".skill-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderSkills(btn.dataset.cat);
+  });
 });
+
+renderSkills("all");
 
 // Scroll-reveal for timeline items
 const observer = new IntersectionObserver(
@@ -110,97 +60,6 @@ const observer = new IntersectionObserver(
 );
 document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
 
-// ── Skills chart ─────────────────────────────────────────────
-const SKILLS = {
-  lang:     [{ n:'SQL', v:92 },{ n:'DAX', v:88 },{ n:'M Query', v:82 },{ n:'Python', v:78 }],
-  viz:      [{ n:'Excel / Power Query', v:93 },{ n:'Power BI', v:90 },{ n:'Chart.js', v:65 }],
-  platform: [{ n:'Microsoft Fabric', v:85 },{ n:'SharePoint', v:80 },{ n:'SAP Ariba', v:72 },{ n:'Azure', v:68 }],
-  method:   [{ n:'Data Modelling', v:88 },{ n:'ETL Pipelines', v:84 },{ n:'Process Automation', v:82 },{ n:'Statistical Analysis', v:76 }],
-};
-
-const CAT_LABELS = { lang:'Languages', viz:'Visualisation', platform:'Platforms', method:'Methods' };
-const CAT_COLORS = { lang:'#a0603a', viz:'#c47a4f', platform:'#7a4a2c', method:'#d4956b' };
-
-let skillChart = null;
-
-function setLegend(items) {
-  document.getElementById('skillLegend').innerHTML = items.map(i =>
-    `<span><span class="skill-swatch" style="background:${i.color}"></span>${i.label}</span>`
-  ).join('');
-}
-
-function buildBar(cat) {
-  const items = cat === 'all'
-    ? Object.entries(SKILLS).flatMap(([c, arr]) => arr.map(s => ({ ...s, cat: c })))
-        .sort((a, b) => b.v - a.v)
-    : SKILLS[cat].map(s => ({ ...s, cat }));
-
-  const h = Math.max(220, items.length * 48 + 60);
-  document.getElementById('skillWrap').style.height = h + 'px';
-
-  const bgColors = items.map(s => CAT_COLORS[s.cat]);
-
-  if (cat === 'all') {
-    setLegend(Object.keys(SKILLS).map(c => ({ label: CAT_LABELS[c], color: CAT_COLORS[c] })));
-  } else {
-    setLegend([{ label: `${CAT_LABELS[cat]}  ·  ${items.length} skills`, color: CAT_COLORS[cat] }]);
-  }
-
-  return new Chart(document.getElementById('skillChart'), {
-    type: 'bar',
-    data: {
-      labels: items.map(s => s.n),
-      datasets: [{
-        label: 'Proficiency',
-        data: items.map(s => s.v),
-        backgroundColor: bgColors,
-        borderColor: 'transparent',
-        borderRadius: 6,
-        borderSkipped: false,
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
-      },
-      scales: {
-        x: {
-          min: 0, max: 100,
-          grid: { color: 'rgba(160,96,58,0.08)' },
-          ticks: { color: '#6f6f6f', font: { size: 11, family: 'inherit' }, callback: v => v + '%' },
-          border: { display: false }
-        },
-        y: {
-          grid: { display: false },
-          ticks: { color: '#1f1f1f', font: { size: 12, family: 'inherit' } },
-          border: { display: false }
-        }
-      }
-    }
-  });
-}
-
-function renderSkillChart(cat) {
-  if (skillChart) skillChart.destroy();
-  document.getElementById('skillChart').setAttribute('aria-label',
-    cat === 'all' ? 'All skills ranked by proficiency' : `${CAT_LABELS[cat]} skills proficiency`
-  );
-  skillChart = buildBar(cat);
-}
-
-document.querySelectorAll('.skill-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.skill-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderSkillChart(btn.dataset.cat);
-  });
-});
-
-renderSkillChart('all');
 
 // ── Hero role cycling ─────────────────────────────────────────
 const heroRoles = document.querySelectorAll('.hero-role');

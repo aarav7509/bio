@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vishwa Vijaysheel | Data Portfolio</title>
   <link rel="stylesheet" href="assets/css/style.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
 </head>
 <body>
@@ -30,7 +29,6 @@
       </div>
       <label class="switch">
         <input type="checkbox" onclick="document.body.classList.toggle('dark')">
-      
         <span class="slider"></span>
       </label>
     </div>
@@ -39,7 +37,7 @@
 
   <main>
     <section class="hero">
-  <p class="hero-location">Brisbane, QLD · Open to opportunities</p>
+  <p class="hero-location">Brisbane, QLD </p>
 
   <h2 class="hero-h">Turning messy data<br>into clear decisions.</h2>
 
@@ -57,7 +55,7 @@
 
   <p class="hero-bio">
     Strategic and methodical analyst with over five years of experience in
-    <strong>data modelling, visualisation, and database management</strong>.
+    <strong class="str-bio">data modelling, visualisation, and database management</strong>.
     Passionate about building intelligent systems that bridge technical performance
     with business value.
   </p>
@@ -85,8 +83,10 @@
     <a href="assets/Vishwa_Vijaysheel_Resume.pdf" class="hero-btn-primary">Resume</a>
     <a href="mailto:vishwa7509@outlook.com" class="hero-btn-secondary">Get in touch</a>
   </div>
-</section>
 
+
+
+</section>
 
     <section class="skills-container">
   <div class="card skills-card">
@@ -100,13 +100,9 @@
       <button class="skill-tab" data-cat="method">Methods</button>
     </div>
 
-    <div id="skillLegend" class="skill-legend"></div>
+    <div class="skill-list" id="skillList"></div>
 
-    <div id="skillWrap" style="position:relative; width:100%; height:340px;">
-      <canvas id="skillChart" role="img" aria-label="Radar chart showing average proficiency across four skill categories"></canvas>
-    </div>
-
-    <p class="skill-note">Hover for exact percentages · Proficiency is self-assessed</p>
+    <p class="skill-note">Select a category to filter · Proficiency is self-assessed</p>
   </div>
 </section>
 
