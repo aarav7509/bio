@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vishwa Vijaysheel | Data Portfolio</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">Data Analyst</span>
+    </a>
+
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="dashboards.html">Dashboards</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="nav-status">
+        <span class="nav-status-dot"></span>
+        Open to work
+      </div>
+      <label class="switch">
+        <input type="checkbox" onclick="document.body.classList.toggle('dark')">
+      
+        <span class="slider"></span>
+      </label>
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <section class="hero">
+  <p class="hero-location">Brisbane, QLD · Open to opportunities</p>
+
+  <h2 class="hero-h">Turning messy data<br>into clear decisions.</h2>
+
+  <div class="hero-role-row">
+    <span class="hero-role-prefix">I'm a</span>
+    <div class="hero-role-slot">
+      <span class="hero-role active">Data Analyst</span>
+      <span class="hero-role">Storyteller</span>
+      <span class="hero-role">Problem Solver</span>
+      <span class="hero-role">Systems Thinker</span>
+    </div>
+  </div>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-bio">
+    Strategic and methodical analyst with over five years of experience in
+    <strong>data modelling, visualisation, and database management</strong>.
+    Passionate about building intelligent systems that bridge technical performance
+    with business value.
+  </p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">5<span>+</span></div>
+      <div class="hero-stat-lbl">Years exp.</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">3</div>
+      <div class="hero-stat-lbl">Industries</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">15<span>+</span></div>
+      <div class="hero-stat-lbl">Tools</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">∞</div>
+      <div class="hero-stat-lbl">Curiosity</div>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="assets/Vishwa_Vijaysheel_Resume.pdf" class="hero-btn-primary">Download Resume</a>
+    <a href="mailto:vishwa7509@outlook.com" class="hero-btn-secondary">Get in touch</a>
+  </div>
+</section>
+
+
+    <section class="skills-container">
+  <div class="card skills-card">
+    <p class="section-eyebrow">Technical Expertise</p>
+
+    <div class="skill-tabs">
+      <button class="skill-tab active" data-cat="all">All</button>
+      <button class="skill-tab" data-cat="lang">Languages</button>
+      <button class="skill-tab" data-cat="viz">Visualisation</button>
+      <button class="skill-tab" data-cat="platform">Platforms</button>
+      <button class="skill-tab" data-cat="method">Methods</button>
+    </div>
+
+    <div id="skillLegend" class="skill-legend"></div>
+
+    <div id="skillWrap" style="position:relative; width:100%; height:340px;">
+      <canvas id="skillChart" role="img" aria-label="Radar chart showing average proficiency across four skill categories"></canvas>
+    </div>
+
+    <p class="skill-note">Hover for exact percentages · Proficiency is self-assessed</p>
+  </div>
+</section>
+
+
+    <section class="experience-section">
+  <h2>Recent Experience</h2>
+  <div class="timeline">
+
+    <div class="timeline-item" data-index="0">
+      <div class="timeline-marker">
+        <span class="marker-num">2025</span>
+        <div class="marker-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Talent Resource Analyst</h3>
+          <span class="timeline-company">Guidant Global</span>
+        </div>
+        <p>Built data pipelines and semantic models in Microsoft Fabric to power Power BI dashboards and automate business processes.</p>
+        <div class="timeline-tags">
+          <span>Microsoft Fabric</span><span>Power BI</span><span>Data Pipelines</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" data-index="1">
+      <div class="timeline-marker">
+        <span class="marker-num">2025</span>
+        <div class="marker-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Business Systems Analyst</h3>
+          <span class="timeline-company">Multicap Limited</span>
+        </div>
+        <p>Automated and modelled payroll and rostering data analytics pipeline using Fabric and Power BI, enhancing business efficiency.</p>
+        <div class="timeline-tags">
+          <span>Automation</span><span>Data Modelling</span><span>Power BI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" data-index="2">
+      <div class="timeline-marker">
+        <span class="marker-num">2024</span>
+        <div class="marker-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Data Analyst</h3>
+          <span class="timeline-company">Target Distribution Centre</span>
+        </div>
+        <p>Created financial and KPI Excel dashboards and automated reporting with SharePoint and SAP Ariba.</p>
+        <div class="timeline-tags">
+          <span>Excel</span><span>SharePoint</span><span>SAP Ariba</span>
+        </div>
+      </div>
+    </div>
+
+
+     <div class="timeline-item" data-index="3">
+      <div class="timeline-marker">
+        <span class="marker-num">2023</span>
+        <div class="marker-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Junior Data Analyst</h3>
+          <span class="timeline-company">Target Green</span>
+        </div>
+        <p>Collaborated with cross-functional teams to improve sales process through data.</p>
+        <div class="timeline-tags">
+          <span>Dataforce Runabout</span><span>SharePoint</span><span>Tableau</span>
+        </div>
+      </div>
+    </div>
+
+   <div class="timeline-item" data-index="4">
+      <div class="timeline-marker">
+        <span class="marker-num">2020</span>
+        <div class="marker-line"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Consultant - Data & Reporting</h3>
+          <span class="timeline-company">Reverberate Media </span>
+        </div>
+        <p>Collaborated with cross-functional teams to improve sales process through data.</p>
+        <div class="timeline-tags">
+          <span>Power BI </span><span>SQL</span><span>R</span>
+        </div>
+      </div>
+    </div>
+
+ <div class="timeline-item" data-index="5">
+      <div class="timeline-marker">
+        <span class="marker-num">2017</span>
+        <div class="marker-line last"></div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <h3>Data Analyst</h3>
+          <span class="timeline-company">Environmental Management Centre Pvt. Ltd.</span>
+        </div>
+        <p>Collaborated with cross-functional teams to improve sales process through data.</p>
+        <div class="timeline-tags">
+          <span>R Shiny</span><span>Tableau</span><span>Excel</span>
+        </div>
+      </div>
+    </div>
+
+
+</div>
+</section>
+  </main>
+
+ <footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill">vishwa7509@outlook.com</a>
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/dashboard" class="footer-pill" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with care · All rights reserved</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboards.html">Dashboards</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Available for freelance &amp; full-time</span>
+  </div>
+</footer>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
