@@ -317,10 +317,97 @@ input:checked + .slider:before {
 }
 
 
-/* ── Experience Timeline ───────────────────────────────────── */
+/* ── History Section (Experience + Education) ───────────────── */
 
+.history-section {
+  max-width: 1100px;
+}
+
+/* ── Centered toggle wrapper ── */
+.history-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.8em;
+}
+
+.history-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--primary) 7%, transparent);
+  border: none;
+  border-radius: 999px;
+  padding: 4px;
+  backdrop-filter: blur(10px);
+}
+
+/* Sliding pill indicator */
+.history-toggle-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  background: color-mix(in srgb, var(--primary) 18%, var(--surface-solid));
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.history-toggle-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.52em 1.35em;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.22s ease;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.history-toggle-btn svg {
+  flex-shrink: 0;
+  transition: color 0.22s ease;
+}
+
+.history-toggle-btn:hover {
+  color: var(--text);
+}
+
+.history-toggle-btn.active {
+  color: var(--primary);
+}
+
+/* ── Two-panel grid ── */
+.history-panels {
+  width: 100%;
+}
+
+/* Panel visibility */
+.history-panel {
+  display: none;
+}
+
+.history-panel.active {
+  display: block;
+}
+
+/* ── Legacy experience-section alias (keep for any other pages) ── */
 .experience-section {
-  max-width: 860px;
+  max-width: 1100px;
 }
 
 .experience-section > h2 {
@@ -464,7 +551,7 @@ input:checked + .slider:before {
 }
 
 .skills-card {
-  padding: 2em 2.2em 1.8em;
+  padding: 1.6em 1.8em 1.4em;
 }
 
 .section-eyebrow {
@@ -550,7 +637,7 @@ input:checked + .slider:before {
 .hero {
   max-width: 860px;
   margin: auto;
-  padding: 6em 2em 4em;
+  padding: 3.2em 2em 3em;
   text-align: left;
 }
 
@@ -853,7 +940,7 @@ nav a.active::after {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #4caf76;
+  background: #cc2828;
   flex-shrink: 0;
   animation: statusPulse 2.5s ease-in-out infinite;
 }
@@ -1679,55 +1766,10 @@ body.dark .page-subtitle {
 }
 
 
-/* ── Skills Section ─────────────────────────────────────────── */
+/* ── Skills Section (additional) ───────────────────────────── */
 
 .skills-container {
-  padding-bottom: 0;       /* closes the gap with experience below */
-}
-
-.skills-card {
-  padding: 2em 2.2em 1.6em;
-}
-
-.section-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--primary);
-  margin: 0 0 1.5em;
-}
-
-/* Tabs */
-.skill-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45em;
-  margin-bottom: 2em;
-}
-
-.skill-tab {
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 0.35em 1em;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.skill-tab:hover {
-  border-color: color-mix(in srgb, var(--primary) 50%, transparent);
-  color: var(--text);
-}
-
-.skill-tab.active {
-  background: color-mix(in srgb, var(--primary) 12%, transparent);
-  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
-  color: var(--primary);
+  padding-bottom: 0;
 }
 
 /* Skill rows */
@@ -1790,8 +1832,8 @@ body.dark .page-subtitle {
   border-top: 1px solid var(--border);
 }
 
-/* Tighten the gap between the two sections */
-.experience-section {
+/* Tighten the gap between skills and history sections */
+.history-section {
   padding-top: 2em;
 }
 
@@ -1894,7 +1936,7 @@ body.dark .page-subtitle {
 
   /* ── Hero ── */
   .hero {
-    padding: 3.5em 1.25em 2.5em;
+    padding: 2em 1.25em 2em;
   }
 
   .hero-h {
@@ -1954,6 +1996,11 @@ body.dark .page-subtitle {
 
   .timeline-content:hover {
     transform: none; /* avoid horizontal shift on touch */
+  }
+
+  /* ── History (experience + education) ── */
+  .history-panels {
+    max-width: 100%;
   }
 
   /* ── Page header ── */
