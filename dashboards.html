@@ -15,17 +15,20 @@
         <span class="nav-brand-name">Vishwa Vijaysheel</span>
         <span class="nav-brand-sub">Data &amp; Analytics</span>
       </a>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboards.html" class="active">Dashboards</a></li>
-        <li><a href="blog.html">Blog</a></li>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboards.html" class="active">Dashboards</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
         <label class="switch">
-        <input type="checkbox" onclick="document.body.classList.toggle('dark')">
-        <span class="slider"></span>
-      </label>
-      </ul>
-        
-
+          <input type="checkbox" onclick="document.body.classList.toggle('dark')">
+          <span class="slider"></span>
+        </label>
+      </div>
     </nav>
   </header>
 
@@ -222,6 +225,32 @@
         });
       });
     });
+
+    // Mobile nav toggle
+    (function () {
+      const toggle = document.querySelector('.nav-toggle');
+      const menu   = document.querySelector('.nav-menu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('open');
+        toggle.classList.toggle('open', isOpen);
+        toggle.setAttribute('aria-expanded', isOpen);
+      });
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('open');
+          toggle.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('nav')) {
+          menu.classList.remove('open');
+          toggle.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
   </script>
 </body>
 </html>

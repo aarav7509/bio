@@ -16,21 +16,26 @@
       <span class="nav-brand-sub">Data Analyst</span>
     </a>
 
-    <ul>
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="dashboards.html">Dashboards</a></li>
-      <li><a href="blog.html">Blog</a></li>
-    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
-    <div class="nav-right">
-      <div class="nav-status">
-        <span class="nav-status-dot"></span>
-        Open to work
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="nav-status-dot"></span>
+          Open to work
+        </div>
+        <label class="switch">
+          <input type="checkbox" onclick="document.body.classList.toggle('dark')">
+          <span class="slider"></span>
+        </label>
       </div>
-      <label class="switch">
-        <input type="checkbox" onclick="document.body.classList.toggle('dark')">
-        <span class="slider"></span>
-      </label>
     </div>
   </nav>
 </header>
