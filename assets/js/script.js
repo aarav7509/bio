@@ -196,3 +196,43 @@ themeToggle.addEventListener('change', function() {
     document.body.classList.remove('dark');
   }
 });
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const target = document.getElementById('scramble-target');
+  const finalWord = "messy";
+  const symbols = "0123456789";
+  
+  let iteration = 0;
+  
+  // 1. Immediately fill with random numbers so it "starts" with them
+  target.innerText = Array(finalWord.length).fill(0)
+    .map(() => symbols[Math.floor(Math.random() * symbols.length)])
+    .join("");
+
+  const startScramble = () => {
+    const interval = setInterval(() => {
+      target.innerText = finalWord
+        .split("")
+        .map((letter, index) => {
+          // If we haven't reached this letter's turn to reveal, keep it as a number
+          if (index < iteration) {
+            return finalWord[index];
+          }
+          return symbols[Math.floor(Math.random() * symbols.length)];
+        })
+        .join("");
+
+      if (iteration >= finalWord.length) {
+        clearInterval(interval);
+      }
+      
+      // Control the "reveal" speed. Smaller = slower reveal.
+      iteration += 1 / 3; 
+      
+    }, 150); // Timing for the number flickering
+  };
+
+  // Short delay before the "reveal" starts, though numbers flicker instantly
+  setTimeout(startScramble, 300); 
+});

@@ -2075,3 +2075,26 @@ body.dark .page-subtitle {
 
   .hero-stat-val { font-size: 1.15rem; }
 }
+
+#scramble-target {
+  display: inline-block;
+  /* Monospace prevents the word from "shaking" while numbers change[cite: 2] */
+  font-family:sans-serif, monospace;
+  font-weight: 1100;
+  min-width: 5ch;
+  color: var(--primary);
+  /* This transition makes the reveal of each letter look softer[cite: 2] */
+  transition: all 5s ease;
+  letter-spacing: -0.5px;
+}
+
+/* Optional: Slight glow effect during the scramble to soften the numbers */
+#scramble-target:not(:empty) {
+  text-shadow: 0 0 5px rgba(160, 96, 58, 0.1);
+}
+
+/* Ensure it turns yellow in dark mode as requested[cite: 2] */
+body.dark #scramble-target {
+  color: #ffcc00;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
+}
