@@ -90,9 +90,7 @@ setInterval(() => {
   let W, H, particles = [];
 
   function isDark() {
-    return document.body.classList.contains('dark') ||
-      (!document.body.classList.contains('dark') &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    return document.body.classList.contains('dark');
   }
 
   function resize() {
@@ -187,15 +185,28 @@ setInterval(() => {
 })();
 
 
-const themeToggle = document.getElementById('themeToggle');
-
-themeToggle.addEventListener('change', function() {
-  if (this.checked) {
-    document.body.classList.add('dark');
-  } else {
-    document.body.classList.remove('dark');
+// ── Theme toggle (localStorage-persisted, works across all pages) ──────────
+(function () {
+  function syncToggles(dark) {
+    document.querySelectorAll('.theme-checkbox').forEach(function (cb) {
+      cb.checked = dark;
+    });
   }
-});
+
+  var saved = localStorage.getItem('theme');
+  var dark = saved === 'dark';
+  if (dark) document.body.classList.add('dark');
+  syncToggles(dark);
+
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.classList.contains('theme-checkbox')) {
+      dark = e.target.checked;
+      document.body.classList.toggle('dark', dark);
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      syncToggles(dark);
+    }
+  });
+})();
 
 
 window.addEventListener('DOMContentLoaded', () => {
