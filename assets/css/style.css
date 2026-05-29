@@ -764,7 +764,7 @@ nav a.active::after {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #cc2828;
+  background: #49ae13;
   flex-shrink: 0;
   animation: statusPulse 2.5s ease-in-out infinite;
 }
