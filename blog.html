@@ -1,201 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog | Vishwa Vijaysheel</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <!-- Apply saved theme BEFORE first paint -->
-  <script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
-  <style>.dark-pre body,.dark-pre{background:#0f0f10;color:#f3f3f3;}</style>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — Vishwa Vijaysheel</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header>
-    <nav>
-      <a class="nav-brand" href="index.html">
-        <span class="nav-brand-name">Vishwa Vijaysheel</span>
-        <span class="nav-brand-sub">Data &amp; Analytics</span>
-      </a>
-      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="nav-menu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="dashboards.html">Projects</a></li>
-          <li><a href="blog.html" class="active">Blog</a></li>
-        </ul>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboards.html">Projects</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
         <label class="switch">
-          <input type="checkbox" class="theme-checkbox" onclick="">
+          <input type="checkbox" class="theme-checkbox">
           <span class="slider"></span>
         </label>
       </div>
-    </nav>
-  </header>
-
-  <main>
-    <div class="page-header">
-      <p class="page-label">Writing</p>
-      <h1 class="page-title">Thoughts & Insights</h1>
-      <p class="page-subtitle">Occasional writing on data strategy, analytics engineering, and the intersection of business and technology.</p>
     </div>
+  </nav>
+</header>
 
-    <!-- Featured post -->
-    <div style="max-width:860px; margin:0 auto; padding:0 2em 1.4em;">
-      <a href="#" class="post-featured" id="featuredPost">
-        <div class="post-featured-inner">
-          <div>
-            <div class="post-meta">
-              <span class="post-tag">Strategy</span>
-              <span class="post-tag">Analytics</span>
-              <span class="post-date">Mar 2026</span>
-            </div>
-            <h2 class="post-title">Bridging Business Strategy with Data Analytics</h2>
-            <p class="post-excerpt">Exploring how holistic data strategies can serve as a bridge between operational performance and business vision — and why most organisations get this relationship backwards.</p>
-            <span class="post-cta">
-              Read article
-              <span class="post-cta-arrow">↗</span>
-            </span>
-          </div>
-          <div class="post-featured-num">01</div>
-        </div>
-      </a>
+<main>
+  <div class="page-header">
+    <p class="page-label">writing</p>
+    <h1 class="page-title">Thoughts &amp; insights</h1>
+    <p class="page-subtitle">Occasional writing on data strategy, analytics engineering, and the intersection of business and technology.</p>
+  </div>
+
+  <a href="#" class="post-featured">
+    <div class="post-meta">
+      <span class="post-tag">Strategy</span>
+      <span class="post-tag">Analytics</span>
+      <span class="post-date mono">Mar 2026</span>
     </div>
+    <h2 class="post-title">Bridging Business Strategy with Data Analytics</h2>
+    <p class="post-excerpt">Exploring how holistic data strategies can serve as a bridge between operational performance and business vision — and why most organisations get this relationship backwards.</p>
+    <span class="post-cta">Read article →</span>
+  </a>
 
-    <!-- Section label -->
-    <div class="section-divider">
-      <p class="section-divider-label">More posts</p>
-      <div class="section-divider-line"></div>
-    </div>
+  <div class="post-list">
 
-    <!-- Post list -->
-    <div class="post-list">
-
-      <a href="#" class="post-row" id="post2">
-        <span class="post-num">02</span>
-        <div class="post-row-body">
-          <h3 class="post-row-title">Building Trust in Data using Microsoft Fabric</h3>
-          <p class="post-row-desc">How semantic modelling empowers self-service analytics while preserving governance.</p>
-        </div>
-        <span class="row-arrow">↗</span>
-      </a>
-
-      <a href="#" class="post-row" id="post3" style="transition-delay:0.08s;">
-        <span class="post-num">03</span>
-        <div class="post-row-body">
-          <h3 class="post-row-title">Designing for the Analytical Consumer</h3>
-          <p class="post-row-desc">Rethinking dashboard UX from the perspective of decision-making under uncertainty.</p>
-        </div>
-        <span class="row-arrow">↗</span>
-      </a>
-
-      <a href="#" class="post-row" id="post4" style="transition-delay:0.16s;">
-        <span class="post-num">04</span>
-        <div class="post-row-body">
-          <h3 class="post-row-title">The Cost of Inconsistent Metrics</h3>
-          <p class="post-row-desc">Why a single source of truth matters more than any individual dashboard.</p>
-        </div>
-        <span class="row-arrow">↗</span>
-      </a>
-
-    </div>
-
-    <!-- Newsletter -->
-    <div class="newsletter-strip">
-      <div class="newsletter-card">
-        <div class="newsletter-text">
-          <h3>Stay in the loop</h3>
-          <p>New writing, occasional project updates. No noise.</p>
-        </div>
-        <div class="newsletter-form">
-          <input class="newsletter-input" type="email" placeholder="you@email.com" />
-          <button class="newsletter-btn">Subscribe</button>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
+    <a href="#" class="post-row">
+      <span class="post-num mono">Feb 2026</span>
       <div>
-        <div class="footer-name">Vishwa Vijaysheel</div>
-        <div class="footer-role">Data & Analytics Professional</div>
-        <div class="footer-contacts">
-           <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-          <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
-          <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
-        </div>
+        <h3 class="post-row-title">Building Trust in Data using Microsoft Fabric</h3>
+        <p class="post-row-desc">How semantic modelling empowers self-service analytics while preserving governance.</p>
       </div>
-      <div class="footer-right">
-        <div class="footer-copy">© 2026 Vishwa Vijaysheel</div>
-        <div class="footer-made">Built with intent.</div>
+      <span class="row-arrow">→</span>
+    </a>
+
+    <a href="#" class="post-row">
+      <span class="post-num mono">Jan 2026</span>
+      <div>
+        <h3 class="post-row-title">Designing for the Analytical Consumer</h3>
+        <p class="post-row-desc">Rethinking dashboard UX from the perspective of decision-making under uncertainty.</p>
+      </div>
+      <span class="row-arrow">→</span>
+    </a>
+
+    <a href="#" class="post-row">
+      <span class="post-num mono">Dec 2025</span>
+      <div>
+        <h3 class="post-row-title">The Cost of Inconsistent Metrics</h3>
+        <p class="post-row-desc">Why a single source of truth matters more than any individual dashboard.</p>
+      </div>
+      <span class="row-arrow">→</span>
+    </a>
+
+  </div>
+
+  <div class="newsletter-strip">
+    <div class="newsletter-card">
+      <div class="newsletter-text">
+        <h3>Stay in the loop</h3>
+        <p>New writing, occasional project updates. No noise.</p>
+      </div>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" placeholder="you@email.com" />
+        <button class="newsletter-btn">Subscribe</button>
       </div>
     </div>
-    <hr class="footer-divider" />
-    <div class="footer-bottom">
-      <ul class="footer-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboards.html">Dashboards</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
-      <span class="footer-avail">Open to new opportunities</span>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
     </div>
-  </footer>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboards.html">Dashboards</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Open to new opportunities</span>
+  </div>
+</footer>
 
-  <script>
-    // ── Theme toggle ──────────────────────────────────────────────
-    (function () {
-      document.documentElement.classList.remove('dark-pre');
-      function syncToggles(dark) {
-        document.querySelectorAll('.theme-checkbox').forEach(function (cb) { cb.checked = dark; });
-      }
-      var dark = localStorage.getItem('theme') === 'dark';
-      if (dark) document.body.classList.add('dark');
-      syncToggles(dark);
-      document.addEventListener('change', function (e) {
-        if (e.target && e.target.classList.contains('theme-checkbox')) {
-          dark = e.target.checked;
-          document.body.classList.toggle('dark', dark);
-          localStorage.setItem('theme', dark ? 'dark' : 'light');
-          syncToggles(dark);
-        }
-      });
-    })();
-
-    // Scroll-reveal for all animated elements
-    const revealEls = document.querySelectorAll('.post-featured, .post-row');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => io.observe(el));
-
-    // Mobile nav toggle
-    (function () {
-      const toggle = document.querySelector('.nav-toggle');
-      const menu   = document.querySelector('.nav-menu');
-      if (!toggle || !menu) return;
-      toggle.addEventListener('click', () => {
-        const isOpen = menu.classList.toggle('open');
-        toggle.classList.toggle('open', isOpen);
-        toggle.setAttribute('aria-expanded', isOpen);
-      });
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('open');
-          toggle.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav')) {
-          menu.classList.remove('open');
-          toggle.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
-  </script>
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
 </body>
 </html>

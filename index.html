@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vishwa Vijaysheel | Data Portfolio</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <!-- Apply saved theme BEFORE first paint to prevent flash on iPhone -->
-  <script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
-  <style>.dark-pre body,.dark-pre{--bg:#0f0f10;--surface:rgba(30,30,32,0.6);--surface-solid:#1a1a1c;--text:#f3f3f3;--text-muted:#a1a1a1;--border:rgba(255,255,255,0.08);--shadow:0 10px 30px rgba(0,0,0,0.4);background:#0f0f10;color:#f3f3f3;}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vishwa Vijaysheel — Data & Analytics</title>
+<meta name="description" content="Data analyst turning messy data into clear decisions — Power BI, Microsoft Fabric, SQL, and data storytelling." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <canvas id="bgCanvas"></canvas>
-  <header>
+<canvas id="bgCanvas"></canvas>
+
+<header>
   <nav>
     <a class="nav-brand" href="index.html">
       <span class="nav-brand-name">Vishwa Vijaysheel</span>
-      <span class="nav-brand-sub">Data Analyst</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
     </a>
-
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-
     <div class="nav-menu">
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
@@ -29,10 +30,7 @@
         <li><a href="blog.html">Blog</a></li>
       </ul>
       <div class="nav-right">
-        <div class="nav-status">
-          <span class="nav-status-dot"></span>
-          Available
-        </div>
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
         <label class="switch">
           <input type="checkbox" class="theme-checkbox" id="themeToggle">
           <span class="slider"></span>
@@ -42,356 +40,239 @@
   </nav>
 </header>
 
-  <main>
-    <section class="hero">
-  <p class="hero-location">Brisbane, QLD </p>
+<main>
 
-<h2 class="hero-h">
-  Turning <span id="scramble-target">messy</span> data<br>into clear decisions.
-</h2>
-
-  <div class="hero-role-row">
-    <span class="hero-role-prefix">I'm a</span>
-    <div class="hero-role-slot">
-      <span class="hero-role active">Data Analyst</span>
-      <span class="hero-role">Storyteller</span>
-      <span class="hero-role">Problem Solver</span>
-      <span class="hero-role">Systems Thinker</span>
+  <section class="hero">
+    <div class="hero-top">
+      <span>BRISBANE, QLD</span>
+      <span class="mono">v2026.09</span>
     </div>
-  </div>
 
-  <div class="hero-divider"></div>
+    <div class="hero-grid">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+          <span class="terminal-title">session — vishwa@analytics</span>
+        </div>
+        <div class="terminal-body" id="terminalBody"></div>
+      </div>
 
-  <p class="hero-bio">
-    Strategic and methodical analyst with over five years of experience in
-    <strong class="str-bio">data modelling, visualisation, and database management</strong>.
-    Passionate about building intelligent systems that bridge technical performance
-    with business value.
-  </p>
+      <div class="hero-copy">
+        <h2 class="hero-h">Turning messy data into clear decisions.</h2>
 
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-val">5<span>+</span></div>
-      <div class="hero-stat-lbl">Years exp.</div>
+        <div class="hero-role-row">
+          <span>I'm a</span>
+          <div class="hero-role-slot">
+            <span class="hero-role active">Data Analyst</span>
+            <span class="hero-role">Storyteller</span>
+            <span class="hero-role">Problem Solver</span>
+            <span class="hero-role">Systems Thinker</span>
+          </div>
+        </div>
+
+        <p class="hero-bio">
+          Strategic and methodical analyst with over five years of experience in
+          <strong>data modelling, visualisation, and database management</strong>.
+          I build systems that bridge technical performance with business value —
+          not just dashboards, but decisions people can act on.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="assets/Vishwa_Vijaysheel_Resume.pdf" class="hero-btn-primary">Download résumé</a>
+          <a href="mailto:vishwa7509@outlook.com" class="hero-btn-secondary">Get in touch</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-val">5<span>+</span></div><div class="hero-stat-lbl">years exp.</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">3</div><div class="hero-stat-lbl">industries</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">15<span>+</span></div><div class="hero-stat-lbl">tools</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">∞</div><div class="hero-stat-lbl">curiosity</div></div>
+        </div>
+      </div>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-val">3</div>
-      <div class="hero-stat-lbl">Industries</div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="section-head">
+      <div>
+        <p class="section-label">technical expertise</p>
+        <h2 class="section-title">What I work with</h2>
+      </div>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-val">15<span>+</span></div>
-      <div class="hero-stat-lbl">Tools</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-val">∞</div>
-      <div class="hero-stat-lbl">Curiosity</div>
-    </div>
-  </div>
 
-  <div class="hero-ctas">
-    <a href="assets/Vishwa_Vijaysheel_Resume.pdf" class="hero-btn-primary">Resume</a>
-    <a href="mailto:vishwa7509@outlook.com" class="hero-btn-secondary">Get in touch</a>
-  </div>
-
-
-
-</section>
-
-    <section class="skills-container">
-  <div class="card skills-card">
-    <p class="section-eyebrow">Technical Expertise</p>
-
-    <div class="skill-tabs">
-      <button class="skill-tab active" data-cat="all">All</button>
-      <button class="skill-tab" data-cat="lang">Languages</button>
-      <button class="skill-tab" data-cat="viz">Visualisation</button>
-      <button class="skill-tab" data-cat="platform">Platforms</button>
-      <button class="skill-tab" data-cat="method">Methods</button>
+    <div class="tabs">
+      <button class="tab-btn skill-tab active" data-cat="all">All</button>
+      <button class="tab-btn skill-tab" data-cat="lang">Languages</button>
+      <button class="tab-btn skill-tab" data-cat="viz">Visualisation</button>
+      <button class="tab-btn skill-tab" data-cat="platform">Platforms</button>
+      <button class="tab-btn skill-tab" data-cat="method">Methods</button>
     </div>
 
     <div class="skill-list" id="skillList"></div>
+    <p class="skill-note">Select a category to filter · proficiency is self-assessed</p>
+  </section>
 
-    <p class="skill-note">Select a category to filter · Proficiency is self-assessed</p>
-  </div>
-</section>
-
-
-    <section class="history-section">
-
-      <!-- Tab switcher -->
-      <div class="history-toggle-wrap">
-        <div class="history-toggle" role="group" aria-label="Switch between Experience and Education">
-          <button class="history-toggle-btn active" data-panel="experience">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-            Experience
-          </button>
-          <button class="history-toggle-btn" data-panel="education">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            Education
-          </button>
-          <div class="history-toggle-indicator"></div>
-        </div>
+  <section class="section" id="history">
+    <div class="section-head">
+      <div>
+        <p class="section-label">background</p>
+        <h2 class="section-title">Where I've been</h2>
       </div>
+      <div class="tabs" style="border-bottom:none;">
+        <button class="tab-btn history-toggle-btn active" data-panel="experience">Experience</button>
+        <button class="tab-btn history-toggle-btn" data-panel="education">Education</button>
+      </div>
+    </div>
 
-      <!-- Two panels side-by-side -->
-      <div class="history-panels">
+    <div class="history-panel active" id="panel-experience">
+      <div class="timeline">
 
-        <!-- EXPERIENCE PANEL -->
-        <div class="history-panel active" id="panel-experience">
-          <p class="section-eyebrow">Work History</p>
-          <div class="timeline">
-
-            <div class="timeline-item" data-index="0">
-              <div class="timeline-marker">
-                <span class="marker-num">2025</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Talent Resource Analyst</h3>
-                  <span class="timeline-company">Guidant Global</span>
-                </div>
-                <ul>
-                 <li><p>Designed and maintained Microsoft Fabric data pipelines to ingest, transform, and validate workforce and vendor data
-from multiple source systems, replacing manual consolidation workflows and applying data quality checkpoints
-throughout.</p></li>
-                    <li><p>Defined data mapping logic and transformation rules for semantic models powering a Power BI transparency
-dashboard, ensuring consistent, governed reporting for clients and vendors.</p></li>
-                    <li><p>Developed Python scripts to prepare and transform datasets for strategic workforce planning decisions, documenting
-data flows and transformation specifications for business stakeholders.</p></li>
-                    <li><p>Engaged with business stakeholders to gather reporting requirements and translate them into Power BI dashboard
-designs, facilitating iterative feedback cycles to validate solution accuracy.</p></li>
-                    <li><p>Automated daily business processes using Power Apps dataflows and designed timesheet automation solutions,
-reducing manual effort and improving data freshness and operational efficiency.</p></li>
-                    <li><p>Conducted market research analysis of vendor pay rates across multiple roles by building an AI agent using Microsoft
-Copilot that automated data retrieval from a manually curated database, improving process efficiency by 73%
-compared to manual data scraping and enabling faster, more accurate benchmarking decisions.</li>
-
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>Microsoft Fabric</span><span>Power BI</span><span>Data Pipelines</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="1">
-              <div class="timeline-marker">
-                <span class="marker-num">2025</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Business Systems Analyst</h3>
-                  <span class="timeline-company">Multicap Limited</span>
-                </div>
-                <ul>
-                  <li><p>Led data migration activities from UKG into a centralised Microsoft Fabric Lakehouse, defining ETL mapping
-specifications, data cleansing rules, and transformation logic for payroll, rostering, and people services data.</p>
-                    <li><p>Documented integration specifications and data mapping artefacts to support cross-system data flows, enabling
-consistent and auditable reporting for business stakeholders.</p></li>
-                    <li><p>Conducted system integration testing within UAT environments and coordinated the implementation of validated
-configurations into production, ensuring compliant and high-quality data outcomes.</p></li>
-                    <li><p>Implemented data governance practices including validation checkpoints, configuration risk assessments, and quality
-controls to ensure data accuracy and process compliance.</p></li>
-                    <li><p>Managed ad-hoc analysis tasks through JIRA, providing prescriptive reports and system configuration
-recommendations to resolve rostering and payroll issues.</p></li>
-                  
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>Automation</span><span>Data Modelling</span><span>Power BI</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="2">
-              <div class="timeline-marker">
-                <span class="marker-num">2024</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Data Analyst</h3>
-                  <span class="timeline-company">Target Distribution Centre</span>
-                </div>
-                <ul>
-                  <li><p>Developed detailed financial and KPI reporting using Advanced Excel dashboards with variance analysis, translating
-operational data into actionable insights for senior management decision-making.</p></li>
-                    <li><p>Contributed to the planning and migration of KPI reporting to SharePoint, performing migration validation and testing
-that resulted in a 22% reduction in reporting time.</p></li>
-                    <li><p>Documented data reconciliation processes for payroll data using Excel and UKG, standardising procedures for casual
-and permanent employee financial data reconciliation.</p></li>
-                    <li><p>Analysed rostering discrepancies and produced prescriptive reports to improve payroll processes, identifying data
-quality issues and recommending corrective actions.</p></li>
-
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>Excel</span><span>SharePoint</span><span>SAP Ariba</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="3">
-              <div class="timeline-marker">
-                <span class="marker-num">2023</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Junior Data Analyst</h3>
-                  <span class="timeline-company">Target Green</span>
-                </div>
-               <ul>
-                  <li><p>Collaborated with cross-functional teams to identify data sources, streamline data collection processes, and resolve
-data quality inconsistencies, achieving a 21% improvement in data accuracy and a 26% reduction in KPI report
-development time.</p>
-                    <li><p>Conducted data quality assessments and audits using Dataforce Runabout, identifying and resolving input
-inconsistencies to support reliable analytical reporting.</p></li>
-                   
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>Dataforce Runabout</span><span>SharePoint</span><span>Tableau</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="4">
-              <div class="timeline-marker">
-                <span class="marker-num">2020</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Consultant – Data &amp; Reporting</h3>
-                  <span class="timeline-company">Reverberate Media</span>
-                </div>
-                <ul>
-                  <li><p>Developed performance and benchmarking reports using Power BI and SQL, translating complex data into clear
-recommendations for non-technical stakeholders.</p>
-                    <li><p>Analysed social media data via Twitter API and R Studio to support content strategy decisions, driving measurable
-improvements in engagement and customer acquisition.</p></li>
-                   
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>Power BI</span><span>SQL</span><span>R</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="5">
-              <div class="timeline-marker">
-                <span class="marker-num">2017</span>
-                <div class="marker-line last"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Data Analyst</h3>
-                  <span class="timeline-company">Environmental Management Centre Pvt. Ltd.</span>
-                </div>
-                <ul>
-                  <li><p>Engineered an R-Shiny analytics platform integrating real-time data from 800+ air quality stations, reducing data
-analysis time by 60% and improving data accuracy by 85%.</p><li>
-                    <li><p>Developed a web application with automated credit estimation using Linear Regression, and prepared standardised
-water quality data visualisations for a national pollution control board using Tableau.</p></li>
-                    <li><p>Conducted exploratory analysis and time series modelling using R Studio for energy generation prediction, supporting
-proof-of-concept planning with stakeholders.</p></li>
-                    
-                  </ul>
-
-                <div class="timeline-tags">
-                  <span>R Shiny</span><span>Tableau</span><span>Excel</span>
-                </div>
-              </div>
-            </div>
-
+           <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2026</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Strategic Solutions Architect</h3><span class="timeline-company">Guidant Global</span></div>
+            <ul>
+              <li>Translated requirements from technical and non-technical stakeholders into a project plan, leveraging legacy SAP ECC data.</li>
+              <li>Analyzed data in the Insights platform using SSMS and T-SQL to map the existing data model; wrote and maintained SQL queries to extract and validate data for automated solutions.</li>
+              <li>Built semantic models from Azure Synapse data to power a Power BI dashboard automating Value Driven Tree creation across branches, saving 96+ hours/week, cutting report turnaround by 45%, and enabling same-day metric visibility for stakeholders.</li>
+        
+            </ul>
+            <div class="timeline-tags"><span>Microsoft Fabric</span><span>Power BI</span><span>SQL Server Management System</span></div>
           </div>
-        </div><!-- /panel-experience -->
+        </div>
 
-        <!-- EDUCATION PANEL -->
-        <div class="history-panel" id="panel-education">
-          <p class="section-eyebrow">Academic Background</p>
-          <div class="timeline">
 
-            <div class="timeline-item" data-index="0">
-              <div class="timeline-marker">
-                <span class="marker-num">2022</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Master of Data Science</h3>
-                  <span class="timeline-company">University of Queensland</span>
-                </div>
-                <p>Specialised in machine learning, statistical modelling, and large-scale data engineering. Graduated with Distinction.</p>
-                <div class="timeline-tags">
-                  <span>Machine Learning</span><span>Python</span><span>Statistics</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="1">
-              <div class="timeline-marker">
-                <span class="marker-num">2017</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Bachelor of Engineering – Environmental</h3>
-                  <span class="timeline-company">University of Mumbai</span>
-                </div>
-                <p>Focused on environmental systems modelling, GIS, and data-driven impact assessment for sustainability projects.</p>
-                <div class="timeline-tags">
-                  <span>GIS</span><span>R</span><span>Environmental Modelling</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="2">
-              <div class="timeline-marker">
-                <span class="marker-num">2023</span>
-                <div class="marker-line"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Microsoft Certified: Power BI Data Analyst</h3>
-                  <span class="timeline-company">Microsoft · PL-300</span>
-                </div>
-                <p>Certified in data preparation, modelling, visualisation, and deploying BI assets using Power BI and the Microsoft ecosystem.</p>
-                <div class="timeline-tags">
-                  <span>Power BI</span><span>DAX</span><span>Data Modelling</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="timeline-item" data-index="3">
-              <div class="timeline-marker">
-                <span class="marker-num">2021</span>
-                <div class="marker-line last"></div>
-              </div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <h3>Google Data Analytics Certificate</h3>
-                  <span class="timeline-company">Google · Coursera</span>
-                </div>
-                <p>Completed the professional certificate covering data cleaning, analysis, visualisation, and storytelling with R and Tableau.</p>
-                <div class="timeline-tags">
-                  <span>R</span><span>Tableau</span><span>Data Cleaning</span>
-                </div>
-              </div>
-            </div>
-
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2026</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Analytics Consultant</h3><span class="timeline-company">Guidant Global</span></div>
+            <ul>
+              <li>Designed and maintained Microsoft Fabric data pipelines to ingest, transform, and validate workforce and vendor data from multiple source systems, replacing manual consolidation workflows and applying data quality checkpoints throughout.</li>
+              <li>Defined data mapping logic and transformation rules for semantic models powering a Power BI transparency dashboard, ensuring consistent, governed reporting for clients and vendors.</li>
+              <li>Developed Python scripts to prepare and transform datasets for strategic workforce planning decisions, documenting data flows and transformation specifications for business stakeholders.</li>
+              <li>Engaged with business stakeholders to gather reporting requirements and translate them into Power BI dashboard designs, facilitating iterative feedback cycles to validate solution accuracy.</li>
+              <li>Automated daily business processes using Power Apps dataflows and designed timesheet automation solutions, reducing manual effort and improving data freshness and operational efficiency.</li>
+              <li>Conducted market research analysis of vendor pay rates across multiple roles by building an AI agent using Microsoft Copilot that automated data retrieval from a manually curated database, improving process efficiency by 73% compared to manual data scraping.</li>
+            </ul>
+            <div class="timeline-tags"><span>Microsoft Fabric</span><span>Power BI</span><span>Data Pipelines</span></div>
           </div>
-        </div><!-- /panel-education -->
+        </div>
 
-      </div><!-- /history-panels -->
-    </section>
-  </main>
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2025</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Business Systems Analyst</h3><span class="timeline-company">Multicap Limited</span></div>
+            <ul>
+              <li>Led data migration activities from UKG into a centralised Microsoft Fabric Lakehouse, defining ETL mapping specifications, data cleansing rules, and transformation logic for payroll, rostering, and people services data.</li>
+              <li>Documented integration specifications and data mapping artefacts to support cross-system data flows, enabling consistent and auditable reporting for business stakeholders.</li>
+              <li>Conducted system integration testing within UAT environments and coordinated the implementation of validated configurations into production, ensuring compliant and high-quality data outcomes.</li>
+              <li>Implemented data governance practices including validation checkpoints, configuration risk assessments, and quality controls to ensure data accuracy and process compliance.</li>
+              <li>Managed ad-hoc analysis tasks through JIRA, providing prescriptive reports and system configuration recommendations to resolve rostering and payroll issues.</li>
+            </ul>
+            <div class="timeline-tags"><span>Automation</span><span>Data Modelling</span><span>Power BI</span></div>
+          </div>
+        </div>
 
- <footer>
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2024</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Data Analyst</h3><span class="timeline-company">Target Distribution Centre</span></div>
+            <ul>
+              <li>Developed detailed financial and KPI reporting using Advanced Excel dashboards with variance analysis, translating operational data into actionable insights for senior management decision-making.</li>
+              <li>Contributed to the planning and migration of KPI reporting to SharePoint, performing migration validation and testing that resulted in a 22% reduction in reporting time.</li>
+              <li>Documented data reconciliation processes for payroll data using Excel and UKG, standardising procedures for casual and permanent employee financial data reconciliation.</li>
+              <li>Analysed rostering discrepancies and produced prescriptive reports to improve payroll processes, identifying data quality issues and recommending corrective actions.</li>
+            </ul>
+            <div class="timeline-tags"><span>Excel</span><span>SharePoint</span><span>SAP Ariba</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2023</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Junior Data Analyst</h3><span class="timeline-company">Target Green</span></div>
+            <ul>
+              <li>Collaborated with cross-functional teams to identify data sources, streamline data collection processes, and resolve data quality inconsistencies, achieving a 21% improvement in data accuracy and a 26% reduction in KPI report development time.</li>
+              <li>Conducted data quality assessments and audits using Dataforce Runabout, identifying and resolving input inconsistencies to support reliable analytical reporting.</li>
+            </ul>
+            <div class="timeline-tags"><span>Dataforce Runabout</span><span>SharePoint</span><span>Tableau</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2020</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Consultant – Data &amp; Reporting</h3><span class="timeline-company">Reverberate Media</span></div>
+            <ul>
+              <li>Developed performance and benchmarking reports using Power BI and SQL, translating complex data into clear recommendations for non-technical stakeholders.</li>
+              <li>Analysed social media data via Twitter API and R Studio to support content strategy decisions, driving measurable improvements in engagement and customer acquisition.</li>
+            </ul>
+            <div class="timeline-tags"><span>Power BI</span><span>SQL</span><span>R</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2017</span><div class="marker-line last"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Data Analyst</h3><span class="timeline-company">Environmental Management Centre Pvt. Ltd.</span></div>
+            <ul>
+              <li>Engineered an R-Shiny analytics platform integrating real-time data from 800+ air quality stations, reducing data analysis time by 60% and improving data accuracy by 85%.</li>
+              <li>Developed a web application with automated credit estimation using Linear Regression, and prepared standardised water quality data visualisations for a national pollution control board using Tableau.</li>
+              <li>Conducted exploratory analysis and time series modelling using R Studio for energy generation prediction, supporting proof-of-concept planning with stakeholders.</li>
+            </ul>
+            <div class="timeline-tags"><span>R Shiny</span><span>Tableau</span><span>Excel</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="history-panel" id="panel-education">
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2022</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Master of Data Science</h3><span class="timeline-company">University of Queensland</span></div>
+            <p>Specialised in machine learning, statistical modelling, and large-scale data engineering. Graduated with Distinction.</p>
+            <div class="timeline-tags"><span>Machine Learning</span><span>Python</span><span>Statistics</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2017</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Bachelor of Engineering – Environmental</h3><span class="timeline-company">University of Mumbai</span></div>
+            <p>Focused on environmental systems modelling, GIS, and data-driven impact assessment for sustainability projects.</p>
+            <div class="timeline-tags"><span>GIS</span><span>R</span><span>Environmental Modelling</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2023</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Microsoft Certified: Power BI Data Analyst</h3><span class="timeline-company">Microsoft · PL-300</span></div>
+            <p>Certified in data preparation, modelling, visualisation, and deploying BI assets using Power BI and the Microsoft ecosystem.</p>
+            <div class="timeline-tags"><span>Power BI</span><span>DAX</span><span>Data Modelling</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2021</span><div class="marker-line last"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Google Data Analytics Certificate</h3><span class="timeline-company">Google · Coursera</span></div>
+            <p>Completed the professional certificate covering data cleaning, analysis, visualisation, and storytelling with R and Tableau.</p>
+            <div class="timeline-tags"><span>R</span><span>Tableau</span><span>Data Cleaning</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
   <div class="footer-inner">
     <div>
       <p class="footer-name">Vishwa Vijaysheel</p>
@@ -404,7 +285,7 @@ proof-of-concept planning with stakeholders.</p></li>
     </div>
     <div class="footer-right">
       <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
-      <p class="footer-made">Built with care · All rights reserved</p>
+      <p class="footer-made">Built with intent.</p>
     </div>
   </div>
   <hr class="footer-divider">
@@ -418,100 +299,7 @@ proof-of-concept planning with stakeholders.</p></li>
   </div>
 </footer>
 
-  <script src="assets/js/script.js"></script>
-  <script>document.documentElement.classList.remove('dark-pre');</script>
-  <script>
-    /* ── Skills: bar-row renderer (restores original behaviour) ── */
-    (function () {
-      const SKILLS = [
-        { name: 'SQL',               cat: 'lang',     pct: 90 },
-        { name: 'Python',            cat: 'lang',     pct: 80 },
-        { name: 'R',                 cat: 'lang',     pct: 75 },
-        { name: 'DAX',               cat: 'lang',     pct: 85 },
-        { name: 'M (Power Query)',   cat: 'lang',     pct: 80 },
-        { name: 'Power BI',          cat: 'viz',      pct: 95 },
-        { name: 'Tableau',           cat: 'viz',      pct: 80 },
-        { name: 'Excel',             cat: 'viz',      pct: 90 },
-        { name: 'R Shiny',           cat: 'viz',      pct: 70 },
-        { name: 'Microsoft Fabric',  cat: 'platform', pct: 85 },
-        { name: 'SharePoint',        cat: 'platform', pct: 80 },
-        { name: 'SAP Ariba',         cat: 'platform', pct: 70 },
-        { name: 'Azure',             cat: 'platform', pct: 65 },
-        { name: 'GitHub',            cat: 'platform', pct: 75 },
-        { name: 'Data Modelling',    cat: 'method',   pct: 90 },
-        { name: 'ETL Pipelines',     cat: 'method',   pct: 85 },
-        { name: 'Statistical Analysis', cat: 'method', pct: 80 },
-        { name: 'Machine Learning',  cat: 'method',   pct: 70 },
-        { name: 'GIS',               cat: 'method',   pct: 65 },
-      ];
-
-      function renderBars(filter) {
-        const list = document.getElementById('skillList');
-        if (!list) return;
-        const visible = filter === 'all' ? SKILLS : SKILLS.filter(s => s.cat === filter);
-        list.innerHTML = visible.map(s =>
-          `<div class="skill-row">
-            <span class="skill-name">${s.name}</span>
-            <div class="skill-track"><div class="skill-fill" data-pct="${s.pct}"></div></div>
-            <span class="skill-pct">${s.pct}%</span>
-          </div>`
-        ).join('');
-        requestAnimationFrame(() => {
-          list.querySelectorAll('.skill-row').forEach((row, i) => {
-            setTimeout(() => {
-              row.classList.add('visible');
-              const fill = row.querySelector('.skill-fill');
-              if (fill) fill.style.width = fill.dataset.pct + '%';
-            }, i * 45);
-          });
-        });
-      }
-
-      window.addEventListener('DOMContentLoaded', () => {
-        renderBars('all');
-        document.querySelectorAll('.skill-tab').forEach(tab => {
-          tab.addEventListener('click', () => {
-            document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            renderBars(tab.dataset.cat);
-          });
-        });
-      });
-    })();
-
-    /* ── History section: toggle + responsive panel logic ── */
-    (function () {
-      const tabs    = document.querySelectorAll('.history-toggle-btn');
-      const panels  = document.querySelectorAll('.history-panel');
-      const indicator = document.querySelector('.history-toggle-indicator');
-
-      function moveIndicator(activeBtn) {
-        if (!indicator || !activeBtn) return;
-        indicator.style.width  = activeBtn.offsetWidth  + 'px';
-        indicator.style.left   = activeBtn.offsetLeft   + 'px';
-      }
-
-      function syncState() {
-        const activeBtn = document.querySelector('.history-toggle-btn.active');
-        requestAnimationFrame(() => moveIndicator(activeBtn));
-      }
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          moveIndicator(tab);
-
-          const target = tab.dataset.panel;
-          panels.forEach(p => {
-            p.classList.toggle('active', p.id === 'panel-' + target);
-          });
-        });
-      });
-
-      window.addEventListener('resize', syncState);
-      syncState();
-    })();
-  </script>
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
 </body>
 </html>

@@ -1,278 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboards | Vishwa Vijaysheel</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <!-- Apply saved theme BEFORE first paint -->
-  <script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
-  <style>.dark-pre body,.dark-pre{background:#0f0f10;color:#f3f3f3;}</style>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — Vishwa Vijaysheel</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header>
-    <nav>
-      <a class="nav-brand" href="index.html">
-        <span class="nav-brand-name">Vishwa Vijaysheel</span>
-        <span class="nav-brand-sub">Data &amp; Analytics</span>
-      </a>
-      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="nav-menu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="dashboards.html" class="active">Projects</a></li>
-          <li><a href="blog.html">Blog</a></li>
-        </ul>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboards.html" class="active">Projects</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
         <label class="switch">
-          <input type="checkbox" class="theme-checkbox" onclick="">
+          <input type="checkbox" class="theme-checkbox">
           <span class="slider"></span>
         </label>
       </div>
-    </nav>
-  </header>
-
-  <main>
-    <div class="page-header">
-      <p class="page-label">Work</p>
-      <h1 class="page-title">Interacting with the data</h1>
-      <p class="page-subtitle">A selection of analytics and visualisation projects spanning workforce data, environmental monitoring, and public health.</p>
     </div>
+  </nav>
+</header>
 
-    <div class="filter-row">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="power-bi">Power BI</button>
-      <button class="filter-btn" data-filter="r-shiny">R Shiny</button>
-      <button class="filter-btn" data-filter="tableau">Tableau</button>
-    </div>
+<main>
+  <div class="page-header">
+    <p class="page-label">work</p>
+    <h1 class="page-title">Interacting with the data</h1>
+    <p class="page-subtitle">A selection of analytics and visualisation projects spanning workforce data, environmental monitoring, and public health.</p>
+  </div>
 
-    <div class="dash-grid" id="dashGrid">
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="power-bi">Power BI</button>
+    <button class="filter-btn" data-filter="r-shiny">R Shiny</button>
+    <button class="filter-btn" data-filter="tableau">Tableau</button>
+  </div>
 
-      <!-- Card 1 -->
-      <a href="#" class="dash-card" data-category="power-bi">
-        <div class="dash-thumb">
-          <img src="assets/images/powerbi_sample.png" alt="Power BI Dashboard" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="dash-thumb-placeholder" style="display:none;">
-            <svg class="dash-thumb-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="8" width="72" height="44" rx="4" stroke="currentColor" stroke-width="2"/>
-              <rect x="12" y="20" width="10" height="22" rx="2" fill="currentColor"/>
-              <rect x="26" y="15" width="10" height="27" rx="2" fill="currentColor"/>
-              <rect x="40" y="24" width="10" height="18" rx="2" fill="currentColor"/>
-              <rect x="54" y="18" width="10" height="24" rx="2" fill="currentColor"/>
-            </svg>
-          </div>
-          <span class="dash-tool-badge">Power BI</span>
-        </div>
-        <div class="dash-body">
-          <div class="dash-meta">
-            <span class="dash-tag">Workforce</span>
-            <span class="dash-tag">Semantic Model</span>
-          </div>
-          <h2 class="dash-title">Workforce Transparency Dashboard</h2>
-          <p class="dash-desc">Microsoft Fabric semantic model integrated with Power BI visuals showing workforce metrics, headcount trends, and retention signals.</p>
-          <div class="dash-divider"></div>
-          <div class="dash-footer-row">
-            <div class="dash-metrics">
-              <div class="dash-metric">
-                <span class="dash-metric-val">Fabric</span>
-                <span class="dash-metric-lbl">Data layer</span>
-              </div>
-              <div class="dash-metric">
-                <span class="dash-metric-val">Live</span>
-                <span class="dash-metric-lbl">Refresh</span>
-              </div>
-            </div>
-            <div class="dash-arrow">
-              <svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 10 L10 2 M5 2 h5 v5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </a>
+  <div class="dash-grid" id="dashGrid">
 
-      <!-- Card 2 -->
-      <a href="#" class="dash-card" data-category="r-shiny">
-        <div class="dash-thumb">
-          <img src="assets/images/r_shiny.png" alt="R Shiny Dashboard" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="dash-thumb-placeholder" style="display:none;">
-            <svg class="dash-thumb-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="40" cy="30" r="18" stroke="currentColor" stroke-width="2"/>
-              <path d="M22 30 Q40 10 58 30 Q40 50 22 30Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-              <circle cx="40" cy="30" r="4" fill="currentColor"/>
-            </svg>
-          </div>
-          <span class="dash-tool-badge">R Shiny</span>
-        </div>
-        <div class="dash-body">
-          <div class="dash-meta">
-            <span class="dash-tag">Environment</span>
-            <span class="dash-tag">Real-time</span>
-          </div>
-          <h2 class="dash-title">Air Quality Analysis Platform</h2>
-          <p class="dash-desc">R-Shiny dashboard analysing 800+ air quality stations across 5 regions, with real-time pollutant tracking and spatial heatmaps.</p>
-          <div class="dash-divider"></div>
-          <div class="dash-footer-row">
-            <div class="dash-metrics">
-              <div class="dash-metric">
-                <span class="dash-metric-val">800+</span>
-                <span class="dash-metric-lbl">Stations</span>
-              </div>
-              <div class="dash-metric">
-                <span class="dash-metric-val">5</span>
-                <span class="dash-metric-lbl">Regions</span>
-              </div>
-            </div>
-            <div class="dash-arrow">
-              <svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 10 L10 2 M5 2 h5 v5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 3 -->
-      <a href="#" class="dash-card" data-category="tableau">
-        <div class="dash-thumb">
-          <img src="assets/images/tableau_dashboard.png" alt="Tableau Dashboard" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="dash-thumb-placeholder" style="display:none;">
-            <svg class="dash-thumb-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 46 Q20 20 32 30 Q44 40 56 18 Q64 8 72 14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
-              <circle cx="32" cy="30" r="3" fill="currentColor"/>
-              <circle cx="56" cy="18" r="3" fill="currentColor"/>
-            </svg>
-          </div>
-          <span class="dash-tool-badge">Tableau</span>
-        </div>
-        <div class="dash-body">
-          <div class="dash-meta">
-            <span class="dash-tag">Water</span>
-            <span class="dash-tag">Monitoring</span>
-          </div>
-          <h2 class="dash-title">Water Quality Monitoring</h2>
-          <p class="dash-desc">Tableau dashboard surfacing River Ganga water quality metrics — turbidity, pH, dissolved oxygen — for environmental compliance monitoring.</p>
-          <div class="dash-divider"></div>
-          <div class="dash-footer-row">
-            <div class="dash-metrics">
-              <div class="dash-metric">
-                <span class="dash-metric-val">Ganga</span>
-                <span class="dash-metric-lbl">River</span>
-              </div>
-              <div class="dash-metric">
-                <span class="dash-metric-val">6+</span>
-                <span class="dash-metric-lbl">Metrics</span>
-              </div>
-            </div>
-            <div class="dash-arrow">
-              <svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 10 L10 2 M5 2 h5 v5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </a>
-
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <div>
-        <div class="footer-name">Vishwa Vijaysheel</div>
-        <div class="footer-role">Data & Analytics Professional</div>
-        <div class="footer-contacts">
-          <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-          <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
-          <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+    <a href="#" class="dash-card" data-category="power-bi">
+      <span class="dash-index mono">01</span>
+      <div class="dash-body-col">
+        <div class="dash-meta"><span class="dash-tag">Workforce</span><span class="dash-tag">Semantic Model</span></div>
+        <h2 class="dash-title">Workforce Transparency Dashboard</h2>
+        <p class="dash-desc">Microsoft Fabric semantic model integrated with Power BI visuals showing workforce metrics, headcount trends, and retention signals.</p>
+        <div class="dash-metrics">
+          <div><div class="dash-metric-val">Fabric</div><div class="dash-metric-lbl">data layer</div></div>
+          <div><div class="dash-metric-val">Live</div><div class="dash-metric-lbl">refresh</div></div>
         </div>
       </div>
-      <div class="footer-right">
-        <div class="footer-copy">© 2026 Vishwa Vijaysheel</div>
-        <div class="footer-made">Built with intent.</div>
+      <div class="dash-tool-col">
+        <span class="dash-tool-badge">Power BI</span>
+        <span class="dash-arrow"><svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10 L10 2 M5 2 h5 v5"/></svg></span>
+      </div>
+    </a>
+
+    <a href="#" class="dash-card" data-category="r-shiny">
+      <span class="dash-index mono">02</span>
+      <div class="dash-body-col">
+        <div class="dash-meta"><span class="dash-tag">Environment</span><span class="dash-tag">Real-time</span></div>
+        <h2 class="dash-title">Air Quality Analysis Platform</h2>
+        <p class="dash-desc">R-Shiny dashboard analysing 800+ air quality stations across 5 regions, with real-time pollutant tracking and spatial heatmaps.</p>
+        <div class="dash-metrics">
+          <div><div class="dash-metric-val">800+</div><div class="dash-metric-lbl">stations</div></div>
+          <div><div class="dash-metric-val">5</div><div class="dash-metric-lbl">regions</div></div>
+        </div>
+      </div>
+      <div class="dash-tool-col">
+        <span class="dash-tool-badge">R Shiny</span>
+        <span class="dash-arrow"><svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10 L10 2 M5 2 h5 v5"/></svg></span>
+      </div>
+    </a>
+
+    <a href="#" class="dash-card" data-category="tableau">
+      <span class="dash-index mono">03</span>
+      <div class="dash-body-col">
+        <div class="dash-meta"><span class="dash-tag">Water</span><span class="dash-tag">Monitoring</span></div>
+        <h2 class="dash-title">Water Quality Monitoring</h2>
+        <p class="dash-desc">Tableau dashboard surfacing River Ganga water quality metrics — turbidity, pH, dissolved oxygen — for environmental compliance monitoring.</p>
+        <div class="dash-metrics">
+          <div><div class="dash-metric-val">Ganga</div><div class="dash-metric-lbl">river</div></div>
+          <div><div class="dash-metric-val">6+</div><div class="dash-metric-lbl">metrics</div></div>
+        </div>
+      </div>
+      <div class="dash-tool-col">
+        <span class="dash-tool-badge">Tableau</span>
+        <span class="dash-arrow"><svg viewBox="0 0 12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10 L10 2 M5 2 h5 v5"/></svg></span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
       </div>
     </div>
-    <hr class="footer-divider" />
-    <div class="footer-bottom">
-      <ul class="footer-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboards.html">Dashboards</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
-      <span class="footer-avail">Open to new opportunities</span>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
     </div>
-  </footer>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboards.html">Dashboards</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Open to new opportunities</span>
+  </div>
+</footer>
 
-  <script>
-    // ── Theme toggle ──────────────────────────────────────────────
-    (function () {
-      document.documentElement.classList.remove('dark-pre');
-      function syncToggles(dark) {
-        document.querySelectorAll('.theme-checkbox').forEach(function (cb) { cb.checked = dark; });
-      }
-      var dark = localStorage.getItem('theme') === 'dark';
-      if (dark) document.body.classList.add('dark');
-      syncToggles(dark);
-      document.addEventListener('change', function (e) {
-        if (e.target && e.target.classList.contains('theme-checkbox')) {
-          dark = e.target.checked;
-          document.body.classList.toggle('dark', dark);
-          localStorage.setItem('theme', dark ? 'dark' : 'light');
-          syncToggles(dark);
-        }
-      });
-    })();
-
-    // Scroll-reveal
-    const cards = document.querySelectorAll('.dash-card');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    cards.forEach(c => io.observe(c));
-
-    // Filter
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        cards.forEach(card => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.opacity = match ? '' : '0.2';
-          card.style.pointerEvents = match ? '' : 'none';
-          card.style.transform = match ? '' : 'scale(0.97)';
-        });
-      });
-    });
-
-    // Mobile nav toggle
-    (function () {
-      const toggle = document.querySelector('.nav-toggle');
-      const menu   = document.querySelector('.nav-menu');
-      if (!toggle || !menu) return;
-      toggle.addEventListener('click', () => {
-        const isOpen = menu.classList.toggle('open');
-        toggle.classList.toggle('open', isOpen);
-        toggle.setAttribute('aria-expanded', isOpen);
-      });
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('open');
-          toggle.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav')) {
-          menu.classList.remove('open');
-          toggle.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
-  </script>
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
 </body>
 </html>
