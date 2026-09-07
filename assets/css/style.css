@@ -470,12 +470,12 @@ footer { border-top: 1px solid var(--line); margin-top: 2em; }
 .article-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; transform: rotate(180deg); }
 .article-meta-row { display: flex; gap: 0.6em; align-items: center; margin-bottom: 1.2em; flex-wrap: wrap; }
 .article-title { font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.14; max-width: 22ch; margin-bottom: 1em; }
-.article-dek { color: var(--ink-dim); font-size: 1.05rem; max-width: 58ch; margin-bottom: 1.6em; text-align: justify; hyphens: auto; }
+.article-dek { color: var(--ink-dim); font-size: 1.05rem; max-width: 58ch; margin-bottom: 1.6em; }
 .article-byline { display: flex; align-items: center; gap: 0.8em; font-family: var(--mono); font-size: 0.78rem; color: var(--ink-faint); }
 .article-byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-faint); }
 
 .article-body { max-width: 68ch; margin: 0 auto; padding: 3.5em 0 2em; }
-.article-body p { color: var(--ink); font-size: 1.04rem; line-height: 1.8; margin-bottom: 1.4em; text-align: justify; text-justify: inter-word; hyphens: auto; }
+.article-body p { color: var(--ink); font-size: 1.04rem; line-height: 1.8; margin-bottom: 1.4em; }
 .article-body p.article-lede { font-size: 1.18rem; color: var(--ink-dim); }
 .article-body h2 {
   font-size: clamp(1.25rem, 2.2vw, 1.55rem); margin: 2.2em 0 0.8em;
