@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Cost of Inconsistent Metrics — Vishwa Vijaysheel</title>
+<meta name="description" content="Why a single source of truth matters more than any individual dashboard." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboards.html">Projects</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
+        <label class="switch">
+          <input type="checkbox" class="theme-checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="article-header">
+    <div class="article-header-inner">
+      <a href="blog.html" class="article-back">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        Back to blog
+      </a>
+      <div class="article-meta-row">
+        <span class="post-tag">Data Strategy</span>
+        <span class="post-tag">Governance</span>
+        <span class="post-date mono">Dec 2025</span>
+      </div>
+      <h1 class="article-title">The Cost of Inconsistent Metrics</h1>
+      <p class="article-dek">Why a single source of truth matters more than any individual dashboard — and what it actually costs an organisation when nobody agrees on what a number means.</p>
+      <div class="article-byline">
+        <span>Vishwa Vijaysheel</span>
+        <span class="dot"></span>
+        <span>9 min read</span>
+      </div>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <p class="article-lede">I have come to realise that one of the biggest data problems organisations face isn't necessarily a lack of data. In fact, most organisations have more data than they know what to do with. The real problem is that, over time, they end up creating too many versions of the truth.</p>
+
+    <p>It rarely happens intentionally. As an organisation grows, new systems are introduced to solve new problems. One team implements a CRM, another builds an operational platform, another introduces a data warehouse, while another creates reporting pipelines to bring information from different systems together. Each decision makes sense on its own. Each system serves a purpose. But as these systems multiply, so do the places where data is stored, transformed, interpreted and ultimately consumed.</p>
+
+    <h2>When meaning doesn't survive the journey</h2>
+
+    <p>I have experienced this first-hand. One of the most difficult parts of working across different systems is not necessarily getting them to communicate technically. Modern technologies make it relatively easy to move data from one place to another — APIs, event streams, integration platforms and data pipelines can connect almost anything. The harder problem is making sure that the meaning and context of that data survive the journey.</p>
+
+    <p>A piece of information can pass successfully from one system to another and still become less useful along the way. A field may be renamed. A business rule may change. A transformation may be introduced without the downstream team fully understanding why. One team may interpret a particular value differently from another, and apply another layer of logic before it reaches a dashboard or report. Technically, everything may be working exactly as designed, yet the organisation can still end up with data that no longer represents the same thing it represented at the source.</p>
+
+    <p class="article-pull">We spend a tremendous amount of effort thinking about how data moves, but far less effort thinking about how its meaning moves with it.</p>
+
+    <p>Data on its own is not knowledge. A database can contain millions of records and still tell us very little unless we understand the context behind those records. The journey from raw data to something that can actually support a decision requires interpretation — where the data came from, what it represents, how it has been transformed, what assumptions have been applied to it and, ultimately, what it means to the person consuming it.</p>
+
+    <h2>The same word, several meanings</h2>
+
+    <p>This becomes particularly difficult when different teams have different perspectives of the same information. An engineer may look at a customer as a collection of records, identifiers and events. A product manager may see that same customer as a user moving through a product journey. Operations may see an active account that requires support, while Finance may see a revenue-generating relationship. Leadership may simply see a number representing customer growth.</p>
+
+    <p>All of these perspectives can be valid. The problem begins when the organisation doesn't have a common underlying definition.</p>
+
+    <p>Take something as simple as the word "customer." Does it mean someone who has created an account? Someone who has completed a transaction? Someone with an active subscription? Someone who purchased something in the last twelve months? Different teams can legitimately answer that question differently. But if each team builds its own definition into its systems and reports, the organisation eventually ends up with several different customer counts, all of which can appear correct depending on how they were calculated.</p>
+
+    <p>The same thing happens with revenue, active users, churn, retention, conversion, engagement and countless other metrics. Over time, organisations build an entire vocabulary of business terms that appear to have a shared meaning but actually represent different things to different teams. At that point, the problem is no longer simply technical. It becomes organisational.</p>
+
+    <h2>Data debt</h2>
+
+    <p>One of the lessons I have taken from this is that maintaining data integrity and defining what data actually means often takes a backseat when teams are under pressure to deliver systems and features. The focus naturally shifts towards getting the application live, moving the data, building the pipeline or producing the dashboard. The deeper questions around ownership, definitions, quality and downstream impact are often left for later — and later usually becomes much more expensive.</p>
+
+    <p>Once multiple systems have been built around different assumptions, changing those assumptions becomes difficult. A simple change to the definition of a metric can affect pipelines, reports, dashboards, applications and decisions across the organisation. What looked like a small data change can suddenly become an enterprise-wide problem.</p>
+
+    <p>A data-first culture doesn't simply mean having a data team or investing in modern data technology. It means treating data as a first-class part of how the organisation designs and operates its systems. When a new system is being built, the conversation shouldn't stop at what the system needs to do. There should also be a conversation about what data it creates, who owns that data, what it means, where it becomes authoritative, how it will be consumed and what happens when its definition changes.</p>
+
+    <p>Without that mindset, organisations tend to accumulate what I would describe as <strong>data debt</strong>. Just like technical debt, it may not be immediately visible. The system works. The reports are produced. The numbers are available. But underneath the surface, there are undocumented transformations, duplicated datasets, inconsistent definitions and manual processes slowly building up — until someone asks a simple business question and discovers there isn't a simple answer.</p>
+
+    <h2>Shadow sources of truth</h2>
+
+    <p>That is often the moment when the real cost of fragmented data becomes visible. Instead of asking what the data is telling us, teams start asking which dataset they should trust. Instead of analysing a business problem, analysts spend time reconciling numbers between systems. Instead of discussing what action should be taken, meetings become conversations about why one dashboard doesn't match another.</p>
+
+    <p>And once people stop trusting the data, something even more problematic happens: they start creating their own versions of it. Someone downloads a report into Excel because they don't completely trust the dashboard. Someone else creates a SQL query and saves it locally because they need a slightly different definition. Another team maintains its own dataset because the official source doesn't contain the information they need. Manual adjustments begin appearing in reporting processes. Spreadsheets become part of critical business workflows.</p>
+
+    <p>These workarounds often begin with good intentions — people are simply trying to get their jobs done. But collectively, they create shadow sources of truth. The organisation may still have an official data platform, but the real flow of information is now distributed across databases, dashboards, spreadsheets, scripts and individual knowledge. The question changes from "What does the data say?" to "Whose data should we believe?" That is a dangerous place for an organisation to be, because the ultimate value of data is not in collecting it — it's in being able to trust it enough to make decisions with it.</p>
+
+    <h2>What a single source of truth actually means</h2>
+
+    <p>This is why I believe the concept of a single source of truth is so important. And by single source of truth, I don't necessarily mean that every piece of data needs to live in one database or one technology platform. Modern organisations are too complex for that to be practical, and different systems will always have different purposes.</p>
+
+    <p>What matters is having a clear, authoritative source for important data and a shared understanding of what that data represents. There should be clarity around where a piece of information originates, who owns it, what it means, how it is transformed and where it is consumed. There should be a clear distinction between the system that owns the data and the systems that merely use a copy of it. Most importantly, there should be a traceable relationship between the information presented to a stakeholder and the underlying source from which it originated.</p>
+
+    <p>When that foundation exists, teams don't have to repeatedly recreate the same logic. Analysts don't need to maintain their own definitions of core metrics. Product and engineering can work from a shared understanding of important business entities. Finance and Operations can reconcile their processes against known sources rather than debating whose spreadsheet is correct. Leadership can look at a report with confidence that the numbers have a consistent meaning. The organisation moves from spending time establishing whether the data is trustworthy to actually using the data to understand what is happening — and that shift is incredibly important.</p>
+
+    <h2>Why this matters more in the age of AI</h2>
+
+    <p>The purpose of a mature data environment shouldn't be to produce more dashboards. It should be to create a reliable path from data to understanding, and from understanding to action. This is particularly important now, as organisations increasingly look towards analytics, automation and AI to make better decisions. All of these technologies depend on the quality, consistency and context of the underlying data. If an organisation cannot establish which data is authoritative or what that data actually means, adding another layer of technology doesn't solve the fundamental problem — it can simply make the problem faster, larger and more difficult to see.</p>
+
+    <p class="article-pull">AI doesn't remove the need for a source of truth. If anything, it makes one more important.</p>
+
+    <p>The more organisations automate decisions and generate insights from their data, the more important it becomes to understand where that data came from and whether it can be trusted. This is why I think the conversation around data needs to move beyond technology. It is easy to make the conversation about databases, warehouses, pipelines, platforms and tools — those things matter, but they are only part of the picture. The harder challenge is establishing the organisational behaviours that make data trustworthy in the first place.</p>
+
+    <p>Teams need to communicate when systems change. Business definitions need to be shared rather than assumed. Data ownership needs to be explicit. Transformations need to be understood. Quality needs to be measured. And, perhaps most importantly, people across the organisation need to understand that the data they produce today may become the foundation for someone else's decision tomorrow.</p>
+
+    <p>That creates a very different way of thinking about system design:</p>
+    <ul>
+      <li>Instead of asking only, "Does this system work?" — we start asking, "Can the data produced by this system be trusted?"</li>
+      <li>Instead of asking, "Can we get this data into the warehouse?" — we ask, "Will the meaning of this data remain intact when it gets there?"</li>
+      <li>Instead of asking, "Can we build another report?" — we ask, "Do we already have an authoritative metric for this?"</li>
+    </ul>
+
+    <p>Those questions may seem small, but they can fundamentally change how an organisation builds its technology ecosystem. Ultimately, I don't think the goal should be to have less technology or fewer systems — organisations will always need specialised platforms, applications and data stores. The goal should be to have <strong>less ambiguity</strong>. One organisation can have hundreds of systems and still maintain a coherent data environment if there is clear ownership and a trusted foundation. Another can have only a handful of systems and still struggle if every team interprets and manages data differently. The difference is culture, governance and intentionality.</p>
+
+    <h2>The real measure of data maturity</h2>
+
+    <p>For me, the real measure of data maturity is therefore not how much data an organisation has or how sophisticated its data platform looks. It is how confidently someone can ask a business question and trace the answer back to a trusted source.</p>
+
+    <div class="article-questions">
+      <p>Can we explain where this number came from?</p>
+      <p>Can we explain what it means?</p>
+      <p>Can we explain who owns it?</p>
+      <p>Can we explain how it was transformed?</p>
+      <p>Can we explain why we should trust it?</p>
+    </div>
+
+    <p>If the answer to those questions is yes, then the organisation has something much more valuable than another dashboard or another data pipeline. It has confidence. And confidence is what allows data to move from being something an organisation stores to something an organisation can actually use.</p>
+
+    <p>That, ultimately, is why finding a single source of truth matters. It isn't about forcing everything into one system, centralising every dataset, or adding another layer of technology. It is about creating a shared foundation of trusted information from which the rest of the organisation can operate.</p>
+
+    <p>Because when everyone is working from the same trusted reality, the conversation changes. We stop asking, <em>"Which number is right?"</em> We start asking, <em>"What is the data telling us?"</em> And eventually, the most important question becomes: <em>"What should we do about it?"</em></p>
+
+    <p>That is where data starts creating real value. Not when we collect it. Not when we move it. Not when we put it on a dashboard. But when people trust it enough to use it to make better decisions.</p>
+  </article>
+
+  <div class="article-tags-row">
+    <span class="post-tag">Single Source of Truth</span>
+    <span class="post-tag">Data Governance</span>
+    <span class="post-tag">Analytics Culture</span>
+  </div>
+
+  <nav class="article-nav">
+    <a href="blog.html" class="article-nav-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" transform="rotate(180 12 12)"/></svg>
+      All articles
+    </a>
+    <a href="blog.html" class="article-nav-link next">
+      Next: Designing for the Analytical Consumer
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+  <div class="newsletter-strip">
+    <div class="newsletter-card">
+      <div class="newsletter-text">
+        <h3>Stay in the loop</h3>
+        <p>New writing, occasional project updates. No noise.</p>
+      </div>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" placeholder="you@email.com" />
+        <button class="newsletter-btn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboards.html">Dashboards</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Open to new opportunities</span>
+  </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
+</body>
+</html>
