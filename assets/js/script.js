@@ -315,6 +315,52 @@ if (document.getElementById('skillList')) renderSkills('all');
   draw();
 })();
 
+/* ── Live reader counter (article pages) ──────────────────────────── */
+(function () {
+  const el = document.getElementById('articleViewCount');
+  if (!el) return;
+
+  // One namespace for the whole site, one key per article (set via
+  // data-article-key on <body>). Swap NAMESPACE for your own domain
+  // if you want the counters isolated to your site only.
+  const API = 'https://abacus.jasoncameron.dev';
+  const NAMESPACE = 'vishwavijaysheel-portfolio';
+  const KEY = document.body.dataset.articleKey;
+  if (!KEY) return;
+
+  const SESSION_FLAG = 'counted:' + KEY;
+
+  function render(n) {
+    if (typeof n !== 'number' || Number.isNaN(n)) return;
+    el.textContent = n.toLocaleString();
+  }
+
+  // Only increment once per browser session per article; repeat views
+  // in the same session just re-fetch the current value.
+  const alreadyCounted = sessionStorage.getItem(SESSION_FLAG);
+  const initialEndpoint = alreadyCounted
+    ? `${API}/get/${NAMESPACE}/${KEY}`
+    : `${API}/hit/${NAMESPACE}/${KEY}`;
+
+  fetch(initialEndpoint)
+    .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then(data => {
+      render(data.value);
+      if (!alreadyCounted) sessionStorage.setItem(SESSION_FLAG, '1');
+
+      // Stay live: subscribe to updates so the number moves in real
+      // time as other people land on the page, without a refresh.
+      try {
+        const stream = new EventSource(`${API}/stream/${NAMESPACE}/${KEY}`);
+        stream.onmessage = (e) => {
+          try { render(JSON.parse(e.data).value); } catch (_) { /* ignore malformed frame */ }
+        };
+        stream.onerror = () => stream.close();
+      } catch (_) { /* SSE unsupported — static count above still stands */ }
+    })
+    .catch(() => { el.textContent = '—'; });
+})();
+
 /* ── Newsletter form (no backend — friendly inline confirmation) ─────── */
 (function () {
   const btn = document.querySelector('.newsletter-btn');
