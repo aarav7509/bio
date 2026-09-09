@@ -370,7 +370,7 @@ if (document.getElementById('skillList')) renderSkills('all');
   const DEFAULT_HINT = "We'll email you when something new goes up — nothing else.";
 
   // Your deployed Worker's URL (see newsletter-worker/worker.js).
-  const SUBSCRIBE_ENDPOINT = 'https://newsletter-subscribe.YOUR-SUBDOMAIN.workers.dev/subscribe';
+  const SUBSCRIBE_ENDPOINT = 'https://newsletter-subscribe.aarav7509.workers.dev/subscribe';
 
   document.querySelectorAll('.newsletter-form').forEach((form) => {
     const input = form.querySelector('.newsletter-input');

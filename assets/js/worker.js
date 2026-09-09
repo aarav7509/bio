@@ -12,7 +12,7 @@
 
 const ALLOWED_ORIGIN = 'https://vishwavijaysheel.bio';          // ← your real site origin
 const FROM_EMAIL = 'hello@vishwavijaysheel.bio'; // ← address on a domain verified in Resend
-const WORKER_BASE_URL = 'https://newsletter-subscribe.vishwavijaysheel.bio'; // ← fill in after first deploy
+const WORKER_BASE_URL = 'https://newsletter-subscribe.aarav7509.workers.dev'; // ← your live worker URL
 
 // Update this each time you publish a new post — new subscribers get
 // emailed whatever is set here the moment they sign up.
