@@ -361,17 +361,100 @@ if (document.getElementById('skillList')) renderSkills('all');
     .catch(() => { el.textContent = '—'; });
 })();
 
-/* ── Newsletter form (no backend — friendly inline confirmation) ─────── */
+/* ── Newsletter form ───────────────────────────────────────────────
+   Fully custom: live hint text as you type, then a real POST to our
+   own Worker (see newsletter-worker/), which sends a custom email
+   the moment someone subscribes. No third-party form or widget. ──── */
 (function () {
-  const btn = document.querySelector('.newsletter-btn');
-  if (!btn) return;
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const input = document.querySelector('.newsletter-input');
-    if (input && input.value.trim()) {
-      btn.textContent = 'Subscribed ✓';
-      input.value = '';
-      setTimeout(() => { btn.textContent = 'Subscribe'; }, 2400);
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const DEFAULT_HINT = "We'll email you when something new goes up — nothing else.";
+
+  // Your deployed Worker's URL (see newsletter-worker/worker.js).
+  const SUBSCRIBE_ENDPOINT = 'https://newsletter-subscribe.YOUR-SUBDOMAIN.workers.dev/subscribe';
+
+  document.querySelectorAll('.newsletter-form').forEach((form) => {
+    const input = form.querySelector('.newsletter-input');
+    const btn = form.querySelector('.newsletter-btn');
+    const hint = form.querySelector('.newsletter-hint');
+    if (!input || !btn || !hint) return;
+
+    let touched = false;
+
+    function setHint(text, state) {
+      hint.textContent = text;
+      hint.classList.remove('valid', 'invalid', 'sent');
+      if (state) hint.classList.add(state);
     }
+
+    function validate() {
+      const value = input.value.trim();
+      if (!value) {
+        input.classList.remove('invalid');
+        setHint(DEFAULT_HINT, null);
+        return null;
+      }
+      const isValid = EMAIL_RE.test(value);
+      input.classList.toggle('invalid', touched && !isValid);
+      if (isValid) {
+        setHint('Looks good — one click and you\'re in.', 'valid');
+      } else if (touched) {
+        setHint('That doesn\'t look like a full email address yet.', 'invalid');
+      } else {
+        setHint(DEFAULT_HINT, null);
+      }
+      return isValid;
+    }
+
+    input.addEventListener('input', validate);
+    input.addEventListener('blur', () => { touched = true; validate(); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      touched = true;
+      const isValid = validate();
+      const email = input.value.trim();
+
+      if (!isValid) {
+        input.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      setHint('Sending you something…', null);
+
+      fetch(SUBSCRIBE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+        .then(r => r.json().catch(() => ({})).then(data => ({ ok: r.ok, data })))
+        .then(({ ok, data }) => {
+          if (ok && (data.status === 'subscribed' || data.status === 'already_subscribed')) {
+            btn.textContent = 'Subscribed ✓';
+            input.value = '';
+            touched = false;
+            setHint('Check your inbox — just sent you something.', 'sent');
+          } else {
+            btn.disabled = false;
+            btn.textContent = 'Subscribe';
+            setHint(data.error || 'Something went wrong — try again.', 'invalid');
+          }
+        })
+        .catch(() => {
+          btn.disabled = false;
+          btn.textContent = 'Subscribe';
+          setHint('Network error — try again.', 'invalid');
+        })
+        .finally(() => {
+          setTimeout(() => {
+            if (btn.textContent === 'Subscribed ✓') {
+              btn.disabled = false;
+              btn.textContent = 'Subscribe';
+              setHint(DEFAULT_HINT, null);
+            }
+          }, 4000);
+        });
+    });
   });
 })();
