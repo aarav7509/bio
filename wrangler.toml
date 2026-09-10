@@ -1,9 +1,0 @@
-name = "newsletter-subscribe"
-main = "worker.js"
-compatibility_date = "2026-01-01"
-
-# Created by `wrangler kv namespace create SUBSCRIBERS` — paste the id it prints below.
-kv_namespaces = [
-  { binding = "SUBSCRIBERS", id = "48426d6270c74fbb9e907624a81b9092" }
-]
-
