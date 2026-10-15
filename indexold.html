@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vishwa Vijaysheel — Data & Analytics</title>
+<meta name="description" content="Data analyst turning messy data into clear decisions — Power BI, Microsoft Fabric, SQL, and data storytelling." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <!--<li><a href="dashboards.html">Projects</a></li>-->
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
+        <label class="switch">
+          <input type="checkbox" class="theme-checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-top">
+      <span>BRISBANE, QLD</span>
+      <span class="mono">v2026.09</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+          <span class="terminal-title">session — vishwa@analytics</span>
+        </div>
+        <div class="terminal-body" id="terminalBody"></div>
+      </div>
+
+      <div class="hero-copy">
+        <h2 class="hero-h">Turning messy data into clear decisions.</h2>
+
+        <div class="hero-role-row">
+          <span>I'm a</span>
+          <div class="hero-role-slot">
+            <span class="hero-role active">Data Analyst</span>
+            <span class="hero-role">Storyteller</span>
+            <span class="hero-role">Problem Solver</span>
+            <span class="hero-role">Systems Thinker</span>
+          </div>
+        </div>
+
+        <p class="hero-bio">
+          Strategic and methodical analyst with over five years of experience in
+          <strong>data modelling, visualisation, and database management</strong>.
+          I build systems that bridge technical performance with business value —
+          not just dashboards, but decisions people can act on.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="assets/Vishwa_Vijaysheel_Resume.pdf" class="hero-btn-primary">Download résumé</a>
+          <a href="mailto:vishwa7509@outlook.com" class="hero-btn-secondary">Get in touch</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-val">5<span>+</span></div><div class="hero-stat-lbl">years exp.</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">3</div><div class="hero-stat-lbl">industries</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">15<span>+</span></div><div class="hero-stat-lbl">tools</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">∞</div><div class="hero-stat-lbl">curiosity</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="section-head">
+      <div>
+        <p class="section-label">technical expertise</p>
+        <h2 class="section-title">What I work with</h2>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn skill-tab active" data-cat="all">All</button>
+      <button class="tab-btn skill-tab" data-cat="lang">Languages</button>
+      <button class="tab-btn skill-tab" data-cat="viz">Visualisation</button>
+      <button class="tab-btn skill-tab" data-cat="platform">Platforms</button>
+      <button class="tab-btn skill-tab" data-cat="method">Methods</button>
+    </div>
+
+    <div class="skill-list" id="skillList"></div>
+    <p class="skill-note">Select a category to filter · proficiency is self-assessed</p>
+  </section>
+
+  <section class="section" id="history">
+    <div class="section-head">
+      <div>
+        <p class="section-label">background</p>
+        <h2 class="section-title">Where I've been</h2>
+      </div>
+      <div class="tabs" style="border-bottom:none;">
+        <button class="tab-btn history-toggle-btn active" data-panel="experience">Experience</button>
+        <button class="tab-btn history-toggle-btn" data-panel="education">Education</button>
+      </div>
+    </div>
+
+    <div class="history-panel active" id="panel-experience">
+      <div class="timeline">
+
+           <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2026</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Strategic Solutions Architect</h3><span class="timeline-company">Brisbane City Council</span></div>
+            <ul>
+              <li>Translated requirements from technical and non-technical stakeholders into a project plan, leveraging legacy SAP ECC data.</li>
+              <li>Analyzed data in the Insights platform using SSMS and T-SQL to map the existing data model; wrote and maintained SQL queries to extract and validate data for automated solutions.</li>
+              <li>Built semantic models from Azure Synapse data to power a Power BI dashboard automating Value Driven Tree creation across branches, saving 96+ hours/week, cutting report turnaround by 45%, and enabling same-day metric visibility for stakeholders.</li>
+              <li>Built a Power Apps solution from scratch to capture executive performance, with a multi-structure metrics data model in SharePoint and Excel.</li>
+            </ul>
+            <div class="timeline-tags"><span>Microsoft Fabric</span><span>Power BI</span><span>SQL Server Management System</span></div>
+          </div>
+        </div>
+
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2026</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Analytics Consultant</h3><span class="timeline-company">Guidant Global</span></div>
+            <ul>
+              <li>Designed and maintained Microsoft Fabric data pipelines to ingest, transform, and validate workforce and vendor data from multiple source systems, replacing manual consolidation workflows and applying data quality checkpoints throughout.</li>
+              <li>Defined data mapping logic and transformation rules for semantic models powering a Power BI transparency dashboard, ensuring consistent, governed reporting for clients and vendors.</li>
+              <li>Developed Python scripts to prepare and transform datasets for strategic workforce planning decisions, documenting data flows and transformation specifications for business stakeholders.</li>
+              <li>Engaged with business stakeholders to gather reporting requirements and translate them into Power BI dashboard designs, facilitating iterative feedback cycles to validate solution accuracy.</li>
+              <li>Automated daily business processes using Power Apps dataflows and designed timesheet automation solutions, reducing manual effort and improving data freshness and operational efficiency.</li>
+              <li>Conducted market research analysis of vendor pay rates across multiple roles by building an AI agent using Microsoft Copilot that automated data retrieval from a manually curated database, improving process efficiency by 73% compared to manual data scraping.</li>
+            </ul>
+            <div class="timeline-tags"><span>Microsoft Fabric</span><span>Power BI</span><span>Data Pipelines</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2025</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Business Systems Analyst</h3><span class="timeline-company">Multicap Limited</span></div>
+            <ul>
+              <li>Led data migration activities from UKG into a centralised Microsoft Fabric Lakehouse, defining ETL mapping specifications, data cleansing rules, and transformation logic for payroll, rostering, and people services data.</li>
+              <li>Documented integration specifications and data mapping artefacts to support cross-system data flows, enabling consistent and auditable reporting for business stakeholders.</li>
+              <li>Conducted system integration testing within UAT environments and coordinated the implementation of validated configurations into production, ensuring compliant and high-quality data outcomes.</li>
+              <li>Implemented data governance practices including validation checkpoints, configuration risk assessments, and quality controls to ensure data accuracy and process compliance.</li>
+              <li>Managed ad-hoc analysis tasks through JIRA, providing prescriptive reports and system configuration recommendations to resolve rostering and payroll issues.</li>
+            </ul>
+            <div class="timeline-tags"><span>Automation</span><span>Data Modelling</span><span>Power BI</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2024</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Data Analyst</h3><span class="timeline-company">Target Distribution Centre</span></div>
+            <ul>
+              <li>Developed detailed financial and KPI reporting using Advanced Excel dashboards with variance analysis, translating operational data into actionable insights for senior management decision-making.</li>
+              <li>Contributed to the planning and migration of KPI reporting to SharePoint, performing migration validation and testing that resulted in a 22% reduction in reporting time.</li>
+              <li>Documented data reconciliation processes for payroll data using Excel and UKG, standardising procedures for casual and permanent employee financial data reconciliation.</li>
+              <li>Analysed rostering discrepancies and produced prescriptive reports to improve payroll processes, identifying data quality issues and recommending corrective actions.</li>
+            </ul>
+            <div class="timeline-tags"><span>Excel</span><span>SharePoint</span><span>SAP Ariba</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2023</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Junior Data Analyst</h3><span class="timeline-company">Target Green</span></div>
+            <ul>
+              <li>Collaborated with cross-functional teams to identify data sources, streamline data collection processes, and resolve data quality inconsistencies, achieving a 21% improvement in data accuracy and a 26% reduction in KPI report development time.</li>
+              <li>Conducted data quality assessments and audits using Dataforce Runabout, identifying and resolving input inconsistencies to support reliable analytical reporting.</li>
+            </ul>
+            <div class="timeline-tags"><span>Dataforce Runabout</span><span>SharePoint</span><span>Tableau</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2020</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Consultant – Data &amp; Reporting</h3><span class="timeline-company">Reverberate Media</span></div>
+            <ul>
+              <li>Developed performance and benchmarking reports using Power BI and SQL, translating complex data into clear recommendations for non-technical stakeholders.</li>
+              <li>Analysed social media data via Twitter API and R Studio to support content strategy decisions, driving measurable improvements in engagement and customer acquisition.</li>
+            </ul>
+            <div class="timeline-tags"><span>Power BI</span><span>SQL</span><span>R</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2017</span><div class="marker-line last"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Data Analyst</h3><span class="timeline-company">Environmental Management Centre Pvt. Ltd.</span></div>
+            <ul>
+              <li>Engineered an R-Shiny analytics platform integrating real-time data from 800+ air quality stations, reducing data analysis time by 60% and improving data accuracy by 85%.</li>
+              <li>Developed a web application with automated credit estimation using Linear Regression, and prepared standardised water quality data visualisations for a national pollution control board using Tableau.</li>
+              <li>Conducted exploratory analysis and time series modelling using R Studio for energy generation prediction, supporting proof-of-concept planning with stakeholders.</li>
+            </ul>
+            <div class="timeline-tags"><span>R Shiny</span><span>Tableau</span><span>Excel</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="history-panel" id="panel-education">
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2022</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Master of Data Science</h3><span class="timeline-company">University of South Australia</span></div>
+            <p>Specialised in machine learning, statistical modelling, and large-scale data engineering. Graduated with Distinction.</p>
+            <div class="timeline-tags"><span>Machine Learning</span><span>Python</span><span>Statistics</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2017</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Post-Graduate Certificate, Big Data & Analytics</h3><span class="timeline-company">S.P. Jain School of Global Management</span></div>
+            <p>Built a strong foundation in big data analytics, statistical analysis, machine learning, and intelligent decision-making.</p>
+            <div class="timeline-tags"><span>Machine Learning</span><span>Python</span><span>Statistics</span></div>
+          </div>
+        </div>
+
+         <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2017</span><div class="marker-line"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Cyber Law</h3><span class="timeline-company">Asian School of Cyber Law</span></div>
+            <p>Focused on cyber law, data privacy, digital forensics, cybercrime, and technology governance.</p>
+            <div class="timeline-tags"><span>Machine Learning</span><span>Python</span><span>Statistics</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"><span class="marker-num mono">2016</span><div class="marker-line last"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-header"><h3>Bachelor of Technology (Computer Science)</h3><span class="timeline-company">Amity University</span></div>
+            <p>Gained a comprehensive foundation in software engineering, computer systems, programming, algorithms, and computational problem-solving.</p>
+            <div class="timeline-tags"><span>Data Structures</span><span>R</span><span>Programming and Algorithms</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+       <!--<li><a href="dashboards.html">Dashboards</a></li>-->
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Available for freelance engagements</span>
+  </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
+</body>
+</html>

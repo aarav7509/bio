@@ -173,306 +173,65 @@ const SKILLS = [
 const SKILL_CATEGORY_LABELS = { lang: 'Languages', viz: 'Visualisation', platform: 'Platforms', method: 'Methods' };
 const SKILL_CATEGORY_ORDER = ['lang', 'viz', 'platform', 'method'];
 
-function injectSkillDonutStyles() {
-  if (document.getElementById('skillDonutStyles')) return;
-  const style = document.createElement('style');
-  style.id = 'skillDonutStyles';
-  style.textContent = `
-    .skill-donut { display:flex; flex-direction:column; align-items:center; gap:1.5rem; padding:1rem 0 0.5rem; }
-    .skill-donut-chart { position:relative; width:100%; max-width:440px; }
-    .skill-donut-svg { width:100%; height:auto; overflow:visible; }
+/* Interactive skills: pick a category, then hover / focus / tap a skill to reveal its level */
+function renderSkills() {
+  const root = document.getElementById('skillList');
+  if (!root) return;
 
-    .skill-donut-cat-group { cursor:pointer; outline:none; }
-
-    .skill-donut-cat-arc {
-      opacity:0;
-      transform:scale(0.001);
-      transform-box:fill-box;
-      transform-origin:center;
-      transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .45s ease, filter .2s ease;
-      stroke:var(--bg, #fff);
-      stroke-width:1.5;
-    }
-    .skill-donut-cat-arc.visible { opacity:0.92; transform:scale(1); }
-    .skill-donut-cat-group:hover .skill-donut-cat-arc.visible,
-    .skill-donut-cat-group.active .skill-donut-cat-arc.visible,
-    .skill-donut-cat-group:focus-visible .skill-donut-cat-arc.visible { opacity:1; filter:brightness(1.1); }
-
-    .skill-donut-skill-arc {
-      opacity:0;
-      transform:scale(0.001);
-      transform-box:fill-box;
-      transform-origin:center;
-      transition:transform .4s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
-      transition-delay:0s;
-      pointer-events:none;
-      stroke:var(--bg, #fff);
-      stroke-width:1;
-    }
-    .skill-donut-cat-group.active .skill-donut-skill-arc,
-    .skill-donut-cat-group:focus-visible .skill-donut-skill-arc {
-      opacity:1;
-      transform:scale(1);
-      pointer-events:auto;
-      transition-delay:calc(var(--i, 0) * 35ms);
-    }
-    .skill-donut-skill-arc:hover { filter:brightness(1.15); }
-
-    .skill-donut-cat-lang { fill:rgb(180,127,0); }
-    .skill-donut-cat-viz { fill:rgb(70,132,142); }
-    .skill-donut-cat-platform { fill:rgb(150,88,150); }
-    .skill-donut-cat-method { fill:rgb(92,140,92); }
-    body.dark .skill-donut-cat-lang { fill:rgb(255,196,0); }
-    body.dark .skill-donut-cat-viz { fill:rgb(110,205,218); }
-    body.dark .skill-donut-cat-platform { fill:rgb(214,150,214); }
-    body.dark .skill-donut-cat-method { fill:rgb(150,212,150); }
-
-    .skill-donut-skill-lang { fill:rgba(180,127,0,0.55); }
-    .skill-donut-skill-viz { fill:rgba(70,132,142,0.55); }
-    .skill-donut-skill-platform { fill:rgba(150,88,150,0.55); }
-    .skill-donut-skill-method { fill:rgba(92,140,92,0.55); }
-    body.dark .skill-donut-skill-lang { fill:rgba(255,196,0,0.55); }
-    body.dark .skill-donut-skill-viz { fill:rgba(110,205,218,0.55); }
-    body.dark .skill-donut-skill-platform { fill:rgba(214,150,214,0.55); }
-    body.dark .skill-donut-skill-method { fill:rgba(150,212,150,0.55); }
-
-    .skill-donut-cat-label {
-      font-family:'JetBrains Mono', ui-monospace, monospace;
-      font-size:10.5px;
-      font-weight:600;
-      fill:currentColor;
-      opacity:0.75;
-    }
-    .skill-donut-cat-label-sub {
-      font-family:'JetBrains Mono', ui-monospace, monospace;
-      font-size:9px;
-      fill:currentColor;
-      opacity:0.5;
-    }
-
-    .skill-donut-center {
-      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      pointer-events:none; text-align:center; width:38%;
-    }
-    .skill-donut-center-value {
-      font-family:'JetBrains Mono', ui-monospace, monospace;
-      font-size:2rem; font-weight:700; line-height:1;
-      transition:opacity .15s ease;
-    }
-    .skill-donut-center-label {
-      font-family:'JetBrains Mono', ui-monospace, monospace;
-      font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase;
-      opacity:0.6; margin-top:0.35rem;
-      transition:opacity .15s ease;
-    }
-
-    .skill-donut-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:0.75rem 1.5rem; }
-    .skill-donut-legend-item {
-      display:flex; align-items:center; gap:0.4rem;
-      font-size:0.8rem; opacity:0; cursor:pointer;
-      transform:translateY(6px);
-      transition:opacity .4s ease, transform .4s ease;
-    }
-    .skill-donut-legend-item.visible { opacity:1; transform:translateY(0); }
-    .skill-donut-legend-item.active { opacity:1; font-weight:600; }
-    .skill-donut-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
-    .skill-donut-dot-lang { background:rgb(180,127,0); }
-    .skill-donut-dot-viz { background:rgb(70,132,142); }
-    .skill-donut-dot-platform { background:rgb(150,88,150); }
-    .skill-donut-dot-method { background:rgb(92,140,92); }
-    body.dark .skill-donut-dot-lang { background:rgb(255,196,0); }
-    body.dark .skill-donut-dot-viz { background:rgb(110,205,218); }
-    body.dark .skill-donut-dot-platform { background:rgb(214,150,214); }
-    body.dark .skill-donut-dot-method { background:rgb(150,212,150); }
-  `;
-  document.head.appendChild(style);
-}
-
-function renderSkillDonut(list) {
-  injectSkillDonutStyles();
-
-  // SKILLS is already grouped by category (lang → viz → platform → method).
-  // Inner ring = the 4 categories. Outer ring = each skill's own arc, hidden
-  // by default and "exploding" outward — radial length mapped to its % —
-  // whenever its category is hovered/focused.
-  const size = 480;
-  const cx = size / 2;
-  const cy = size / 2;
-  const rInner = 66;
-  const rOuter = 126;   // outer edge of the category ring
-  const baseExtra = 6;  // minimum skill-arc extension so nothing reads as 0
-  const maxExtra = 74;  // additional radius at 100%
-  const labelR = rOuter + baseExtra + maxExtra + 22;
-
-  const catGap = 0.05;   // radian gap between category arcs
-  const skillGap = 0.018; // radian gap between skill arcs within a category
-
-  const overallAvg = Math.round(SKILLS.reduce((sum, s) => sum + s.pct, 0) / SKILLS.length);
-
-  function polar(r, angle) {
-    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
-  }
-
-  function sectorPath(rIn, rOut, startAngle, endAngle) {
-    const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0;
-    const p1 = polar(rOut, startAngle);
-    const p2 = polar(rOut, endAngle);
-    const p3 = polar(rIn, endAngle);
-    const p4 = polar(rIn, startAngle);
-    return [
-      `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)}`,
-      `A ${rOut} ${rOut} 0 ${largeArc} 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`,
-      `L ${p3.x.toFixed(2)} ${p3.y.toFixed(2)}`,
-      `A ${rIn} ${rIn} 0 ${largeArc} 0 ${p4.x.toFixed(2)} ${p4.y.toFixed(2)}`,
-      'Z'
-    ].join(' ');
-  }
-
-  let cursor = -Math.PI / 2;
-  const catGroups = SKILL_CATEGORY_ORDER.map(cat => {
-    const catSkills = SKILLS.filter(s => s.cat === cat);
-    const span = (catSkills.length / SKILLS.length) * (2 * Math.PI);
-    const catStart = cursor + catGap / 2;
-    const catEnd = cursor + span - catGap / 2;
-    cursor += span;
-
-    const catAvg = Math.round(catSkills.reduce((sum, s) => sum + s.pct, 0) / catSkills.length);
-    const catArcPath = sectorPath(rInner, rOuter, catStart, catEnd);
-
-    const skillSpan = (catEnd - catStart) / catSkills.length;
-    const skillArcs = catSkills.map((s, i) => {
-      const sStart = catStart + i * skillSpan + skillGap / 2;
-      const sEnd = catStart + (i + 1) * skillSpan - skillGap / 2;
-      const extra = baseExtra + (s.pct / 100) * maxExtra;
-      const path = sectorPath(rOuter, rOuter + extra, sStart, sEnd);
-      return `<path class="skill-donut-skill-arc skill-donut-skill-${cat}" style="--i:${i}" d="${path}"><title>${s.name} — ${s.pct}%</title></path>`;
-    }).join('');
-
-    const mid = (catStart + catEnd) / 2;
-    const lp = polar(labelR, mid);
-    const cosMid = Math.cos(mid);
-    const anchor = cosMid > 0.2 ? 'start' : cosMid < -0.2 ? 'end' : 'middle';
-    const label = `
-      <text class="skill-donut-cat-label" x="${lp.x.toFixed(2)}" y="${(lp.y - 5).toFixed(2)}" text-anchor="${anchor}" dominant-baseline="middle">${SKILL_CATEGORY_LABELS[cat]}</text>
-      <text class="skill-donut-cat-label-sub" x="${lp.x.toFixed(2)}" y="${(lp.y + 9).toFixed(2)}" text-anchor="${anchor}" dominant-baseline="middle">avg ${catAvg}%</text>
-    `;
-
-    return `
-      <g class="skill-donut-cat-group" data-cat="${cat}" data-avg="${catAvg}" tabindex="0" aria-label="${SKILL_CATEGORY_LABELS[cat]}, average ${catAvg} percent">
-        <path class="skill-donut-cat-arc skill-donut-cat-${cat}" d="${catArcPath}"><title>${SKILL_CATEGORY_LABELS[cat]} — avg ${catAvg}%</title></path>
-        ${skillArcs}
-        ${label}
-      </g>
-    `;
-  }).join('');
-
-  list.innerHTML = `
-    <div class="skill-donut">
-      <div class="skill-donut-chart">
-        <svg class="skill-donut-svg" viewBox="0 0 ${size} ${size}">
-          ${catGroups}
-        </svg>
-        <div class="skill-donut-center">
-          <span class="skill-donut-center-value">${overallAvg}%</span>
-          <span class="skill-donut-center-label">Overall avg</span>
-        </div>
-      </div>
-      <div class="skill-donut-legend">
-        ${SKILL_CATEGORY_ORDER.map(key => `
-          <span class="skill-donut-legend-item" data-cat="${key}">
-            <span class="skill-donut-dot skill-donut-dot-${key}"></span>
-            <span>${SKILL_CATEGORY_LABELS[key]}</span>
-          </span>
-        `).join('')}
-      </div>
+  root.innerHTML = `
+    <div class="skills-cats" role="tablist" aria-label="Skill categories">
+      ${SKILL_CATEGORY_ORDER.map(cat => `
+        <button type="button" class="skills-cat" role="tab" aria-selected="false" data-cat="${cat}">
+          <span class="skills-cat-name">${SKILL_CATEGORY_LABELS[cat]}</span>
+          <span class="skills-cat-count mono">${String(SKILLS.filter(s => s.cat === cat).length).padStart(2, '0')}</span>
+        </button>`).join('')}
     </div>
-  `;
+    <div class="skills-stage" role="tabpanel" aria-live="polite">
+      <p class="skills-hint mono"><span class="skills-hint-arrow"></span> select a category</p>
+    </div>`;
 
-  const centerValue = list.querySelector('.skill-donut-center-value');
-  const centerLabel = list.querySelector('.skill-donut-center-label');
-  const groups = list.querySelectorAll('.skill-donut-cat-group');
-  const legendItems = list.querySelectorAll('.skill-donut-legend-item');
+  const cats = root.querySelectorAll('.skills-cat');
+  const stage = root.querySelector('.skills-stage');
 
-  function activate(cat) {
-    groups.forEach(g => g.classList.toggle('active', g.dataset.cat === cat));
-    legendItems.forEach(li => li.classList.toggle('active', li.dataset.cat === cat));
-    const g = list.querySelector(`.skill-donut-cat-group[data-cat="${cat}"]`);
-    if (centerValue && g) {
-      centerValue.textContent = g.dataset.avg + '%';
-      centerLabel.textContent = SKILL_CATEGORY_LABELS[cat];
-    }
-  }
-
-  function reset() {
-    groups.forEach(g => g.classList.remove('active'));
-    legendItems.forEach(li => li.classList.remove('active'));
-    if (centerValue) {
-      centerValue.textContent = overallAvg + '%';
-      centerLabel.textContent = 'Overall avg';
-    }
-  }
-
-  groups.forEach(g => {
-    g.addEventListener('mouseenter', () => activate(g.dataset.cat));
-    g.addEventListener('mouseleave', reset);
-    g.addEventListener('focus', () => activate(g.dataset.cat));
-    g.addEventListener('blur', reset);
-  });
-  legendItems.forEach(li => {
-    li.addEventListener('mouseenter', () => activate(li.dataset.cat));
-    li.addEventListener('mouseleave', reset);
-    li.addEventListener('click', () => activate(li.dataset.cat));
-  });
-
-  requestAnimationFrame(() => {
-    list.querySelectorAll('.skill-donut-cat-arc').forEach((arc, i) => {
-      setTimeout(() => arc.classList.add('visible'), 100 + i * 90);
+  function show(cat) {
+    cats.forEach(c => {
+      const on = c.dataset.cat === cat;
+      c.classList.toggle('active', on);
+      c.setAttribute('aria-selected', on ? 'true' : 'false');
     });
-    legendItems.forEach((item, i) => {
-      setTimeout(() => item.classList.add('visible'), 150 + i * 70);
+    const items = SKILLS.filter(s => s.cat === cat);
+    const avg = Math.round(items.reduce((n, s) => n + s.pct, 0) / items.length);
+    stage.innerHTML = `
+      <div class="skills-chips">
+        ${items.map((s, i) => `
+          <button type="button" class="skill-chip" style="--pct:${s.pct}%; --i:${i}" aria-pressed="false">
+            <span class="skill-chip-fill"></span>
+            <span class="skill-chip-name">${s.name}</span>
+            <span class="skill-chip-pct mono">${s.pct}%</span>
+          </button>`).join('')}
+      </div>
+      <p class="skills-avg mono">avg ${avg}% across ${items.length} skills</p>`;
+    stage.querySelectorAll('.skill-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const on = !chip.classList.contains('on');
+        chip.classList.toggle('on', on);
+        chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    });
+  }
+
+  cats.forEach((c, i) => {
+    c.addEventListener('click', () => show(c.dataset.cat));
+    c.addEventListener('keydown', e => {
+      const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      const n = cats[(i + d + cats.length) % cats.length];
+      n.focus(); show(n.dataset.cat);
     });
   });
 }
-
-function renderSkillBars(list, filtered) {
-  list.innerHTML = filtered.map(s => `
-    <div class="skill-row">
-      <span class="skill-name">${s.name}</span>
-      <div class="skill-track"><div class="skill-fill" data-pct="${s.pct}"></div></div>
-      <span class="skill-pct mono">${s.pct}%</span>
-    </div>
-  `).join('');
-  requestAnimationFrame(() => {
-    list.querySelectorAll('.skill-row').forEach((row, i) => {
-      setTimeout(() => {
-        row.classList.add('visible');
-        const fill = row.querySelector('.skill-fill');
-        if (fill) fill.style.width = fill.dataset.pct + '%';
-      }, i * 40);
-    });
-  });
-}
-
-function renderSkills(cat) {
-  const list = document.getElementById('skillList');
-  if (!list) return;
-  if (cat === 'all') {
-    renderSkillDonut(list);
-    return;
-  }
-  const filtered = SKILLS.filter(s => s.cat === cat);
-  renderSkillBars(list, filtered);
-}
-
-document.querySelectorAll('.skill-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.skill-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderSkills(btn.dataset.cat);
-  });
-});
-if (document.getElementById('skillList')) renderSkills('all');
+renderSkills();
 
 /* ── History toggle (Experience / Education) ─────────────────────── */
 (function () {
@@ -729,5 +488,108 @@ if (document.getElementById('skillList')) renderSkills('all');
           }, 4000);
         });
     });
+  });
+})();
+
+
+/* ── Horizontal timeline: built from the existing .timeline markup ─── */
+(function () {
+  const panels = document.querySelectorAll('.history-panel');
+  if (!panels.length) return;
+
+  const ARROW_L = '<svg viewBox="0 0 12 12"><path d="M7.5 2 3.5 6l4 4"/></svg>';
+  const ARROW_R = '<svg viewBox="0 0 12 12"><path d="M4.5 2l4 4-4 4"/></svg>';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  panels.forEach((panel, p) => {
+    const source = panel.querySelector('.timeline');
+    if (!source) return;
+    const entries = [...source.querySelectorAll('.timeline-item')].map(item => ({
+      year: (item.querySelector('.marker-num') || {}).textContent || '',
+      title: (item.querySelector('.timeline-header h3') || {}).textContent || '',
+      company: (item.querySelector('.timeline-company') || {}).textContent || '',
+      content: item.querySelector('.timeline-content')
+    })).filter(e => e.content);
+    if (!entries.length) return;
+
+    const root = document.createElement('div');
+    root.className = 'htl';
+    root.innerHTML = `
+      <div class="htl-rail" role="tablist" aria-label="Timeline"></div>
+      <div class="htl-detail" role="tabpanel" aria-live="polite">
+        <div class="htl-bar">
+          <button type="button" class="htl-arrow" data-dir="-1" aria-label="Previous role">${ARROW_L}</button>
+          <button type="button" class="htl-arrow" data-dir="1" aria-label="Next role">${ARROW_R}</button>
+          <span class="htl-count"></span>
+        </div>
+        <div class="htl-body"></div>
+      </div>`;
+    const rail = root.querySelector('.htl-rail');
+    const body = root.querySelector('.htl-body');
+    const count = root.querySelector('.htl-count');
+    const prev = root.querySelector('[data-dir="-1"]');
+    const next = root.querySelector('[data-dir="1"]');
+
+    const nodes = entries.map((e, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'htl-node';
+      b.setAttribute('role', 'tab');
+      b.id = `htl-${p}-${i}`;
+      ['htl-dot', 'htl-year', 'htl-title', 'htl-co'].forEach((cls, k) => {
+        const s = document.createElement('span');
+        s.className = cls;
+        if (k) s.textContent = [null, e.year, e.title, e.company][k];
+        if (!k) s.setAttribute('aria-hidden', 'true');
+        b.appendChild(s);
+      });
+      b.addEventListener('click', () => select(i, true));
+      rail.appendChild(b);
+      return b;
+    });
+
+    let current = -1;
+    function select(i, scroll) {
+      if (i < 0 || i >= entries.length || i === current) return;
+      current = i;
+      nodes.forEach((n, k) => {
+        n.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        n.tabIndex = k === i ? 0 : -1;
+      });
+      const clone = entries[i].content.cloneNode(true);
+      clone.querySelectorAll('li').forEach((li, k) => li.style.setProperty('--i', k));
+      body.replaceChildren(clone);                    // new nodes → animations replay
+      root.querySelector('.htl-detail').setAttribute('aria-labelledby', nodes[i].id);
+      count.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(entries.length).padStart(2, '0');
+      prev.disabled = i === 0;
+      next.disabled = i === entries.length - 1;
+      requestAnimationFrame(notch);
+      if (scroll) {
+        const n = nodes[i];
+        rail.scrollTo({ left: n.offsetLeft - (rail.clientWidth - n.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    }
+
+    const detailEl = root.querySelector('.htl-detail');
+    function notch() {
+      const n = nodes[current]; if (!n) return;
+      const r = n.firstChild.getBoundingClientRect(), d = detailEl.getBoundingClientRect();
+      detailEl.style.setProperty('--notch', (r.left + r.width / 2 - d.left) + 'px');
+    }
+    window.addEventListener('resize', notch);
+    prev.addEventListener('click', () => select(current - 1, true));
+    next.addEventListener('click', () => select(current + 1, true));
+    rail.addEventListener('keydown', (e) => {
+      const map = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: entries.length - 1 };
+      if (!(e.key in map)) return;
+      e.preventDefault();
+      const t = Math.max(0, Math.min(entries.length - 1, map[e.key]));
+      select(t, true);
+      nodes[t].focus();
+    });
+
+    source.parentNode.insertBefore(root, source);
+    panel.classList.add('has-htl');
+    select(0, false);
   });
 })();
