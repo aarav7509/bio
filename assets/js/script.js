@@ -7,8 +7,7 @@
   function syncToggles(dark) {
     document.querySelectorAll('.theme-checkbox').forEach(cb => { cb.checked = dark; });
   }
-  const saved = localStorage.getItem('theme');
-  const dark = saved === 'dark';
+  const dark = localStorage.getItem('theme') === 'dark';
   if (dark) document.body.classList.add('dark');
   syncToggles(dark);
   document.addEventListener('change', (e) => {
@@ -21,81 +20,53 @@
   });
 })();
 
-
-
+/* ── Nav: active link, Projects dropdown, mobile menu ──────────────── */
 (function () {
-  var page = (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '') || 'index';
-  var clean = function (href) {
-    return (href || '').split('#')[0].split('?')[0].split('/').pop().replace(/\.html$/, '') || 'index';
-  };
+  const menu = document.querySelector('.nav-menu');
+  if (!menu) return;
+  const toggle = document.querySelector('.nav-toggle');
+  const dd = menu.querySelector('.has-dropdown');
+  const ddBtn = dd && dd.querySelector('.nav-dd-toggle');
 
-  // Reset anything set by hand in the HTML
-  document.querySelectorAll('.nav-menu .active, .nav-menu .current').forEach(function (el) {
-    el.classList.remove('active', 'current');
+  // Highlight the current page
+  const slug = (href) => (href || '').split(/[?#]/)[0].split('/').pop().replace(/\.html$/, '') || 'index';
+  const page = slug(location.pathname);
+  menu.querySelectorAll('a').forEach(a => {
+    if (slug(a.getAttribute('href')) !== page) return;
+    const inDropdown = !!a.closest('.nav-dd');
+    a.classList.add(inDropdown ? 'current' : 'active');
+    if (inDropdown && ddBtn) ddBtn.classList.add('active');
   });
 
-  // Top-level links (Home, Blog)
-  document.querySelectorAll('.nav-menu > ul > li > a').forEach(function (a) {
-    if (clean(a.getAttribute('href')) === page) a.classList.add('active');
-  });
-
-  // Links inside the Projects dropdown
-  document.querySelectorAll('.has-dropdown').forEach(function (dd) {
-    dd.querySelectorAll('.nav-dd a').forEach(function (a) {
-      if (clean(a.getAttribute('href')) === page) {
-        a.classList.add('current');
-        dd.querySelector('.nav-dd-toggle').classList.add('active');
-      }
-    });
-  });
-})(); 
-
-
-
-
-
-(function () {
-  var dd = document.querySelector('.has-dropdown');
-  if (!dd) return;
-  var btn = dd.querySelector('.nav-dd-toggle');
-
-  function setOpen(open) {
+  function setDd(open) {
+    if (!dd) return;
     dd.classList.toggle('open', open);
-    btn.setAttribute('aria-expanded', open);
+    ddBtn.setAttribute('aria-expanded', open);
+  }
+  function setMenu(open) {
+    if (!toggle) return;
+    menu.classList.toggle('open', open);
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+    if (!open) setDd(false);
   }
 
-  btn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    setOpen(!dd.classList.contains('open'));
-  });
-  document.addEventListener('click', function (e) { if (!dd.contains(e.target)) setOpen(false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setOpen(false); btn.focus(); } });
-})();
+  if (ddBtn) ddBtn.addEventListener('click', () => setDd(!dd.classList.contains('open')));
+  if (toggle) toggle.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
 
-/* ── Mobile nav ────────────────────────────────────────────────────── */
-(function () {
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.querySelector('.nav-menu');
-  if (!toggle || !menu) return;
-  toggle.addEventListener('click', () => {
-    const isOpen = menu.classList.toggle('open');
-    toggle.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen);
-  });
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
-  });
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('nav')) {
-      menu.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    }
+    if (dd && !dd.contains(e.target)) setDd(false);
+    if (!e.target.closest('nav')) setMenu(false);
   });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (dd && dd.classList.contains('open')) { setDd(false); ddBtn.focus(); }
+    else if (menu.classList.contains('open')) { setMenu(false); toggle.focus(); }
+  });
+
+  // Resizing to desktop shouldn't leave the mobile menu stuck open
+  window.matchMedia('(min-width: 781px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 })();
 
 /* ── Scroll-reveal (generic) ──────────────────────────────────────── */
@@ -103,7 +74,13 @@
   const els = document.querySelectorAll('.timeline-item, .dash-card, .post-row, .post-featured');
   if (!els.length) return;
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      // clear the stagger delay afterwards so hover effects aren't delayed
+      e.target.addEventListener('transitionend', () => { e.target.style.transitionDelay = ''; }, { once: true });
+      io.unobserve(e.target);
+    });
   }, { threshold: 0.12 });
   els.forEach((el, i) => { el.style.transitionDelay = (i % 6) * 0.05 + 's'; io.observe(el); });
 })();
@@ -321,81 +298,74 @@ renderSkills();
 (function () {
   const canvas = document.getElementById('bgCanvas');
   if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.remove(); return; }
   const ctx = canvas.getContext('2d');
 
   const TOKENS = [
     '92%', '∑', 'μ', 'σ', '∅', '//', '{}', '[]',
-    'SELECT', 'JOIN', 'WHERE', 'GROUP BY',
-    'AVG()', 'SUM()', 'COUNT()',
-    '0', '1', 'null', 'true',
-    'Power BI', 'Fabric', 'SQL', 'DAX', 'KPI',
-    '↑12%', '→', '≈', 'Δ', '∞',
-    '2024', '2025', 'Q3', 'YTD',
+    'SELECT', 'JOIN', 'WHERE', 'GROUP BY', 'AVG()', 'SUM()', 'COUNT()',
+    '0', '1', 'null', 'true', 'Power BI', 'Fabric', 'SQL', 'DAX', 'KPI',
+    '↑12%', '→', '≈', 'Δ', '∞', '2024', '2025', 'Q3', 'YTD',
     '3.14', '0.98', '1.0', 'n+1',
   ];
+  const SIZES = [10, 12, 14, 16, 18];
+  const rand = (n) => Math.random() * n;
+  const token = () => TOKENS[rand(TOKENS.length) | 0];
 
-  let W, H, particles = [];
-
-  function isDark() {
-    return document.body.classList.contains('dark');
-  }
+  let W, H, frameMs, particles = [], last = 0, resizeTimer;
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
-  }
-
-  function spawn(placeRandomly) {
-    const size = 10 + Math.random() * 9;
-    return {
-      text:    TOKENS[Math.floor(Math.random() * TOKENS.length)],
-      x:       Math.random() * (W || window.innerWidth),
-      y:       placeRandomly
-                 ? Math.random() * (H || window.innerHeight)
-                 : (H || window.innerHeight) + 40,
-      size,
-      speed:   0.18 + Math.random() * 0.22,
-      drift:   (Math.random() - 0.5) * 0.18,
-      opacity: 0.045 + Math.random() * 0.07,
-      phase:   Math.random() * Math.PI * 2,
-      freq:    0.0004 + Math.random() * 0.0004,
-    };
+    frameMs = W < 780 ? 33 : 16;           // ~30fps on phones
   }
 
   function init() {
     resize();
-    particles = Array.from({ length: 55 }, () => spawn(true));
+    const count = W < 780 ? 24 : 45;
+    particles = Array.from({ length: count }, (_, i) => ({
+      text: token(), size: SIZES[i % SIZES.length],
+      x: rand(W), y: rand(H),
+      speed: 0.18 + rand(0.22), drift: (rand(1) - 0.5) * 0.18,
+      opacity: 0.045 + rand(0.07),
+      phase: rand(Math.PI * 2), freq: 0.0004 + rand(0.0004),
+    })).sort((a, b) => a.size - b.size);   // grouped by size → fewer font changes
   }
 
-  let t = 0;
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    const col = isDark() ? '255,196,0' : '180,127,0';
-    t++;
-
-    for (const p of particles) {
-      p.y -= p.speed;
-      p.x += p.drift + Math.sin(t * p.freq * 1000 + p.phase) * 0.12;
-
-      ctx.save();
-      ctx.globalAlpha = p.opacity;
-      ctx.font = `500 ${p.size}px 'JetBrains Mono', ui-monospace, monospace`;
-      ctx.fillStyle = `rgb(${col})`;
-      ctx.fillText(p.text, p.x, p.y);
-      ctx.restore();
-
-      if (p.y < -30) {
-        Object.assign(p, spawn(false));
-        p.x = Math.random() * W;
-      }
-    }
-
+  function draw(now) {
     requestAnimationFrame(draw);
+    const dt = now - last;
+    if (dt < frameMs - 2) return;
+    last = now;
+    const k = Math.min(dt, 64) / 16.67;    // keep speed constant at any frame rate
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = document.body.classList.contains('dark') ? '#ffc400' : '#b47f00';
+
+    let size = 0;
+    for (const p of particles) {
+      p.y -= p.speed * k;
+      p.x += (p.drift + Math.sin(now * p.freq * 16.7 + p.phase) * 0.12) * k;
+      if (p.size !== size) {
+        size = p.size;
+        ctx.font = `500 ${size}px 'JetBrains Mono', ui-monospace, monospace`;
+      }
+      ctx.globalAlpha = p.opacity;
+      ctx.fillText(p.text, p.x, p.y);
+      if (p.y < -30) { p.text = token(); p.x = rand(W); p.y = H + 40; }
+    }
   }
 
-  window.addEventListener('resize', resize);
+  // Mobile address bars fire resize on scroll; only react to real changes
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth !== W || window.innerHeight > H) resize();
+    }, 150);
+  });
+
   init();
-  draw();
+  requestAnimationFrame(draw);
 })();
 
 /* ── Live reader counter (article pages) ──────────────────────────── */
@@ -541,7 +511,6 @@ renderSkills();
     });
   });
 })();
-
 
 /* ── Horizontal timeline: built from the existing .timeline markup ─── */
 (function () {

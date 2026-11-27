@@ -22,7 +22,10 @@
   --maxw: 1180px;
 }
 
-body.dark {
+/* html.dark-pre is set by a tiny inline script in <head>, so dark colours
+   apply from the very first paint (no light → dark flash between pages). */
+body.dark,
+html.dark-pre body {
   --bg:          #0a0a0b;
   --bg-raise:    #131315;
   --ink:         #f4f4f1;
@@ -33,6 +36,14 @@ body.dark {
   --accent:      #ffc400;
   --accent-bg:   #ffc400;
   --accent-on:   #0a0a0b;
+}
+
+/* Smooth cross-page navigation (Chrome/Edge/Safari; others navigate normally) */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  header { view-transition-name: site-header; }   /* header stays put, no flicker */
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 0.2s; }
 }
 
 .post-tag-upcoming {
@@ -73,7 +84,6 @@ html.dark-pre .post-tag-upcoming,
 }
 
 /* ── Nav dropdown ──────────────────────────────────────────────────── */
-
 
 .has-dropdown { position: relative; }
 
@@ -122,28 +132,7 @@ html.dark-pre .post-tag-upcoming,
 .nav-menu .nav-dd a span { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 400; color: var(--ink-faint); margin-top: 0.15em; }
 .nav-menu .nav-dd a::after { display: none; }
 .nav-menu .nav-dd a:hover { background: var(--bg-raise); color: var(--accent); }
-
-@media (max-width: 780px) {
-  .nav-dd {
-    position: absolute; top: 100%; left: 0; right: 0; min-width: 0;
-    margin: 0.4em 0 0; padding: 0.6em 0.4em 0.4em 0.9em;
-    background: var(--bg-raise); border: 1px solid var(--line-strong); border-radius: var(--radius);
-    display: none; z-index: 5;
-  }
-  .has-dropdown.open .nav-dd { display: block; opacity: 1; visibility: visible; transform: none; }
-  .nav-dd::before { display: none; }
-  .nav-dd-label { border-bottom: 0; padding-left: 0.7em; }
-}
-
-
-.nav-dd-toggle:hover,
-.nav-dd-toggle.active { color: var(--ink); }
-
-.nav-dd-toggle:hover::after,
-.nav-dd-toggle.active::after { transform: scaleX(1); }
-
 .nav-menu .nav-dd a.current { color: var(--accent); }
-
 
 .nav-dd-group > summary {
   list-style: none;
@@ -163,10 +152,8 @@ html.dark-pre .post-tag-upcoming,
 .nav-dd-group > summary:hover { color: var(--ink); }
 .nav-dd-group > summary:focus-visible { outline: 2px solid var(--accent-bg); outline-offset: 2px; border-radius: var(--radius); }
 
-/*no divider under the label while the group is closed */
+/* no divider under the label while the group is closed */
 .nav-dd-group:not([open]) > summary { border-bottom: 0; margin-bottom: 0; padding-bottom: 0.2em; }
-
-
 
 .nav-dd-group + .nav-dd-group {
   margin-top: 0.7em;
@@ -189,8 +176,6 @@ html.dark-pre .post-tag-upcoming,
   font-weight: 400;
   color: var(--accent);
 }
-
-
 
 /* ── Blog header ──────────────────────────────────────────────────── */
 .blog-head {
@@ -282,6 +267,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; letter-sp
 p { margin: 0; }
 :focus-visible { outline: 2px solid var(--accent-bg); outline-offset: 3px; }
 
+/* No 300ms tap delay, no grey tap flash on phones */
+a, button, summary, label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
 .wrap {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -357,24 +345,58 @@ input:checked + .slider { background: var(--accent-bg); }
 input:checked + .slider::before { transform: translateX(15px); background: var(--ink); }
 
 .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.nav-toggle span { width: 20px; height: 2px; background: var(--ink); transition: 0.2s; }
+.nav-toggle span { width: 20px; height: 2px; background: var(--ink); transition: transform 0.2s ease, opacity 0.2s ease; }
 .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+/* Mobile nav. Must stay AFTER the base nav rules above so it can override them. */
 @media (max-width: 780px) {
   .nav-toggle { display: flex; }
+
   .nav-menu {
-    position: fixed; top: 61px; left: 0; right: 0;
-    background: var(--bg); border-bottom: 1px solid var(--line);
+    position: absolute;              /* header is sticky, so this anchors to it */
+    top: 100%; left: 0; right: 0;
+    max-height: calc(100vh - 70px);
+    max-height: calc(100dvh - 70px); /* ignored by browsers without dvh */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
     flex-direction: column; align-items: flex-start; gap: 1.6em;
     padding: 1.6em var(--gutter) 2em;
-    transform: translateY(-8px); opacity: 0; pointer-events: none;
-    transition: 0.2s ease;
+    transform: translateY(-8px); opacity: 0;
+    visibility: hidden; pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s;
   }
-  .nav-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-  .nav-menu ul { flex-direction: column; gap: 1.1em; }
+  .nav-menu.open {
+    transform: none; opacity: 1;
+    visibility: visible; pointer-events: auto;
+  }
+
+  .nav-menu ul { flex-direction: column; gap: 1.1em; width: 100%; }
+  .nav-menu ul a { padding: 0.3em 0; }
   .nav-right { width: 100%; justify-content: space-between; }
+
+  /* Projects dropdown expands inline (animated), pushing Blog down */
+  .has-dropdown { width: 100%; }
+  .nav-dd-toggle { width: 100%; justify-content: space-between; padding: 0.3em 0; }
+  .nav-dd {
+    position: static;
+    min-width: 0; margin: 0; padding: 0 0.4em 0 0.9em;
+    background: var(--bg-raise);
+    border: 1px solid transparent; border-radius: var(--radius);
+    max-height: 0; overflow: hidden;
+    opacity: 0; visibility: hidden; transform: none;
+    transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease,
+                padding 0.25s ease, border-color 0.25s ease, visibility 0.25s;
+  }
+  .has-dropdown.open .nav-dd {
+    max-height: 30rem; margin-top: 0.5em; padding: 0.6em 0.4em 0.4em 0.9em;
+    border-color: var(--line-strong); opacity: 1; visibility: visible;
+  }
+  .nav-dd::before { display: none; }
+  .nav-dd-label { border-bottom: 0; padding-left: 0.7em; }
 }
 
 /* ── Section scaffolding ──────────────────────────────────────────── */
@@ -660,7 +682,6 @@ footer { border-top: 1px solid var(--line); margin-top: 0.5em; }
 .dash-card.visible { opacity: 1; transform: translateY(0); }
 .dash-card:hover { background: var(--bg-raise); }
 .dash-index { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); align-self: start; padding-top: 0.3em; }
-.dash-body-col {}
 .dash-meta { display: flex; gap: 0.5em; margin-bottom: 0.7em; flex-wrap: wrap; }
 .dash-tag { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.25em 0.6em; }
 .dash-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5em; }
@@ -826,7 +847,6 @@ footer { border-top: 1px solid var(--line); margin-top: 0.5em; }
   z-index: 0;
 }
 main, footer { position: relative; z-index: 1; }
-
 
 /* ── Horizontal timeline: minimal, fits the width, card-style detail ── */
 .history-panel.has-htl > .timeline { display: none; }   /* vertical version stays as no-JS fallback / data source */
