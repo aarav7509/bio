@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reverse Engineering Data Strategy — Vishwa Vijaysheel</title>
+<meta name="description" content="Why data strategies should start from operational and management requirements and work backwards, instead of being designed first and imposed later." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body data-article-key="reverse-engineering-data-strategy">
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboards.html">Projects</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
+        <label class="switch">
+          <input type="checkbox" class="theme-checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="article-header">
+    <div class="article-header-inner">
+      <a href="blog.html" class="article-back">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        Back to blog
+      </a>
+      <div class="article-meta-row">
+        <span class="post-tag">Data Strategy</span>
+        <span class="post-tag">Requirements</span>
+        <span class="post-date mono">Nov 2026</span>
+      </div>
+      <h1 class="article-title">Reverse Engineering Data Strategy</h1>
+      <p class="article-dek">Exploring how holistic data strategies can serve as a bridge between operational performance and business vision — and why most organisations build them the wrong way round.</p>
+      <div class="article-byline">
+        <div class="article-byline-left">
+          <span>Vishwa Vijaysheel</span>
+          <span class="dot"></span>
+          <span>10 min read</span>
+        </div>
+        <div class="article-views" aria-live="polite">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="count" id="articleViewCount">—</span>
+          <span>reads so far</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <p class="article-lede">Most data strategies begin in a meeting room. Leadership agrees that the organisation needs to be "data-driven", a framework is produced, a technology stack is chosen, and teams are then asked to fall in line. In my experience, that sequence is exactly where the problems start.</p>
+
+    <p>On paper, it looks sensible. A governance model is drafted, a roadmap is published, and everyone is told what the organisation is going to look like. In practice, it is how a lot of organisations end up with a beautifully documented strategy that nobody quite uses. The dashboards don't answer the questions people actually ask. The data model doesn't reflect how work really flows. The reports management wants can't be produced without heroic manual effort, and the reports operational teams need were never part of the design.</p>
+
+    <h2>The strategy-first trap</h2>
+
+    <p>Then the changes start. A new field is needed here. A different grain of data is needed there. A team builds a workaround in a spreadsheet. A second tool gets bought because the first one "doesn't do that". Each fix is reasonable on its own, but together they form a patchwork: a strategy that is constantly being re-iterated to solve the problem in front of it, never quite solving the problem as a whole.</p>
+
+    <p>I have seen this pattern repeat more often than it should. The root cause is rarely poor execution. It is the direction of travel. The strategy was designed top-down, from an idea of what the organisation <em>should</em> look like, rather than from an understanding of what the organisation actually <em>needs</em>.</p>
+
+    <p class="article-pull">A strategy that is built first and followed later is really a hypothesis. Requirements are the evidence.</p>
+
+    <h2>What "reverse engineering" means here</h2>
+
+    <p>In engineering, reverse engineering means taking a finished product and working out how it was built by examining its behaviour and its parts. Applied to data strategy, the idea is similar, with one twist: the "finished product" doesn't exist yet. It is the set of decisions, reports, analyses and operational behaviours the organisation needs in order to function well.</p>
+
+    <p>You start with the end state and ask:</p>
+    <ul>
+      <li>What decisions does the business need to make, and how often?</li>
+      <li>What does each team need to see in order to do their job well?</li>
+      <li>What does management need to see in order to steer the organisation?</li>
+      <li>Which questions are being asked today that nobody can answer reliably?</li>
+    </ul>
+
+    <p>Then you work backwards: which metrics answer those questions, what data is needed to calculate them and at what level of detail, where that data originates and who owns it, what quality and timeliness it needs, and finally what platforms, models and governance make all of this sustainable.</p>
+
+    <p>The strategy is what emerges at the end of that chain, not what sits at the beginning of it. Technology and architecture become consequences of requirements rather than prerequisites for them.</p>
+
+    <h2>Why operational and management needs diverge</h2>
+
+    <p>One of the most important realisations in this work is that different parts of an organisation legitimately need different things from data. That isn't a failure of alignment. It is the nature of their roles.</p>
+
+    <p><strong>Operational teams</strong> live close to the work. They need granular, timely, actionable data: today's queue, this week's exceptions, this customer's history, this batch's defects. Their reporting is detailed, frequent and tied to specific tasks. They care about what to do next. They are also the people who know where the data is messy, which fields are unreliable, and which numbers are quietly adjusted by hand before they reach anyone else.</p>
+
+    <p><strong>Management</strong> lives further from the work. They need aggregated, comparable, trend-oriented data: performance against targets, movement over time, risk exposure, cost and return. Their reporting is summarised, periodic and tied to decisions about resources and direction. They care about whether the organisation is on course.</p>
+
+    <p><strong>Specialist and support functions</strong> such as finance, compliance, HR and risk often need a third view again, shaped by regulation, audit or cross-functional reporting.</p>
+
+    <p>When a strategy is designed from one of these vantage points — usually the top — the others are left to adapt. Operational teams are handed metrics that don't match their daily reality. Management receives numbers built from inconsistent definitions, because each team computes "the same" measure differently. Everyone ends up either building their own shadow reporting or distrusting the official version.</p>
+
+    <p>There is also no single, universal process for reconciling these needs. Every organisation has its own structure, history, systems and culture. That is precisely why borrowing a template and expecting it to fit tends to disappoint.</p>
+
+    <h2>Why a bottom-up view is more holistic</h2>
+
+    <p>It might seem counterintuitive that starting from the detailed needs of individual teams would produce a <em>more</em> holistic strategy than starting from the big picture. But consider what each approach actually sees.</p>
+
+    <p>A top-down strategy sees the organisation as it is described: its structure, its stated goals, its intended processes. It is a map drawn from a distance. A bottom-up requirements view sees the organisation as it actually operates: the real reports being produced, the real data being entered, the real workarounds, the real friction. It is a map drawn by walking the ground.</p>
+
+    <p>When you gather those ground-level requirements from every team and lay them side by side with management's needs, patterns emerge that neither view could reveal alone:</p>
+    <ul>
+      <li><strong>Shared definitions that don't exist yet.</strong> Three teams each have their own definition of "active customer" or "completed order".</li>
+      <li><strong>Duplicate effort.</strong> The same data is extracted, cleaned and reshaped independently in several places.</li>
+      <li><strong>Missing links.</strong> A management KPI depends on data that no operational team currently captures.</li>
+      <li><strong>Unnecessary complexity.</strong> Reports are produced every week and used by nobody.</li>
+      <li><strong>Hidden dependencies.</strong> One team's output quietly feeds another team's process.</li>
+    </ul>
+
+    <p>Seeing all of this at once is what makes a genuinely holistic design possible. Instead of solving problems one at a time as they surface, you understand the shape of the whole problem space up front, and design data models, pipelines and governance that serve the full set of needs together.</p>
+
+    <h2>A practical approach</h2>
+
+    <p>There is no single prescribed method, and I'd be wary of anyone who claims otherwise. But the following sequence has proved a useful backbone.</p>
+
+    <p><strong>1. Start with decisions, not data.</strong> Begin by asking what decisions matter and who makes them. A reporting requirement is usually a decision in disguise. If you can't connect a report to a decision or an action, it deserves scrutiny. Ask each team to describe a typical week: what they look at, what they chase, what they dread preparing, and what they wish they could see but can't.</p>
+
+    <p><strong>2. Inventory what already exists.</strong> List the reports, dashboards, spreadsheets and extracts in use. Note who produces them, how long they take, which sources they draw from, and who actually reads them. This shows you where the real demand lies, which "official" reports are ignored, and where undocumented logic is quietly holding things together.</p>
+
+    <p><strong>3. Translate requirements into a common language.</strong> Express each need consistently: the metric, its definition, its required granularity, its refresh frequency, its audience and its source. This is where conflicting definitions get surfaced and resolved. A shared metric catalogue or business glossary doesn't need to be elaborate. It just needs to be agreed.</p>
+
+    <p><strong>4. Map requirements back to data.</strong> For each metric, trace it to the underlying data: where it is created, in which system, by whom, and with what quality. This is the heart of reverse engineering. It exposes data that is needed but not captured, captured but inconsistent, or available but inaccessible.</p>
+
+    <p><strong>5. Identify the overlaps and design once.</strong> Requirements that share sources, definitions or transformations are candidates for common, reusable data assets. Only at this point should the architecture conversation properly begin. Now you know what the platform has to support, so tool selection becomes a question of fit rather than fashion.</p>
+
+    <p><strong>6. Define governance around real ownership.</strong> Having traced data back from requirements, you already know who creates it, who uses it and who is accountable for it. Ownership, quality standards, access and change control can be assigned with far more credibility than a governance model imposed in the abstract.</p>
+
+    <p><strong>7. Sequence the roadmap by value and dependency.</strong> Prioritise by what unlocks the most and what must exist first. Because the requirements are known, you can be transparent about <em>why</em> the order is what it is, which makes it far easier to secure sustained support.</p>
+
+    <h2>Common pitfalls</h2>
+
+    <p><strong>Treating requirement gathering as a one-off.</strong> Needs evolve. The point is not to freeze requirements but to build a strategy, and a process, capable of absorbing change without being redone from scratch.</p>
+
+    <p><strong>Only listening to the loudest voices.</strong> Senior stakeholders are easy to hear. Frontline teams often hold the most important information about data reality and are the least consulted.</p>
+
+    <p><strong>Confusing requirements with solutions.</strong> "We need a dashboard" is a solution. "We need to know which accounts are at risk before month end" is a requirement. Dig for the latter.</p>
+
+    <p><strong>Letting tooling lead.</strong> When a platform is chosen first, the strategy tends to bend to fit its capabilities. Requirements should drive the tools, not the other way round.</p>
+
+    <p><strong>Ignoring data quality until the end.</strong> Tracing requirements to sources exposes quality issues early. Use that, rather than discovering them after the dashboards go live.</p>
+
+    <p><strong>Over-engineering the first version.</strong> A holistic view does not mean a monolithic build. You can understand the whole and still deliver it incrementally.</p>
+
+    <h2>What good looks like</h2>
+
+    <p>When a data strategy has been reverse engineered well, a few signs tend to show up:</p>
+    <ul>
+      <li>Operational teams recognise their own needs in it, and use the outputs because they are genuinely useful.</li>
+      <li>Management reporting reconciles with operational reporting, because both draw on shared definitions and shared data.</li>
+      <li>Changes are still needed, but they are refinements rather than corrections. The structure holds.</li>
+      <li>Spreadsheets and shadow systems decline, because the official route is easier than the workaround.</li>
+    </ul>
+
+    <p>The real measure is whether there is a clear line of sight from a business objective, to a metric, to the data that feeds it, to the person responsible for it:</p>
+
+    <div class="article-questions">
+      <p>Which decision does this report support?</p>
+      <p>Which metric answers it, and how is it defined?</p>
+      <p>Which data feeds that metric?</p>
+      <p>Who owns that data?</p>
+      <p>Who is relying on it downstream?</p>
+    </div>
+
+    <p>A strategy that can answer those questions, in both directions, has moved from aspiration to infrastructure.</p>
+
+    <h2>Every organisation needs its own</h2>
+
+    <p>The temptation to adopt an off-the-shelf data strategy is understandable. Frameworks are reassuring, and there is no shortage of them. They are useful as reference points and as sources of ideas. But they cannot know your functional requirements, your operational quirks, your legacy systems or your culture.</p>
+
+    <p>This is why the requirements-first approach matters. It makes the organisation's own needs the raw material of its strategy. The result is something specific, defensible and actually fit for purpose, rather than generic and quietly resented.</p>
+
+    <p class="article-pull">Start from the destinations, not the road network.</p>
+
+    <p>Building a data strategy first and expecting teams to perform to it is a bit like designing a road network before knowing where anyone needs to travel. You may get lucky, but you will more likely spend years adding junctions, bypasses and diversions.</p>
+
+    <p>Starting from the decisions that matter, the work that needs to be supported and the questions that need answers, and working backwards to the data, platforms and governance that make them possible, gives you a strategy that is grounded from day one. It won't eliminate change. Nothing will. But it replaces a cycle of reactive patching with a coherent design that can evolve deliberately.</p>
+
+    <p>If your organisation is stuck re-iterating solutions to the problem of the moment, the way out may not be a better strategy document. It may be turning the process around and starting from what your people actually need.</p>
+  </article>
+
+  <div class="article-tags-row">
+    <span class="post-tag">Data Strategy</span>
+    <span class="post-tag">Requirements Gathering</span>
+    <span class="post-tag">Analytics Culture</span>
+  </div>
+
+  <nav class="article-nav">
+    <a href="blog.html" class="article-nav-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" transform="rotate(180 12 12)"/></svg>
+      All articles
+    </a>
+    <a href="blog.html" class="article-nav-link next">
+      Next: The Cost of Inconsistent Metrics
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/dashboard" class="footer-pill" aria-label="GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <!--<li><a href="dashboards.html">Dashboards</a></li>-->
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Available for freelance engagements</span>
+  </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
+</body>
+</html>
