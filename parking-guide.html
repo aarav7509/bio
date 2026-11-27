@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brisbane Parking Meter Guide — Vishwa Vijaysheel</title>
+<meta name="description" content="Find Brisbane City Council parking meters, check the rules and estimate what a stay will cost." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+.pk-head { padding: 3em 0 1.6em; }
+.pk-stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); margin: 1.6em 0 1.8em; }
+.pk-stat { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.8em 1em; }
+.pk-stat dt { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); margin-bottom: 0.3em; }
+.pk-stat dd { margin: 0; font-family: var(--display); font-size: 1.5rem; font-weight: 600; }
+.pk-layout { display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: 1.6em; align-items: start; padding-bottom: 3em; }
+.pk-side { display: flex; flex-direction: column; gap: 1.2em; }
+.pk-card { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 1.1em 1.2em; background: var(--bg-raise); }
+.pk-card h3 { font-size: 0.95rem; margin-bottom: 0.8em; }
+.pk-field { display: flex; flex-direction: column; gap: 0.3em; margin-bottom: 0.7em; }
+.pk-field label { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); }
+.pk-field input, .pk-field select {
+  font-family: var(--mono); font-size: 0.82rem; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.6em 0.7em; min-width: 0;
+}
+.pk-field input:focus, .pk-field select:focus { border-color: var(--accent); outline: none; }
+.pk-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; }
+.pk-btn { font-family: var(--mono); font-size: 0.78rem; background: none; color: var(--ink); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.55em 0.9em; cursor: pointer; }
+.pk-btn:hover { border-color: var(--accent); color: var(--accent); }
+.pk-map-wrap { position: sticky; top: 76px; }
+#pkMap { height: min(70vh, 640px); min-height: 380px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raise); z-index: 0; }
+body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) grayscale(.35); }
+.leaflet-popup-content { font-family: var(--sans); font-size: 0.82rem; line-height: 1.45; }
+.pk-legend { display: flex; flex-wrap: wrap; gap: 1em; margin-top: 0.7em; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); }
+.pk-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.45em; }
+.pk-sel { font-size: 0.84rem; color: var(--ink-dim); }
+.pk-sel strong { color: var(--ink); }
+.pk-sel dl { margin: 0.7em 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0.25em 0.9em; font-size: 0.78rem; }
+.pk-sel dt { font-family: var(--mono); color: var(--ink-faint); }
+.pk-sel dd { margin: 0; color: var(--ink); }
+.pk-cost { margin-top: 0.4em; padding-top: 0.8em; border-top: 1px solid var(--line); }
+.pk-cost-val { font-family: var(--display); font-size: 2rem; font-weight: 600; color: var(--accent); line-height: 1.1; }
+.pk-cost-note { font-size: 0.74rem; color: var(--ink-dim); margin-top: 0.4em; }
+.pk-list { max-height: 22rem; overflow-y: auto; margin: 0 -0.4em; }
+.pk-item { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); padding: 0.65em 0.4em; cursor: pointer; font: inherit; }
+.pk-item:hover, .pk-item.on { background: var(--bg); }
+.pk-item b { font-family: var(--display); font-weight: 600; font-size: 0.9rem; }
+.pk-item span { display: block; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); margin-top: 0.15em; }
+.pk-status { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-dim); margin-bottom: 0.8em; }
+.pk-status.err { color: #c65b5b; }
+.pk-foot { font-size: 0.78rem; color: var(--ink-dim); max-width: 78ch; padding-bottom: 3em; }
+@media (max-width: 900px) {
+  .pk-layout { grid-template-columns: 1fr; }
+  .pk-map-wrap { position: static; order: -1; }
+  .pk-stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="parking-guide.html" class="active">Parking guide</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
+        <label class="switch">
+          <input type="checkbox" class="theme-checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="pk-head">
+    <p class="page-label">project</p>
+    <h1 class="page-title">Brisbane parking meter guide</h1>
+    <p class="page-subtitle">Find a meter, see its rules in plain language and estimate what your stay will cost. Built on Brisbane City Council's open data.</p>
+  </div>
+
+  <dl class="pk-stats" aria-live="polite">
+    <div class="pk-stat"><dt>Meter zones shown</dt><dd id="stCount">—</dd></div>
+    <div class="pk-stat"><dt>Avg weekday rate</dt><dd id="stRate">—</dd></div>
+    <div class="pk-stat"><dt>Car bays</dt><dd id="stBays">—</dd></div>
+    <div class="pk-stat"><dt>Suburbs</dt><dd id="stSub">—</dd></div>
+  </dl>
+
+  <p class="pk-status" id="pkStatus">Loading meters…</p>
+
+  <div class="pk-layout">
+    <div class="pk-side">
+      <section class="pk-card">
+        <h3>Find a meter</h3>
+        <div class="pk-field"><label for="fQ">Street, suburb or meter number</label><input id="fQ" type="search" placeholder="e.g. Queen St, Milton, 1234" /></div>
+        <div class="pk-row">
+          <div class="pk-field"><label for="fSub">Suburb</label><select id="fSub"><option value="">All</option></select></div>
+          <div class="pk-field"><label for="fCat">Payment</label><select id="fCat"><option value="">All</option></select></div>
+        </div>
+        <div class="pk-row">
+          <div class="pk-field"><label for="fStay">Stay at least</label>
+            <select id="fStay"><option value="0">Any</option><option value="2">2 hours</option><option value="4">4 hours</option><option value="8">8 hours</option></select></div>
+          <div class="pk-field"><label>&nbsp;</label><button class="pk-btn" id="btnNear" type="button">Near me</button></div>
+        </div>
+      </section>
+
+      <section class="pk-card pk-sel" id="selCard">
+        <h3>Selected meter</h3>
+        <p id="selEmpty">Click a dot on the map or pick one from the list.</p>
+        <div id="selBody" hidden></div>
+      </section>
+
+      <section class="pk-card" id="calcCard">
+        <h3>Cost estimate</h3>
+        <div class="pk-row">
+          <div class="pk-field"><label for="cDay">Day</label><select id="cDay"><option value="wd">Weekday</option><option value="we">Weekend</option></select></div>
+          <div class="pk-field"><label for="cVeh">Vehicle</label><select id="cVeh"><option value="car">Car</option><option value="mc">Motorcycle</option></select></div>
+        </div>
+        <div class="pk-row">
+          <div class="pk-field"><label for="cStart">Arrive at</label><input id="cStart" type="time" value="09:00" /></div>
+          <div class="pk-field"><label for="cDur">Stay (hours)</label><input id="cDur" type="number" min="0.25" max="14" step="0.25" value="2" /></div>
+        </div>
+        <div class="pk-cost">
+          <div class="pk-cost-val" id="cOut">—</div>
+          <p class="pk-cost-note" id="cNote">Select a meter to see an estimate.</p>
+        </div>
+      </section>
+
+      <section class="pk-card">
+        <h3>Meters <span class="mono" id="listCount" style="font-weight:400;color:var(--ink-faint)"></span></h3>
+        <div class="pk-list" id="pkList"></div>
+      </section>
+    </div>
+
+    <div class="pk-map-wrap">
+      <div id="pkMap" role="application" aria-label="Map of parking meters"></div>
+      <div class="pk-legend" id="pkLegend"></div>
+    </div>
+  </div>
+
+  <p class="pk-foot">Estimates use the published tariff and operating hours and may differ from what the meter charges. Always check the signs and meter on the street. Data: Brisbane City Council, Parking — Meter locations (open data portal), updated quarterly by the council. This is an independent project and is not affiliated with Brisbane City Council. Map © OpenStreetMap contributors.</p>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Available for freelance engagements</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+(function () {
+  var BASE = 'https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/brisbane-parking-meters';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var g = function (r, k) { var v = r[k.toLowerCase()]; return v == null ? (r[k] == null ? '' : r[k]) : v; };
+  var num = function (v) { var m = String(v == null ? '' : v).replace(/,/g, '').match(/\d+(\.\d+)?/); return m ? parseFloat(m[0]) : null; };
+  var CAT_COL = ['#f97316', '#60a5fa', '#a78bfa', '#9ca3af'];
+
+  var all = [], shown = [], sel = null, userPos = null, catColors = {};
+  var map = L.map('pkMap', { preferCanvas: true }).setView([-27.4698, 153.0251], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+  var layer = L.layerGroup().addTo(map);
+
+  function parseMax(t) {
+    t = String(t || '');
+    var f = t.match(/(\d+)\s*\/\s*(\d+)/);
+    if (f) return parseFloat(f[1]) / parseFloat(f[2]);
+    var n = num(t);
+    return n;
+  }
+  function parseHours(t) {
+    var re = /(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)/gi, m, out = [];
+    while ((m = re.exec(String(t || '')))) {
+      var h = parseInt(m[1], 10) % 12 + (m[3].toLowerCase() === 'pm' ? 12 : 0);
+      out.push(h + (m[2] ? parseInt(m[2], 10) / 60 : 0));
+    }
+    return out.length >= 2 ? [out[0], out[1]] : [7, 22];
+  }
+  function norm(r) {
+    var lat = num(g(r, 'LATITUDE')) , lng = num(g(r, 'LONGITUDE'));
+    var gp = r.geo_point_2d;
+    if ((lat == null || lng == null) && gp) { lat = gp.lat; lng = gp.lon; }
+    var neg = function (k) { return /^\s*-/.test(String(g(r, k))); };
+    if (neg('LATITUDE') && lat > 0) lat = -lat;
+    var h = parseHours(g(r, 'OPERATIONAL_TIME'));
+    return {
+      id: String(g(r, 'METER_NO')), cat: String(g(r, 'CATEGORY')), street: String(g(r, 'STREET')), suburb: String(g(r, 'SUBURB')),
+      maxTxt: String(g(r, 'MAX_STAY_HRS')), max: parseMax(g(r, 'MAX_STAY_HRS')), restr: String(g(r, 'RESTRICTIONS')),
+      days: String(g(r, 'OPERATIONAL_DAY')), times: String(g(r, 'OPERATIONAL_TIME')), open: h[0], close: h[1],
+      zone: String(g(r, 'TAR_ZONE')), wd: num(g(r, 'TAR_RATE_WEEKDAY')), we: num(g(r, 'TAR_RATE_AH_WE')),
+      desc: String(g(r, 'LOC_DESC')), bays: num(g(r, 'VEH_BAYS')) || 0, mcBays: num(g(r, 'MC_BAYS')) || 0, mc: num(g(r, 'MC_RATE')),
+      cap: num(g(r, 'MAX_CAP_CHG')), lat: lat, lng: lng
+    };
+  }
+
+  function getJSON(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); }
+  function loadAll() {
+    return getJSON(BASE + '/exports/json').catch(function () {
+      var out = [];
+      function page(off) {
+        return getJSON(BASE + '/records?limit=100&offset=' + off).then(function (d) {
+          out = out.concat(d.results || []);
+          return off + 100 < (d.total_count || 0) && off < 9900 ? page(off + 100) : out;
+        });
+      }
+      return page(0);
+    });
+  }
+
+  function fill(sel, vals) {
+    vals.sort().forEach(function (v) { if (v) { var o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); } });
+  }
+  function dist(a, b) {
+    var R = 6371, rad = Math.PI / 180, dLa = (b.lat - a.lat) * rad, dLo = (b.lng - a.lng) * rad;
+    var x = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
+    return 2 * R * Math.asin(Math.sqrt(x));
+  }
+  var money = function (n) { return n == null ? 'n/a' : '$' + n.toFixed(2); };
+
+  function apply() {
+    var q = $('fQ').value.trim().toLowerCase(), sub = $('fSub').value, cat = $('fCat').value, stay = parseFloat($('fStay').value);
+    shown = all.filter(function (m) {
+      if (sub && m.suburb !== sub) return false;
+      if (cat && m.cat !== cat) return false;
+      if (stay && !(m.max != null && m.max >= stay)) return false;
+      if (q && (m.street + ' ' + m.suburb + ' ' + m.id + ' ' + m.desc).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+    if (userPos) shown.sort(function (a, b) { return dist(userPos, a) - dist(userPos, b); });
+    else shown.sort(function (a, b) { return (a.suburb + a.street).localeCompare(b.suburb + b.street); });
+    draw();
+  }
+
+  function draw() {
+    layer.clearLayers();
+    var pts = [];
+    shown.forEach(function (m) {
+      var c = L.circleMarker([m.lat, m.lng], { radius: 5, weight: 1, color: '#0a0a0b', fillColor: catColors[m.cat] || '#9ca3af', fillOpacity: 0.9 });
+      c.on('click', function () { select(m, false); });
+      m._mk = c; layer.addLayer(c); pts.push([m.lat, m.lng]);
+    });
+    if (pts.length && pts.length < all.length) map.fitBounds(pts, { padding: [30, 30], maxZoom: 16 });
+    var rates = shown.map(function (m) { return m.wd; }).filter(function (v) { return v != null; });
+    $('stCount').textContent = shown.length.toLocaleString();
+    $('stRate').textContent = rates.length ? money(rates.reduce(function (a, b) { return a + b; }, 0) / rates.length) : '—';
+    $('stBays').textContent = shown.reduce(function (a, m) { return a + m.bays; }, 0).toLocaleString();
+    var subs = {}; shown.forEach(function (m) { subs[m.suburb] = 1; });
+    $('stSub').textContent = Object.keys(subs).length;
+    $('listCount').textContent = shown.length > 60 ? '(first 60)' : '';
+    $('pkList').innerHTML = shown.slice(0, 60).map(function (m, i) {
+      return '<button class="pk-item' + (sel && sel.id === m.id ? ' on' : '') + '" data-i="' + i + '"><b>' + esc(m.street || 'Meter ' + m.id) + '</b><span>' +
+        esc(m.suburb) + ' · ' + esc(m.maxTxt || 'no limit listed') + ' · ' + money(m.wd) + '/hr' + (userPos ? ' · ' + dist(userPos, m).toFixed(1) + ' km' : '') + '</span></button>';
+    }).join('') || '<p class="pk-sel" style="padding:.6em .4em">No meters match these filters.</p>';
+  }
+
+  function select(m, pan) {
+    sel = m;
+    if (pan) { map.setView([m.lat, m.lng], 17); }
+    $('selEmpty').hidden = true;
+    var b = $('selBody'); b.hidden = false;
+    b.innerHTML = '<strong>' + esc(m.street) + ', ' + esc(m.suburb) + '</strong> <span class="mono">· meter ' + esc(m.id) + '</span>' +
+      '<dl><dt>Payment</dt><dd>' + esc(m.cat) + '</dd><dt>Max stay</dt><dd>' + esc(m.maxTxt || '—') + '</dd>' +
+      '<dt>Operates</dt><dd>' + esc((m.days + ' ' + m.times).trim() || '—') + '</dd>' +
+      '<dt>Weekday</dt><dd>' + money(m.wd) + '/hr (7am–7pm)</dd><dt>After hours / weekend</dt><dd>' + money(m.we) + '/hr</dd>' +
+      (m.mc != null ? '<dt>Motorcycle</dt><dd>' + money(m.mc) + '/hr · ' + m.mcBays + ' bays</dd>' : '') +
+      (m.cap != null ? '<dt>Charge cap</dt><dd>' + money(m.cap) + ' (4 hours or more)</dd>' : '') +
+      '<dt>Car bays</dt><dd>' + m.bays + '</dd>' +
+      (m.restr ? '<dt>Restrictions</dt><dd>' + esc(m.restr) + '</dd>' : '') +
+      (m.zone ? '<dt>Tariff zone</dt><dd>' + esc(m.zone) + '</dd>' : '') +
+      (m.desc ? '<dt>Location</dt><dd>' + esc(m.desc) + '</dd>' : '') + '</dl>';
+    if (m._mk && pan) m._mk.bindPopup('<b>' + esc(m.street) + '</b><br>' + esc(m.suburb) + ' · meter ' + esc(m.id)).openPopup();
+    estimate();
+    Array.prototype.forEach.call(document.querySelectorAll('.pk-item'), function (e) { e.classList.toggle('on', shown[+e.dataset.i] === m); });
+  }
+
+  function estimate() {
+    var m = sel; if (!m) return;
+    var wk = $('cDay').value === 'wd', mc = $('cVeh').value === 'mc';
+    var t0 = $('cStart').value.split(':'), start = parseInt(t0[0], 10) + parseInt(t0[1] || 0, 10) / 60;
+    var dur = parseFloat($('cDur').value) || 0;
+    var rate = function (h) {
+      if (h < m.open || h >= m.close) return 0;
+      if (mc) return m.mc == null ? 0 : m.mc;
+      var r = wk ? (h < 19 ? m.wd : m.we) : m.we;
+      return r == null ? 0 : r;
+    };
+    var cost = 0, step = 1 / 12;
+    for (var t = start; t < start + dur - 1e-9; t += step) cost += rate(t % 24) * step;
+    var notes = [], capped = false;
+    if (!mc && m.cap != null && dur >= 4 && cost > m.cap) { cost = m.cap; capped = true; }
+    if (capped) notes.push('Charge cap applied.');
+    if (m.max != null && dur > m.max) notes.push('This is longer than the ' + m.maxTxt + ' limit. You would need to move your vehicle.');
+    if (/15/.test(m.zone) && /free/i.test(m.zone)) notes.push('A 15-minute free option may apply in this zone and is not deducted here.');
+    notes.push('Counts charging hours only (' + m.open + ':00–' + m.close + ':00 assumed from the listed times).');
+    $('cOut').textContent = money(cost);
+    $('cNote').textContent = notes.join(' ');
+  }
+
+  function init(rows) {
+    all = rows.map(norm).filter(function (m) { return m.lat != null && m.lng != null && isFinite(m.lat) && isFinite(m.lng); });
+    var cats = {}, subs = {};
+    all.forEach(function (m) { cats[m.cat] = 1; subs[m.suburb] = 1; });
+    Object.keys(cats).sort().forEach(function (c, i) { catColors[c] = CAT_COL[i % CAT_COL.length]; });
+    fill($('fSub'), Object.keys(subs)); fill($('fCat'), Object.keys(cats));
+    $('pkLegend').innerHTML = Object.keys(catColors).map(function (c) { return '<span><i style="background:' + catColors[c] + '"></i>' + esc(c) + '</span>'; }).join('');
+    $('pkStatus').textContent = all.length.toLocaleString() + ' meter zones loaded from Brisbane City Council open data.';
+    var bounds = all.map(function (m) { return [m.lat, m.lng]; });
+    if (bounds.length) map.fitBounds(bounds, { padding: [20, 20] });
+    apply();
+  }
+
+  ['fQ', 'fSub', 'fCat', 'fStay'].forEach(function (id) { $(id).addEventListener(id === 'fQ' ? 'input' : 'change', apply); });
+  ['cDay', 'cVeh', 'cStart', 'cDur'].forEach(function (id) { $(id).addEventListener('input', estimate); });
+  $('pkList').addEventListener('click', function (e) { var b = e.target.closest('.pk-item'); if (b) select(shown[+b.dataset.i], true); });
+  $('btnNear').addEventListener('click', function () {
+    if (!navigator.geolocation) { $('pkStatus').textContent = 'Location is not available in this browser.'; return; }
+    navigator.geolocation.getCurrentPosition(function (p) {
+      userPos = { lat: p.coords.latitude, lng: p.coords.longitude };
+      L.circleMarker([userPos.lat, userPos.lng], { radius: 7, color: '#fff', weight: 2, fillColor: '#2563eb', fillOpacity: 1 }).addTo(map);
+      apply();
+      if (shown[0]) { map.setView([userPos.lat, userPos.lng], 16); }
+    }, function () { $('pkStatus').textContent = 'Could not get your location. Check your browser permissions.'; });
+  });
+
+  loadAll().then(init).catch(function (e) {
+    var s = $('pkStatus'); s.classList.add('err');
+    s.textContent = 'Could not load meter data (' + e.message + '). Please try again later.';
+  });
+})();
+</script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
+</body>
+</html>
