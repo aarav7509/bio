@@ -51,6 +51,15 @@
 })();
 
 
+dd.querySelectorAll('.nav-dd a').forEach(function (a) {
+  if (clean(a.getAttribute('href')) === page) {
+    a.classList.add('current');
+    dd.querySelector('.nav-dd-toggle').classList.add('active');
+    var grp = a.closest('details');
+    if (grp) grp.open = true;
+  }
+});
+
 
 (function () {
   var dd = document.querySelector('.has-dropdown');

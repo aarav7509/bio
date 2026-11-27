@@ -143,6 +143,53 @@ html.dark-pre .post-tag-upcoming,
 .nav-menu .nav-dd a.current { color: var(--accent); }
 
 
+.nav-dd-group > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.nav-dd-group > summary::-webkit-details-marker { display: none; }
+.nav-dd-group > summary::after {
+  content: '+';
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+}
+.nav-dd-group[open] > summary::after { content: '\2212'; }
+.nav-dd-group > summary:hover { color: var(--ink); }
+.nav-dd-group > summary:focus-visible { outline: 2px solid var(--accent-bg); outline-offset: 2px; border-radius: var(--radius); }
+
+/* no divider under the label while the group is closed */
+.nav-dd-group:not([open]) > summary { border-bottom: 0; margin-bottom: 0; padding-bottom: 0.2em; }
+
+
+
+.nav-dd-group + .nav-dd-group {
+  margin-top: 0.7em;
+  padding-top: 0.7em;
+  border-top: 1px solid var(--line);
+}
+
+.nav-dd-soon {
+  padding: 0.6em 0.7em;
+  font-family: var(--display);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-dim);
+}
+.nav-dd-soon span {
+  display: block;
+  margin-top: 0.15em;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+
+
 /* ── Blog header ──────────────────────────────────────────────────── */
 .blog-head {
   display: grid;

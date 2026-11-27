@@ -23,24 +23,34 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-menu">
-       <ul>
+      <ul>
   <li><a href="index.html" class="active">Home</a></li>
   <li class="has-dropdown">
     <button class="nav-dd-toggle" type="button" aria-haspopup="true" aria-expanded="false">
       Projects
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
-    <div class="nav-dd">
-      <p class="nav-dd-label">Open data projects</p>
-      <a href="parking-guide.html">
-        Brisbane parking meter guide
-        <span>Map, rules and cost estimates</span>
-      </a>
-      <a href="stormwater-guide.html">
-        Stormwater manhole explorer
-        <span>Map and data completeness</span>
-      </a>
-    </div>
+   <div class="nav-dd">
+  <details class="nav-dd-group">
+    <summary class="nav-dd-label">Open data</summary>
+    <a href="parking-guide.html">
+      Brisbane parking meter guide
+      <span>Map, rules and cost estimates</span>
+    </a>
+    <a href="stormwater-guide.html">
+      Stormwater manhole explorer
+      <span>Map and data completeness</span>
+    </a>
+  </details>
+
+  <details class="nav-dd-group" open>
+    <summary class="nav-dd-label">Pattern Lab</summary>
+    <p class="nav-dd-soon">
+      Machine learning experiments
+      <span>Coming soon</span>
+    </p>
+  </details>
+</div>
   </li>
   <li><a href="blog.html">Blog</a></li>
 </ul>
