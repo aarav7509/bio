@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brisbane Stormwater Manholes — Vishwa Vijaysheel</title>
+<meta name="description" content="Explore Brisbane's recorded stormwater manholes and see how complete the asset register is for each one." />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark-pre');}</script>
+<style>.dark-pre body{background:#0a0a0b;color:#f4f4f1;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+.sw-head { padding: 3em 0 1.6em; }
+.sw-stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); margin: 1.6em 0 1.8em; }
+.sw-stat { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.8em 1em; }
+.sw-stat dt { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); margin-bottom: 0.3em; }
+.sw-stat dd { margin: 0; font-family: var(--display); font-size: 1.5rem; font-weight: 600; }
+.sw-layout { display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: 1.6em; align-items: start; padding-bottom: 3em; }
+.sw-side { display: flex; flex-direction: column; gap: 1.2em; min-width: 0; }
+.sw-card { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 1.1em 1.2em; background: var(--bg-raise); }
+.sw-card h3 { font-size: 0.95rem; margin-bottom: 0.8em; }
+.sw-card h3 small { font-family: var(--mono); font-weight: 400; font-size: 0.66rem; color: var(--ink-faint); margin-left: 0.5em; }
+.sw-field { display: flex; flex-direction: column; gap: 0.3em; margin-bottom: 0.7em; min-width: 0; }
+.sw-field label { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); }
+.sw-field input, .sw-field select { width: 100%; max-width: 100%; text-overflow: ellipsis; font-family: var(--mono); font-size: 0.82rem; background: var(--bg); color: var(--ink); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.6em 0.7em; min-width: 0; }
+.sw-field input:focus, .sw-field select:focus { border-color: var(--accent); outline: none; }
+.sw-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.7em; }
+.sw-btn { font-family: var(--mono); font-size: 0.78rem; background: none; color: var(--ink); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.6em 0.9em; cursor: pointer; width: 100%; }
+.sw-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sw-map-wrap { position: sticky; top: 76px; min-width: 0; }
+#swMap { height: min(72vh, 660px); min-height: 380px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raise); z-index: 0; }
+body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) grayscale(.35); }
+.leaflet-popup-content { font-family: var(--sans); font-size: 0.82rem; line-height: 1.45; margin: 0.8em 1em; }
+.leaflet-popup-content dl { margin: 0.5em 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0.2em 0.8em; }
+.leaflet-popup-content dt { font-family: var(--mono); font-size: 0.7rem; color: #777; }
+.leaflet-popup-content dd { margin: 0; }
+.sw-legend { display: flex; flex-wrap: wrap; gap: 0.5em 1.1em; margin-top: 0.7em; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); }
+.sw-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 0.45em; }
+.sw-bar { display: grid; grid-template-columns: 8.2em 1fr 3.4em; align-items: center; gap: 0.6em; margin-bottom: 0.55em; font-size: 0.76rem; }
+.sw-bar .bl { color: var(--ink-dim); font-family: var(--mono); font-size: 0.68rem; line-height: 1.25; }
+.sw-bar .bt { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.sw-bar .bt i { display: block; height: 100%; background: var(--accent-bg); border-radius: 999px; }
+.sw-bar .bv { font-family: var(--mono); font-size: 0.7rem; text-align: right; }
+.sw-note { font-size: 0.74rem; color: var(--ink-dim); margin-top: 0.8em; line-height: 1.5; }
+.sw-status { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-dim); margin-bottom: 0.8em; }
+.sw-status.err { color: #c65b5b; }
+.sw-foot { font-size: 0.78rem; color: var(--ink-dim); max-width: 78ch; padding-bottom: 3em; }
+@media (max-width: 900px) {
+  .sw-layout { grid-template-columns: 1fr; }
+  .sw-map-wrap { position: static; order: -1; }
+  .sw-stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <span class="nav-brand-name">Vishwa Vijaysheel</span>
+      <span class="nav-brand-sub">data &amp; analytics</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="has-dropdown">
+          <button class="nav-dd-toggle active" type="button" aria-haspopup="true" aria-expanded="false">
+            Projects
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dd">
+            <p class="nav-dd-label">Open data projects</p>
+            <a href="parking-guide.html">
+              Brisbane parking meter guide
+              <span>Map, rules and cost estimates</span>
+            </a>
+            <a href="stormwater-guide.html">
+              Stormwater manhole explorer
+              <span>Map and data completeness</span>
+            </a>
+          </div>
+        </li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
+        <label class="switch">
+          <input type="checkbox" class="theme-checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="sw-head">
+    <p class="page-label">project</p>
+    <h1 class="page-title">Brisbane stormwater manholes: what the register knows</h1>
+    <p class="page-subtitle">Explore every recorded stormwater manhole and see how complete the record is for each one. Who owns it, how deep it is and how reliable the information is are often missing.</p>
+  </div>
+
+  <dl class="sw-stats" aria-live="polite">
+    <div class="sw-stat"><dt>Manholes shown</dt><dd id="stN">—</dd></div>
+    <div class="sw-stat"><dt>Owner recorded</dt><dd id="stOwn">—</dd></div>
+    <div class="sw-stat"><dt>Valid depth recorded</dt><dd id="stDep">—</dd></div>
+    <div class="sw-stat"><dt>Fully recorded (7 of 7)</dt><dd id="stFull">—</dd></div>
+  </dl>
+
+  <p class="sw-status" id="swStatus">Loading manholes…</p>
+
+  <div class="sw-layout">
+    <div class="sw-side">
+      <section class="sw-card">
+        <h3>Explore</h3>
+        <div class="sw-field"><label for="fId">Find by asset ID</label><input id="fId" type="search" placeholder="e.g. X16131558, then press Enter" /></div>
+        <div class="sw-field"><label for="fColor">Colour map by</label>
+          <select id="fColor"><option value="q">Data completeness</option><option value="o">Owner</option><option value="d">Depth</option><option value="t">Manhole type</option></select></div>
+        <div class="sw-row">
+          <div class="sw-field"><label for="fOwn">Owner</label><select id="fOwn"><option value="">All</option></select></div>
+          <div class="sw-field"><label for="fType">Type code</label><select id="fType"><option value="">All</option></select></div>
+        </div>
+        <div class="sw-field"><label for="fQ">Show only</label>
+          <select id="fQ">
+            <option value="">All manholes</option>
+            <option value="full">Fully recorded (7 of 7)</option>
+            <option value="noown">Owner not recorded</option>
+            <option value="nodep">No valid depth</option>
+            <option value="inv">Invert level missing or above surface</option>
+          </select></div>
+        <button class="sw-btn" id="btnNear" type="button">Zoom to my location</button>
+      </section>
+
+      <section class="sw-card"><h3>What is recorded <small>% of shown manholes</small></h3><div id="chFields"></div>
+        <p class="sw-note">Seven fields are checked: owner, reliability, diameter, depth, surface level, invert level and lid type. A value counts as recorded only if it is present and plausible. Placeholder values such as a depth of 999.99 count as missing.</p></section>
+      <section class="sw-card"><h3>Owner</h3><div id="chOwner"></div></section>
+      <section class="sw-card"><h3>Recorded depth <small>valid depths only</small></h3><div id="chDepth"></div></section>
+    </div>
+
+    <div class="sw-map-wrap">
+      <div id="swMap" role="application" aria-label="Map of stormwater manholes"></div>
+      <div class="sw-legend" id="swLegend"></div>
+    </div>
+  </div>
+
+  <p class="sw-foot">"Unknown" means the information is not recorded in this register. It does not mean the asset has no owner or that nobody is responsible for it. Locations are as recorded and may be approximate. To report a problem with a manhole, or to check an asset near your property, contact Brisbane City Council. This is an independent project and is not affiliated with Brisbane City Council. Data: Brisbane City Council open data, stormwater manholes (existing). Map © OpenStreetMap contributors.</p>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Vishwa Vijaysheel</p>
+      <p class="footer-role">Data Analyst · Brisbane, QLD</p>
+      <div class="footer-contacts">
+        <a href="https://www.linkedin.com/in/vishwavijaysheel/" class="footer-pill" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="mailto:vishwa7509@outlook.com" class="footer-pill" aria-label="Email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p class="footer-copy">© 2026 Vishwa Vijaysheel</p>
+      <p class="footer-made">Built with intent.</p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-bottom">
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <span class="footer-avail">Available for freelance engagements</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var pct = function (a, b) { return b ? (100 * a / b).toFixed(a / b < 0.1 ? 1 : 0) + '%' : '—'; };
+  var FIELDS = [[1, 'Owner'], [2, 'Reliability'], [4, 'Diameter'], [8, 'Depth'], [16, 'Surface level'], [32, 'Invert level'], [64, 'Lid type']];
+  var D, N, mx, my, score, sel = [], buckets = [], pal = [], pop = null;
+
+  var map = L.map('swMap', { zoomSnap: 0.5 }).setView([-27.4698, 153.0251], 11);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+
+  var Dots = L.Layer.extend({
+    onAdd: function (m) {
+      var c = this._c = document.createElement('canvas');
+      c.style.cssText = 'position:absolute;pointer-events:none';
+      m.getPanes().overlayPane.appendChild(c);
+      m.on('moveend resize', this.redraw, this);
+      m.on('zoomstart', function () { c.style.opacity = 0; });
+      this.redraw();
+    },
+    onRemove: function (m) { m.getPanes().overlayPane.removeChild(this._c); m.off('moveend resize', this.redraw, this); },
+    redraw: function () {
+      if (!D || !this._map) return;
+      var m = this._map, s = m.getSize(), c = this._c, z = m.getZoom(), sc = 256 * Math.pow(2, z), b = m.getPixelBounds().min;
+      L.DomUtil.setPosition(c, m.containerPointToLayerPoint([0, 0]));
+      c.width = s.x; c.height = s.y; c.style.opacity = 1;
+      var ctx = c.getContext('2d'), r = z <= 12 ? 1 : z <= 14 ? 1.6 : z <= 16 ? 2.6 : 4.5;
+      ctx.globalAlpha = 0.85;
+      for (var k = 0; k < buckets.length; k++) {
+        ctx.fillStyle = pal[k];
+        var bk = buckets[k];
+        for (var j = 0; j < bk.length; j++) {
+          var i = bk[j], x = mx[i] * sc - b.x, y = my[i] * sc - b.y;
+          if (x < -6 || y < -6 || x > s.x + 6 || y > s.y + 6) continue;
+          ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+        }
+      }
+    }
+  });
+  var dots = new Dots().addTo(map);
+
+  function palette(mode) {
+    var acc = (getComputedStyle(document.body).getPropertyValue('--accent-bg') || '#f97316').trim();
+    if (mode === 'o') return { c: [acc, '#60a5fa', '#a78bfa', '#9ca3af', '#f472b6'], l: D.owners };
+    if (mode === 't') return { c: [acc, '#60a5fa', '#a78bfa', '#9ca3af'], l: D.types };
+    if (mode === 'd') return { c: ['#9ca3af', '#93c5fd', '#60a5fa', '#3b82f6', '#1d4ed8'], l: ['No valid depth', 'Under 1.5 m', '1.5 to 2.5 m', '2.5 to 4 m', '4 m or more'] };
+    return { c: ['#ef4444', '#f97316', '#eab308', '#22c55e'], l: ['0 to 2 of 7', '3 to 4 of 7', '5 to 6 of 7', '7 of 7 (complete)'] };
+  }
+  function cls(i, mode) {
+    if (mode === 'o') return D.o[i];
+    if (mode === 't') return D.t[i];
+    if (mode === 'd') { var d = D.d[i]; return d < 0 ? 0 : d < 150 ? 1 : d < 250 ? 2 : d < 400 ? 3 : 4; }
+    var s = score[i]; return s <= 2 ? 0 : s <= 4 ? 1 : s <= 6 ? 2 : 3;
+  }
+  function bars(el, rows, max) {
+    el.innerHTML = rows.map(function (r) {
+      return '<div class="sw-bar"><span class="bl">' + esc(r[0]) + '</span><span class="bt"><i style="width:' + Math.min(100, 100 * r[1] / (max || 1)).toFixed(1) + '%"></i></span><span class="bv">' + r[2] + '</span></div>';
+    }).join('');
+  }
+
+  function apply() {
+    var o = $('fOwn').value, t = $('fType').value, q = $('fQ').value, mode = $('fColor').value;
+    sel = [];
+    for (var i = 0; i < N; i++) {
+      if (o !== '' && D.o[i] !== +o) continue;
+      if (t !== '' && D.t[i] !== +t) continue;
+      var f = D.f[i];
+      if (q === 'full' && f) continue;
+      if (q === 'noown' && !(f & 1)) continue;
+      if (q === 'nodep' && !(f & 8)) continue;
+      if (q === 'inv' && !(f & 32)) continue;
+      sel.push(i);
+    }
+    var P = palette(mode); pal = P.c;
+    buckets = pal.map(function () { return []; });
+    var counts = pal.map(function () { return 0; });
+    var miss = [0, 0, 0, 0, 0, 0, 0], own = [0, 0, 0, 0, 0], dep = [0, 0, 0, 0, 0, 0], full = 0, hasDep = 0;
+    sel.forEach(function (i) {
+      var k = cls(i, mode); buckets[k].push(i); counts[k]++;
+      var f = D.f[i];
+      FIELDS.forEach(function (fl, j) { if (f & fl[0]) miss[j]++; });
+      own[D.o[i]]++;
+      if (!f) full++;
+      var d = D.d[i];
+      if (d >= 0) { hasDep++; dep[Math.min(5, Math.floor(d / 100))]++; }
+    });
+    var n = sel.length;
+    $('stN').textContent = n.toLocaleString();
+    $('stOwn').textContent = pct(n - miss[0], n);
+    $('stDep').textContent = pct(hasDep, n);
+    $('stFull').textContent = pct(full, n);
+    bars($('chFields'), FIELDS.map(function (fl, j) { return [fl[1], n - miss[j], pct(n - miss[j], n)]; }), n);
+    bars($('chOwner'), D.owners.map(function (l, j) { return [l, own[j], pct(own[j], n)]; }), Math.max.apply(null, own));
+    bars($('chDepth'), ['0 to 1 m', '1 to 2 m', '2 to 3 m', '3 to 4 m', '4 to 5 m', '5 m or more'].map(function (l, j) { return [l, dep[j], pct(dep[j], hasDep)]; }), Math.max.apply(null, dep));
+    $('swLegend').innerHTML = P.l.map(function (l, k) { return counts[k] || mode !== 'o' ? '<span><i style="background:' + pal[k] + '"></i>' + esc(l) + ' (' + counts[k].toLocaleString() + ')</span>' : ''; }).join('');
+    dots.redraw();
+  }
+
+  function detail(i) {
+    var f = D.f[i], d = D.d[i], miss = FIELDS.filter(function (fl) { return f & fl[0]; }).map(function (fl) { return fl[1].toLowerCase(); });
+    return '<b>' + esc(D.id[i]) + '</b><dl>' +
+      '<dt>Type code</dt><dd>' + esc(D.types[D.t[i]] === 'Other' ? 'Other' : D.types[D.t[i]]) + '</dd>' +
+      '<dt>Owner</dt><dd>' + esc(D.owners[D.o[i]]) + '</dd>' +
+      '<dt>Diameter</dt><dd>' + esc(D.dias[D.dia[i]].toLowerCase()) + '</dd>' +
+      '<dt>Depth</dt><dd>' + (d < 0 ? 'not recorded' : (d / 100).toFixed(2) + ' m') + '</dd>' +
+      '<dt>Material</dt><dd>' + esc(D.mats[D.mat[i]].toLowerCase()) + '</dd>' +
+      '<dt>Lid type</dt><dd>' + esc(D.lids[D.lid[i]]) + '</dd>' +
+      '<dt>Reliability</dt><dd>' + esc(D.rels[D.r[i]].toLowerCase()) + '</dd>' +
+      '<dt>Recorded</dt><dd>' + score[i] + ' of 7 key fields' + (miss.length ? '<br>Missing: ' + esc(miss.join(', ')) : '') + '</dd></dl>';
+  }
+  function show(i) { if (pop) map.closePopup(pop); pop = L.popup({ maxWidth: 280 }).setLatLng([D.lat[i], D.lng[i]]).setContent(detail(i)).openOn(map); }
+
+  map.on('click', function (e) {
+    if (!D) return;
+    var z = map.getZoom(), sc = 256 * Math.pow(2, z), b = map.getPixelBounds().min, cp = e.containerPoint, best = -1, bd = 14 * 14;
+    for (var j = 0; j < sel.length; j++) {
+      var i = sel[j], dx = mx[i] * sc - b.x - cp.x, dy = my[i] * sc - b.y - cp.y, dd = dx * dx + dy * dy;
+      if (dd < bd) { bd = dd; best = i; }
+    }
+    if (best >= 0) show(best);
+  });
+
+  $('fId').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' || !D) return;
+    var v = this.value.trim().toUpperCase(), i = D.id.indexOf(v), s = $('swStatus');
+    s.classList.remove('err');
+    if (i < 0) { s.classList.add('err'); s.textContent = 'No manhole found with asset ID "' + v + '".'; return; }
+    s.textContent = N.toLocaleString() + ' stormwater manholes loaded.';
+    map.setView([D.lat[i], D.lng[i]], 18); show(i);
+  });
+  ['fColor', 'fOwn', 'fType', 'fQ'].forEach(function (id) { $(id).addEventListener('change', apply); });
+  $('btnNear').addEventListener('click', function () {
+    if (!navigator.geolocation) { $('swStatus').textContent = 'Location is not available in this browser.'; return; }
+    navigator.geolocation.getCurrentPosition(function (p) {
+      map.setView([p.coords.latitude, p.coords.longitude], 17);
+      L.circleMarker([p.coords.latitude, p.coords.longitude], { radius: 7, color: '#fff', weight: 2, fillColor: '#2563eb', fillOpacity: 1 }).addTo(map);
+    }, function () { $('swStatus').textContent = 'Could not get your location. Check your browser permissions.'; });
+  });
+  new MutationObserver(function () { if (D) apply(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  fetch('stormwater-manholes.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (data) {
+    D = data; N = D.n;
+    mx = new Float64Array(N); my = new Float64Array(N); score = new Uint8Array(N);
+    for (var i = 0; i < N; i++) {
+      mx[i] = (D.lng[i] + 180) / 360;
+      my[i] = 0.5 - Math.log(Math.tan(Math.PI / 4 + D.lat[i] * Math.PI / 360)) / (2 * Math.PI);
+      var f = D.f[i], c = 0; while (f) { c += f & 1; f >>= 1; } score[i] = 7 - c;
+    }
+    D.owners.forEach(function (l, i) { var o = document.createElement('option'); o.value = i; o.textContent = l; $('fOwn').appendChild(o); });
+    D.types.forEach(function (l, i) { var o = document.createElement('option'); o.value = i; o.textContent = l; $('fType').appendChild(o); });
+    var minLa = 90, maxLa = -90, minLo = 180, maxLo = -180;
+    for (i = 0; i < N; i++) { minLa = Math.min(minLa, D.lat[i]); maxLa = Math.max(maxLa, D.lat[i]); minLo = Math.min(minLo, D.lng[i]); maxLo = Math.max(maxLo, D.lng[i]); }
+    map.fitBounds([[minLa, minLo], [maxLa, maxLo]]);
+    $('swStatus').textContent = N.toLocaleString() + ' stormwater manholes loaded. Zoom in and click a square to see its record.';
+    apply();
+  }).catch(function (e) {
+    var s = $('swStatus'); s.classList.add('err');
+    s.textContent = 'Could not load stormwater-manholes.json (' + e.message + '). Keep it in the same folder as this page and open the page through a web server.';
+  });
+})();
+</script>
+<script>document.documentElement.classList.remove('dark-pre');</script>
+</body>
+</html>
