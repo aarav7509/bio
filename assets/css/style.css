@@ -72,6 +72,76 @@ html.dark-pre .post-tag-upcoming,
   .post-tag-upcoming::before { animation: none; }
 }
 
+/* ── Nav dropdown ──────────────────────────────────────────────────── */
+.has-dropdown { position: relative; }
+
+.nav-dd-toggle {
+  display: inline-flex; align-items: center; gap: 0.45em;
+  background: none; border: 0; cursor: pointer; padding: 0 0 0.3em;
+  font-family: var(--mono); font-size: 0.82rem; color: var(--ink-dim);
+  position: relative; transition: color 0.15s ease;
+}
+.nav-dd-toggle::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: var(--accent-bg);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.2s ease;
+}
+.nav-dd-toggle:hover,
+.nav-dd-toggle.active { color: var(--ink); }
+.nav-dd-toggle:hover::after,
+.nav-dd-toggle.active::after { transform: scaleX(1); }
+
+.nav-dd {
+  position: absolute; top: 100%; left: -1em; min-width: 17rem;
+  margin-top: 0.9em; padding: 0.9em 0.5em 0.5em;
+  background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius);
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+/* invisible bridge so the menu doesn't close when the pointer crosses the gap */
+.nav-dd::before { content: ''; position: absolute; left: 0; right: 0; top: -1em; height: 1em; }
+
+@media (hover: hover) {
+  .has-dropdown:hover .nav-dd { opacity: 1; visibility: visible; transform: none; }
+}
+.has-dropdown.open .nav-dd,
+.has-dropdown:has(.nav-dd-toggle:focus-visible) .nav-dd {
+  opacity: 1; visibility: visible; transform: none;
+}
+
+.nav-dd-label {
+  font-family: var(--mono); font-size: 0.68rem; color: var(--accent);
+  padding: 0 0.7em 0.5em; margin-bottom: 0.2em; border-bottom: 1px solid var(--line);
+}
+.nav-menu .nav-dd a {
+  display: block; padding: 0.6em 0.7em; border-radius: var(--radius);
+  font-family: var(--display); font-size: 0.92rem; font-weight: 500; color: var(--ink);
+}
+.nav-menu .nav-dd a span { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 400; color: var(--ink-faint); margin-top: 0.15em; }
+.nav-menu .nav-dd a::after { display: none; }
+.nav-menu .nav-dd a:hover { background: var(--bg-raise); color: var(--accent); }
+
+@media (max-width: 780px) {
+  .nav-dd {
+    position: absolute; top: 100%; left: 0; right: 0; min-width: 0;
+    margin: 0.4em 0 0; padding: 0.6em 0.4em 0.4em 0.9em;
+    background: var(--bg-raise); border: 1px solid var(--line-strong); border-radius: var(--radius);
+    display: none; z-index: 5;
+  }
+  .has-dropdown.open .nav-dd { display: block; opacity: 1; visibility: visible; transform: none; }
+  .nav-dd::before { display: none; }
+  .nav-dd-label { border-bottom: 0; padding-left: 0.7em; }
+}
+
+
+.nav-dd-toggle:hover,
+.nav-dd-toggle.active { color: var(--ink); }
+
+.nav-dd-toggle:hover::after,
+.nav-dd-toggle.active::after { transform: scaleX(1); }
+
+.nav-menu .nav-dd a.current { color: var(--accent); }
+
 
 /* ── Blog header ──────────────────────────────────────────────────── */
 .blog-head {

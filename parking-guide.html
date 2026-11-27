@@ -28,12 +28,13 @@
   border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.6em 0.7em; min-width: 0;
 }
 .pk-field input:focus, .pk-field select:focus { border-color: var(--accent); outline: none; }
-.pk-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; }
+.pk-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.7em; }
+.pk-field { min-width: 0; }
+.pk-field select, .pk-field input { width: 100%; max-width: 100%; text-overflow: ellipsis; }
 .pk-btn { font-family: var(--mono); font-size: 0.78rem; background: none; color: var(--ink); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.55em 0.9em; cursor: pointer; }
 .pk-btn:hover { border-color: var(--accent); color: var(--accent); }
 .pk-map-wrap { position: sticky; top: 76px; }
 #pkMap { height: min(70vh, 640px); min-height: 380px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raise); z-index: 0; }
-body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) grayscale(.35); }
 .leaflet-popup-content { font-family: var(--sans); font-size: 0.82rem; line-height: 1.45; }
 .pk-legend { display: flex; flex-wrap: wrap; gap: 1em; margin-top: 0.7em; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-dim); }
 .pk-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.45em; }
@@ -73,11 +74,23 @@ body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.
       <span></span><span></span><span></span>
     </button>
     <div class="nav-menu">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="parking-guide.html" class="active">Parking guide</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
+        <ul>
+  <li><a href="index.html" class="active">Home</a></li>
+  <li class="has-dropdown">
+  <button class="nav-dd-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+    Projects
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div class="nav-dd">
+    <p class="nav-dd-label">Open data projects</p>
+    <a href="parking-guide.html">
+      Brisbane parking meter guide
+      <span>Map, rules and cost estimates</span>
+    </a>
+  </div>
+</li>
+  <li><a href="blog.html">Blog</a></li>
+</ul>
       <div class="nav-right">
         <div class="nav-status"><span class="nav-status-dot"></span>Available</div>
         <label class="switch">
@@ -155,7 +168,7 @@ body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.
     </div>
   </div>
 
-  <p class="pk-foot">Estimates use the published tariff and operating hours and may differ from what the meter charges. Always check the signs and meter on the street. Data: Brisbane City Council, Parking — Meter locations (open data portal), updated quarterly by the council. This is an independent project and is not affiliated with Brisbane City Council. Map © OpenStreetMap contributors.</p>
+  <p class="pk-foot">Estimates use the published tariff and operating hours and may differ from what the meter charges. Always check the signs and meter on the street. Data: Brisbane City Council, Parking — Meter locations (open data portal), updated quarterly by the council. This is an independent project and is not affiliated with Brisbane City Council. Map © OpenStreetMap contributors © CARTO.</p>
 </main>
 
 <footer>
@@ -196,7 +209,19 @@ body.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.
 
   var all = [], shown = [], sel = null, userPos = null, catColors = {};
   var map = L.map('pkMap', { preferCanvas: true }).setView([-27.4698, 153.0251], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+  var TILES = {
+    light: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+  };
+  var tiles;
+  function setTiles() {
+    var d = document.body.classList.contains('dark');
+    if (tiles) map.removeLayer(tiles);
+    tiles = L.tileLayer(TILES[d ? 'dark' : 'light'], { subdomains: 'abcd', maxZoom: 20, attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(map);
+    tiles.bringToBack();
+  }
+  setTiles();
+  new MutationObserver(setTiles).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   var layer = L.layerGroup().addTo(map);
 
   function parseMax(t) {

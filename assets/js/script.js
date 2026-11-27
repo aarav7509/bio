@@ -21,6 +21,55 @@
   });
 })();
 
+
+
+(function () {
+  var page = (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '') || 'index';
+  var clean = function (href) {
+    return (href || '').split('#')[0].split('?')[0].split('/').pop().replace(/\.html$/, '') || 'index';
+  };
+
+  // Reset anything set by hand in the HTML
+  document.querySelectorAll('.nav-menu .active, .nav-menu .current').forEach(function (el) {
+    el.classList.remove('active', 'current');
+  });
+
+  // Top-level links (Home, Blog)
+  document.querySelectorAll('.nav-menu > ul > li > a').forEach(function (a) {
+    if (clean(a.getAttribute('href')) === page) a.classList.add('active');
+  });
+
+  // Links inside the Projects dropdown
+  document.querySelectorAll('.has-dropdown').forEach(function (dd) {
+    dd.querySelectorAll('.nav-dd a').forEach(function (a) {
+      if (clean(a.getAttribute('href')) === page) {
+        a.classList.add('current');
+        dd.querySelector('.nav-dd-toggle').classList.add('active');
+      }
+    });
+  });
+})();
+
+
+
+(function () {
+  var dd = document.querySelector('.has-dropdown');
+  if (!dd) return;
+  var btn = dd.querySelector('.nav-dd-toggle');
+
+  function setOpen(open) {
+    dd.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(!dd.classList.contains('open'));
+  });
+  document.addEventListener('click', function (e) { if (!dd.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setOpen(false); btn.focus(); } });
+})();
+
 /* ── Mobile nav ────────────────────────────────────────────────────── */
 (function () {
   const toggle = document.querySelector('.nav-toggle');
