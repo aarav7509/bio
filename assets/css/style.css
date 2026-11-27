@@ -73,6 +73,8 @@ html.dark-pre .post-tag-upcoming,
 }
 
 /* ── Nav dropdown ──────────────────────────────────────────────────── */
+
+
 .has-dropdown { position: relative; }
 
 .nav-dd-toggle {
@@ -98,7 +100,7 @@ html.dark-pre .post-tag-upcoming,
   opacity: 0; visibility: hidden; transform: translateY(-4px);
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
-/* invisible bridge so the menu doesn't close when the pointer crosses the gap */
+
 .nav-dd::before { content: ''; position: absolute; left: 0; right: 0; top: -1em; height: 1em; }
 
 @media (hover: hover) {
@@ -161,7 +163,7 @@ html.dark-pre .post-tag-upcoming,
 .nav-dd-group > summary:hover { color: var(--ink); }
 .nav-dd-group > summary:focus-visible { outline: 2px solid var(--accent-bg); outline-offset: 2px; border-radius: var(--radius); }
 
-/* no divider under the label while the group is closed */
+/*no divider under the label while the group is closed */
 .nav-dd-group:not([open]) > summary { border-bottom: 0; margin-bottom: 0; padding-bottom: 0.2em; }
 
 
